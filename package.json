@@ -25,5 +25,13 @@
     "figlet": "^1.5.2",
     "inquirer": "^8.2.4",
     "shelljs": "^0.8.5"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/team-octoo/planter-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/team-octoo/planter-cli/issues"
+  },
+  "homepage": "https://github.com/team-octoo/planter-cli#readme"
 }
