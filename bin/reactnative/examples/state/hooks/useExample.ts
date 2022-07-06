@@ -1,0 +1,3 @@
+function useExample() {
+  return true;
+}
