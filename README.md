@@ -1,3 +1,5 @@
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/team-octoo/planter-cli/graphs/commit-activity) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)  
+
 # Planter  
 A CLI tool for building React & React-native applications.   
 
@@ -18,8 +20,6 @@ Commands should be run in the root-folder of a react or react-native installatio
 
 ## Information    
 This packages has been created by the lovely people at [Octoo](https://octoo.be)  
-
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/team-octoo/planter-cli/graphs/commit-activity) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)  
 
 Found a bug or want to extend this package?  
 - Create an issue on Github  
