@@ -8,6 +8,8 @@ export const docsMap = {
     os.EOL +
     "This documentation has been autocreated by planter. Install planter globally to easily develop within this application.  " +
     os.EOL +
+    "Install command: **npm install -g @octoo-team/planter**  " +
+    os.EOL +
     "Planter will give you commands to create components, state files, and much more. Just type in 'planter -h' in a terminal.  " +
     os.EOL +
     os.EOL,
