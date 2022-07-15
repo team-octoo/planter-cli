@@ -47,10 +47,19 @@ async function createLayout(folder, name) {
 }
 
 function createTests(folder, name) {
-  let createdPath = files.copyFolder(
-    path.resolve(getSourcePath(), "tests", "Example.test.js"),
-    path.join(getDestPath(), folder, "tests", `${name}.test.js`)
-  );
+  const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+  let createdPath = undefined;
+  if (settings.hasTs) {
+    createdPath = files.copyFolder(
+      path.resolve(getSourcePath(), "tests", "Example.test.tsx"),
+      path.join(getDestPath(), folder, "tests", `${name}.test.tsx`)
+    );
+  } else {
+    createdPath = files.copyFolder(
+      path.resolve(getSourcePath(), "tests", "Example.test.js"),
+      path.join(getDestPath(), folder, "tests", `${name}.test.js`)
+    );
+  }
   files.replaceInFiles(createdPath, "Example", name);
 }
 
