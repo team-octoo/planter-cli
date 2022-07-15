@@ -9,7 +9,7 @@ const hook = {
   createHook: async (elementName) => {
     const path = copyDataFolder(elementName);
     replace(path, elementName);
-    console.log(chalk.green("Hook file created at src/state/hooks..."));
+    console.log(chalk.green("Hook file created at src/utils/hooks..."));
   },
 }
 
