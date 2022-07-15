@@ -84,8 +84,8 @@ export const install = {
         folders.push(path.join(process.cwd(), "src", "resources", "misc"));
         folders.push(path.join(process.cwd(), "src", "utils", "data"));
         folders.push(path.join(process.cwd(), "src", "utils", "funcs"));
+        folders.push(path.join(process.cwd(), "src", "utils", "hooks"));
         folders.push(path.join(process.cwd(), "src", "state", "contexts"));
-        folders.push(path.join(process.cwd(), "src", "state", "hooks"));
 
         Object.keys(settings.components).forEach((element) => {
           let folderpath = "";

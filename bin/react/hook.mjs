@@ -16,11 +16,11 @@ const hook = {
 function copyDataFolder(name) {
   const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
   const filename = `use${camelcase(name, {pascalCase: true})}.${settings.hasTs ? "ts" : "js"}`;
-  const pathName = path.join(process.cwd(), "src", "state", "hooks");
+  const pathName = path.join(process.cwd(), "src", "utils", "hooks");
   const fullPath = `${pathName}/${filename}`;
   files.directoryExistsOrCreate(pathName);
   fs.copyFileSync(
-    path.resolve(DIRNAME, "..", "..", "react", "examples", "state", "hooks", "useExample.ts"),
+    path.resolve(DIRNAME, "..", "..", "react", "examples", "utils", "hooks", "useExample.ts"),
    fullPath,
   );
   return fullPath;
