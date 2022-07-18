@@ -79,9 +79,9 @@ export const install = {
         if (settings.packages.indexOf("i18next") !== -1) {
           folders.push(path.join(process.cwd(), "src", "locales"));
         }
-        folders.push(path.join(process.cwd(), "src", "resources", "images"));
-        folders.push(path.join(process.cwd(), "src", "resources", "fonts"));
-        folders.push(path.join(process.cwd(), "src", "resources", "misc"));
+        folders.push(path.join(process.cwd(), "src", "assets", "images"));
+        folders.push(path.join(process.cwd(), "src", "assets", "fonts"));
+        folders.push(path.join(process.cwd(), "src", "assets", "misc"));
         folders.push(path.join(process.cwd(), "src", "utils", "data"));
         folders.push(path.join(process.cwd(), "src", "utils", "funcs"));
         folders.push(path.join(process.cwd(), "src", "utils", "hooks"));
