@@ -10,7 +10,7 @@ This CLI
 - writes documentation for proposed structures & packages  
 
 ## Installation  
-npm install -g @octoo-team/planter
+npm install -g @team-octoo/planter
 
 ## Usage  
 After installing this package globally, run command "planter -h" in your command-line terminal.    
