@@ -1,7 +1,7 @@
 {
   "name": "@team-octoo/planter",
-  "version": "0.0.2",
-  "description": "CLI tool to easily structure & build React (Native) applications.",
+  "version": "0.0.3",
+  "description": "CLI tool to easily structure & build React & React Native applications.",
   "main": "index.js",
   "type": "module",
   "bin": {
@@ -13,7 +13,13 @@
   },
   "keywords": [
     "cli",
-    "react"
+    "react",
+    "react-native",
+    "generator",
+    "dev-tools",
+    "devkit",
+    "command-line",
+    "node"
   ],
   "author": "Octoo <octoo.be>",
   "license": "ISC",
