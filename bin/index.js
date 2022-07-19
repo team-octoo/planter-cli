@@ -18,12 +18,14 @@ import reducer from "./react/reducer.mjs";
 import mock from "./react/mock.mjs";
 import { reactNativeComponents } from "./reactnative/react-native-component.mjs";
 
+import { DIRNAME } from "./helpers/globals/globals.js";
+const packageJson = JSON.parse(fs.readFileSync(path.join(DIRNAME, "..", "..", "..", "package.json")));
 const program = new Command();
 
 program.description("React & React-native CLI tool for structured applications.");
 program.name("planter");
 program.usage("<command>");
-program.version("1.0.0");
+program.version(packageJson.version);
 
 program
   .command("init")

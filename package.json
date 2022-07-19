@@ -9,7 +9,7 @@
   },
   "preferGlobal": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node japa-test.config.js"
   },
   "keywords": [
     "cli",
@@ -39,5 +39,10 @@
   "bugs": {
     "url": "https://github.com/team-octoo/planter-cli/issues"
   },
-  "homepage": "https://github.com/team-octoo/planter-cli#readme"
+  "homepage": "https://github.com/team-octoo/planter-cli#readme",
+  "devDependencies": {
+    "@japa/expect": "^1.1.4",
+    "@japa/runner": "^2.0.9",
+    "@japa/spec-reporter": "^1.1.12"
+  }
 }
