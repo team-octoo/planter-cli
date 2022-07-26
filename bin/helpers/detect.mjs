@@ -1,5 +1,4 @@
 import chalk from "chalk";
-import { execSync } from "child_process";
 import { files } from "./files.mjs";
 import path from "path";
 
@@ -9,9 +8,9 @@ export const detect = {
       const fileExists = files.directoryExists(path.join(process.cwd(), "planter.config.json"));
       if (fileExists && force) {
         console.log(chalk.yellow("Using force... I hope you know what your doing."));
-        resolve();
+        resolve(true);
       } else if (!fileExists) {
-        resolve();
+        resolve(true);
       }
 
       reject("Planter config file detected... use --force option.");
