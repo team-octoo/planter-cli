@@ -5,7 +5,9 @@ import sinon from "sinon";
 import fs from "fs";
 
 test.group("Config detect", (group) => {
+  // create a sinon sandbox 
   const sandbox = sinon.createSandbox();
+  // restore the sandbox to its original after each test
   group.each.teardown(() => {
     sandbox.restore();
   });
