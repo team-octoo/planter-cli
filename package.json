@@ -43,6 +43,7 @@
   "devDependencies": {
     "@japa/expect": "^1.1.4",
     "@japa/runner": "^2.0.9",
-    "@japa/spec-reporter": "^1.1.12"
+    "@japa/spec-reporter": "^1.1.12",
+    "sinon": "^14.0.0"
   }
 }
