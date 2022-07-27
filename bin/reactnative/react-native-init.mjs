@@ -13,7 +13,7 @@ import { fonts } from "./fonts.mjs";
 
 export const reactNativeInit = {
   initialise: () => {
-    detect
+    return detect
       .installer()
       .then((installer) => {
         settings.installer = installer;
