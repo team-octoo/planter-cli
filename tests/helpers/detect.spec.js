@@ -3,6 +3,7 @@ import { detect } from "../../bin/helpers/detect.mjs";
 import { files } from "../../bin/helpers/files.mjs";
 import sinon from "sinon";
 import fs from "fs";
+import path from "path";
 
 test.group("Config detect", (group) => {
   // create a sinon sandbox 
@@ -34,10 +35,11 @@ test.group("Config detect", (group) => {
 
   // USE THIS AS A BLUEPRINT TO FAKE FS CALLS IN TESTS
   test("Fake test to stub fs module", async ({ expect }) => {
-    var writeFileStub = sandbox.stub(fs, "writeFile").callsFake(function (path, data, cb) {
-      return cb(null);
+    var writeFileStub = sandbox.stub(fs, "writeFileSync").callsFake(function (path, data, cb) {
+      return path;
     });
-
-    expect(writeFileStub.calledOnce).toBeFalsy();
+    const writeFilePath = fs.writeFileSync(path.join(process.cwd(), "README.md"), "Autocreated by planter. You may delete this file.");
+    
+    expect(writeFileStub.calledOnce).toBeTruthy();
   });
 });

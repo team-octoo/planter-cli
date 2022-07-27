@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { execSync } from "child_process";
+import child_process from "child_process";
 
 export const cocoapods = {
   install: () => {
@@ -8,7 +8,7 @@ export const cocoapods = {
         chalk.green("Installing required cocoapods...")
       );
 
-      execSync("cd ios && pod install", { stdio: [0, 1, 2] });
+      child_process.execSync("cd ios && pod install", { stdio: [0, 1, 2] });
       resolve("cocoapods Installed....")
     });
   }
