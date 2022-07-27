@@ -11,7 +11,6 @@ export const reactNativeComponents = {
     const pascalCase = camelcase(name, { pascalCase: true });
     const lowerCase = name.toLowerCase();
 
-    console.log(getRNSourcePath());
     return inquirer
       .prompt([
         {
@@ -24,8 +23,8 @@ export const reactNativeComponents = {
       .then(async (option) => {
         let folder = path.join(option.option, lowerCase);
         await files.directoryExistsOrCreate(path.join(getRNDestPath(), folder)),
-          await files.directoryExistsOrCreate(path.join(getRNDestPath(), folder, "tests")),
-          createRNComponent(folder, pascalCase);
+        await files.directoryExistsOrCreate(path.join(getRNDestPath(), folder, "tests")),
+        createRNComponent(folder, pascalCase);
         createRNTests(folder, pascalCase);
         await createRNLayout(folder, pascalCase);
       })
@@ -35,14 +34,14 @@ export const reactNativeComponents = {
   },
 };
 
-async function createRNLayout(folder, name) {
+export async function createRNLayout(folder, name) {
   let createdPath = files.copyFolder(
     path.resolve(getRNSourcePath(), "css", "Example.style.js"),
     path.join(getRNDestPath(), folder, `${name}.style.js`)
   );
 }
 
-function createRNTests(folder, name) {
+export function createRNTests(folder, name) {
   let createdPath = files.copyFolder(
     path.resolve(getRNSourcePath(), "tests", "Example.test.js"),
     path.join(getRNDestPath(), folder, "tests", `${name}.test.js`)
@@ -50,7 +49,7 @@ function createRNTests(folder, name) {
   files.replaceInFiles(createdPath, "Example", name);
 }
 
-function createRNComponent(folder, name) {
+export function createRNComponent(folder, name) {
   const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
   let createdPath = undefined;
   if (settings.hasTs) {
@@ -67,21 +66,26 @@ function createRNComponent(folder, name) {
   files.replaceInFiles(createdPath, "Example", name);
 }
 
-function getRNFolders() {
-  const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
-  let folders = [];
-  for (const [key, value] of Object.entries(settings.components)) {
-    if (value.toLowerCase() === "folder") {
-      folders.push(key);
+export function getRNFolders() {
+  try {
+    const fileContent = fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString());
+    const settings = JSON.parse(fileContent);
+    let folders = [];
+    for (const [key, value] of Object.entries(settings.components)) {
+      if (value.toLowerCase() === "folder") {
+        folders.push(key);
+      }
     }
+    return folders;
+  } catch (e) {
+    return e;
   }
-  return folders;
 }
 
-function getRNSourcePath() {
+export function getRNSourcePath() {
   return path.resolve(DIRNAME, "..", "..", "reactnative", "examples", "component");
 }
 
-function getRNDestPath() {
+export function getRNDestPath() {
   return path.resolve(process.cwd(), "src", "components");
 }
