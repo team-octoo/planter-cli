@@ -9,6 +9,7 @@ import path from "path";
 import inquirer from "inquirer";
 import chalk from "chalk";
 import { docs } from "../helpers/docs.mjs";
+import { fonts } from "./fonts.mjs";
 
 export const reactNativeInit = {
   initialise: () => {
@@ -78,6 +79,9 @@ export const reactNativeInit = {
       .then((result) => {
         console.log(chalk.green(result));
         return cocoapods.install();
+      }).then((result) => {
+        console.log(chalk.green(result));
+        return fonts.install();
       })
       .catch((err) => {
         console.log(chalk.red(err));
