@@ -162,6 +162,11 @@ export const install = {
           packages.push("styled-components");
         }
 
+        // if react-native ... install testing library
+        if (settings.library === "react-native") {
+          devpackages.push("@testing-library/react-native");
+        }
+
         // NPM
         if (settings.installer === "npm") {
           install.installNPM(packages, devpackages);
