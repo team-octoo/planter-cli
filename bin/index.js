@@ -19,6 +19,7 @@ import mock from "./react/mock.mjs";
 import { reactNativeComponents } from "./reactnative/react-native-component.mjs";
 
 import { DIRNAME } from "./helpers/globals/globals.js";
+import store from "./react/store.mjs";
 const packageJson = JSON.parse(fs.readFileSync(path.join(DIRNAME, "..", "..", "..", "package.json")));
 const program = new Command();
 
@@ -143,10 +144,8 @@ program
   .action((name, options) => {
     const localsettings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
 
-    if (localsettings.library === "react") {
-      // TODO :: create zustand store
-    } else if (localsettings.library === "react-native") {
-      // TODO :: create zustand store
+    if (localsettings.library === "react" || localsettings.library === "react-native") {
+      store.create(name);
     } else {
       console.log(chalk.red("React or React-Native is required for this command."));
     }
