@@ -72,6 +72,9 @@ export const install = {
           folders.push(path.join(process.cwd(), "src", "state", "store"));
           folders.push(path.join(process.cwd(), "src", "state", "reducers"));
         }
+        if (settings.packages.indexOf("Zustand") !== -1) {
+          folders.push(path.join(process.cwd(), "src", "state", "stores"));
+        }
 
         if (settings.packages.indexOf("Mock-service-worker") !== -1) {
           folders.push(path.join(process.cwd(), "src", "mocks"));
