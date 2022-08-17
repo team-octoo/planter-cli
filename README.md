@@ -48,6 +48,7 @@ When initialising planter on a new or existing project, these are the choices to
 - Wouter   
 - Patch-package   
 - Redux  
+- Zustand  
 - i18next  
 - Axios  
 - Cypress  
