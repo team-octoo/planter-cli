@@ -20,7 +20,8 @@ export const reactComponents = {
         },
       ])
       .then(async (option) => {
-        let folder = path.join(option.option, lowerCase);
+        const folderArray = option.option.split("/");
+        let folder = path.join.apply(null, folderArray.concat([lowerCase]));
         await files.directoryExistsOrCreate(path.join(getDestPath(), folder)),
           await files.directoryExistsOrCreate(path.join(getDestPath(), folder, "tests")),
           createComponent(folder, pascalCase);
@@ -83,13 +84,47 @@ function createComponent(folder, name) {
 function getFolders() {
   const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
   let folders = [];
-  for (const [key, value] of Object.entries(settings.components)) {
-    if (value.toLowerCase() === "folder") {
-      folders.push(key);
-    }
-  }
+
+  folders = getChildFolders(settings.components);
   return folders;
 }
+
+function getChildFolders(parent, basePath = undefined) {
+  let keys = Object.keys(parent);
+  let paths = [];
+  for (let index = 0; index < keys.length; index++) {
+    const element = keys[index];
+    if (typeof parent[element] === 'string') {
+      if (basePath) {
+        paths.push(`${basePath}/${element}`);
+      } else {
+        paths.push(`${element}`);
+      }
+    } else {
+      if (basePath) {
+        paths.push(
+          ...getChildFolders(parent[element], `${basePath}/${element}`),
+        );
+      } else {
+        paths.push(...getChildFolders(parent[element], `${element}`));
+      }
+    }
+  }
+  return paths;
+}
+
+// Reduce version of getChildFolders 
+// function mapStructure (object, level = 1, basename = '') {
+//   const entries = Object.entries(object);
+//   return entries.reduce((acc, [dirName, content]) => {
+//     const path = `${basename}${ basename && '/' }${dirName}`;
+//     if (typeof content === 'string') {
+//       return [...acc, path]
+//     } else {
+//       return [...acc, ...mapStructure(content, level++, path)]
+//     }
+//   }, [])
+// }
 
 function getSourcePath() {
   return path.resolve(DIRNAME, "..", "..", "react", "examples", "component");
