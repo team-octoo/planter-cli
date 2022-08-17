@@ -13,6 +13,20 @@ export const packageMap = {
     docs: "https://www.npmjs.com/package/react-error-boundary",
     description: "Provides a component that acts as a fallback when render errors occur.",
   },
+  Zustand: {
+    "no-dev": {
+      ts: {
+        packages: ["zustand", "immer"],
+        "native-packages": ["@react-native-async-storage/async-storage"],
+      },
+      "no-ts": {
+        packages: ["zustand", "immer"],
+        "native-packages": ["@react-native-async-storage/async-storage"],
+      },
+    },
+    docs: "https://www.npmjs.com/package/zustand",
+    description: "A small, fast and scalable bearbones state-management solution using simplified flux principles.",
+  },
   Redux: {
     "no-dev": {
       ts: {

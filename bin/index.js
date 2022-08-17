@@ -137,6 +137,22 @@ program
   });
 
 program
+  .command("plant:store")
+  .description("Makes a store (Zustand only)")
+  .argument("<string>", "name")
+  .action((name, options) => {
+    const localsettings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+
+    if (localsettings.library === "react") {
+      // TODO :: create zustand store
+    } else if (localsettings.library === "react-native") {
+      // TODO :: create zustand store
+    } else {
+      console.log(chalk.red("React or React-Native is required for this command."));
+    }
+  });
+
+program
   .command("plant:mock")
   .description("Makes a mock service worker file")
   .argument("<string>", "name")

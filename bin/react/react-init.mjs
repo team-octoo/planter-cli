@@ -75,6 +75,7 @@ export const reactInit = {
               "Wouter",
               "Patch-Package",
               "Redux",
+              "Zustand",
               "i18next",
               "Axios",
               // "GraphQL",
