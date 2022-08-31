@@ -1,0 +1,18 @@
+{
+  "name": "docs",
+  "library": "react",
+  "installer": "npm",
+  "hasTs": true,
+  "layout": "Custom",
+  "packages": [
+    "React-router",
+    "Zustand",
+    "Axios"
+  ],
+  "components": {
+    "basics": "folder",
+    "elements": "folder",
+    "pages": "folder"
+  },
+  "structure": "BEP (recommended)"
+}
