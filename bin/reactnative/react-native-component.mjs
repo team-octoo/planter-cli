@@ -23,8 +23,8 @@ export const reactNativeComponents = {
       .then(async (option) => {
         let folder = path.join(option.option, lowerCase);
         await files.directoryExistsOrCreate(path.join(getRNDestPath(), folder)),
-        await files.directoryExistsOrCreate(path.join(getRNDestPath(), folder, "tests")),
-        createRNComponent(folder, pascalCase);
+          await files.directoryExistsOrCreate(path.join(getRNDestPath(), folder, "tests")),
+          createRNComponent(folder, pascalCase);
         createRNTests(folder, pascalCase);
         await createRNLayout(folder, pascalCase);
       })
@@ -58,29 +58,68 @@ export function createRNComponent(folder, name) {
       path.join(getRNDestPath(), folder, `${name}.tsx`)
     );
   } else {
-    createdPath = files.copyFolder(
-      path.resolve(getRNSourcePath(), "js", "Example.js"),
-      path.join(getRNDestPath(), folder, `${name}.js`)
-    );
+    if (settings.hasPropTypes) {
+      // if proptypes is used... add prop types
+      createdPath = files.copyFolder(
+        path.resolve(getRNSourcePath(), "js", "proptypes", "Example.js"),
+        path.join(getRNDestPath(), folder, `${name}.js`)
+      );
+    } else {
+      createdPath = files.copyFolder(
+        path.resolve(getRNSourcePath(), "js", "Example.js"),
+        path.join(getRNDestPath(), folder, `${name}.js`)
+      );
+    }
   }
   files.replaceInFiles(createdPath, "Example", name);
 }
 
 export function getRNFolders() {
   try {
-    const fileContent = fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString());
-    const settings = JSON.parse(fileContent);
+    const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
     let folders = [];
-    for (const [key, value] of Object.entries(settings.components)) {
-      if (value.toLowerCase() === "folder") {
-        folders.push(key);
-      }
-    }
+
+    folders = getRNChildFolders(settings.components);
     return folders;
   } catch (e) {
     return e;
   }
 }
+
+export function getRNChildFolders(parent, basePath = undefined) {
+  let keys = Object.keys(parent);
+  let paths = [];
+  for (let index = 0; index < keys.length; index++) {
+    const element = keys[index];
+    if (typeof parent[element] === "string") {
+      if (basePath) {
+        paths.push(`${basePath}/${element}`);
+      } else {
+        paths.push(`${element}`);
+      }
+    } else {
+      if (basePath) {
+        paths.push(...getRNChildFolders(parent[element], `${basePath}/${element}`));
+      } else {
+        paths.push(...getRNChildFolders(parent[element], `${element}`));
+      }
+    }
+  }
+  return paths;
+}
+
+// Reduce version of getChildFolders
+// function mapRNStructure (object, level = 1, basename = '') {
+//   const entries = Object.entries(object);
+//   return entries.reduce((acc, [dirName, content]) => {
+//     const path = `${basename}${ basename && '/' }${dirName}`;
+//     if (typeof content === 'string') {
+//       return [...acc, path]
+//     } else {
+//       return [...acc, ...mapStructure(content, level++, path)]
+//     }
+//   }, [])
+// }
 
 export function getRNSourcePath() {
   return path.resolve(DIRNAME, "..", "..", "reactnative", "examples", "component");

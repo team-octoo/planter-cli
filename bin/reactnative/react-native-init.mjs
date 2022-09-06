@@ -54,6 +54,16 @@ export const reactNativeInit = {
         }
         return inquirer.prompt([
           {
+            type: "confirm",
+            name: "proptypes",
+            message: "Will you use prop-types?",
+            default: false,
+          },
+        ]);
+      }).then((usePropTypes) => {
+        settings.usePropTypes = usePropTypes.proptypes;
+        return inquirer.prompt([
+          {
             type: "checkbox",
             name: "packages",
             message: "Choose which tech/packages you'd like to use in this project:",

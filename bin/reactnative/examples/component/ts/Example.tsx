@@ -1,8 +1,9 @@
 import react, { FC } from 'react';
+import {Text, View} from 'react-native';
 import {styles} from './Example.style';
 
 const Example: FC<Props> = props => {
-  return <></>;
+  return <View>{props.children}</View>;
 };
 
 export default Example;

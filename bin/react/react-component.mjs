@@ -73,10 +73,18 @@ function createComponent(folder, name) {
       path.join(getDestPath(), folder, `${name}.tsx`)
     );
   } else {
-    createdPath = files.copyFolder(
-      path.resolve(getSourcePath(), "js", "Example.js"),
-      path.join(getDestPath(), folder, `${name}.js`)
-    );
+    if(settings.hasPropTypes) {
+      // if proptypes is used... add prop types
+      createdPath = files.copyFolder(
+        path.resolve(getSourcePath(), "js", "proptypes", "Example.js"),
+        path.join(getDestPath(), folder, `${name}.js`)
+      );
+    } else {
+      createdPath = files.copyFolder(
+        path.resolve(getSourcePath(), "js", "Example.js"),
+        path.join(getDestPath(), folder, `${name}.js`)
+      );
+    }
   }
   files.replaceInFiles(createdPath, "Example", name);
 }
