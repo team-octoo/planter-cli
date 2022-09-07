@@ -31,7 +31,7 @@ test.group("React Native init", (group) => {
     //Call functions
     await reactNativeInit.initialise();
 
-    expect(inquirerPrompt.calledThrice).toBeTruthy();
+    expect(inquirerPrompt.calledTwice).toBeTruthy();
     expect(fontStub.calledOnce).toBeTruthy();
     expect(cocoaStub.calledOnce).toBeTruthy();
     expect(docsStub.calledOnce).toBeTruthy();
