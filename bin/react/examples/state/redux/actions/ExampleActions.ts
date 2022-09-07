@@ -1,5 +1,5 @@
 export const ExampleTypes = {
-  RESET: "RESET"
+  RESET: "EXAMPLE:RESET"
 };
 
 const ExampleActions = {

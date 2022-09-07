@@ -85,9 +85,10 @@ function copyFile(pathName, fileName, exampleFile) {
 function replace(filePaths, name) {
   const pascalCase = camelcase(name, { pascalCase: true });
   const camelCaseName = camelcase(name);
+  const uppercase = name.toUpperCase();
   for (let path of filePaths) {
     let data = fs.readFileSync(path, "utf8");
-    let result = data.replace(/example/g, camelCaseName).replace(/Example/g, pascalCase);
+    let result = data.replace(/example/g, camelCaseName).replace(/Example/g, pascalCase).replace(/EXAMPLE/g, uppercase);
     fs.writeFileSync(path, result, "utf8");
   }
   return;
