@@ -47,5 +47,10 @@
     "@japa/spec-reporter": "^1.1.12",
     "husky": "^8.0.1",
     "sinon": "^14.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test"
+    }
   }
 }
