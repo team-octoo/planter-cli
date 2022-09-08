@@ -3,7 +3,8 @@ import settings from "../utils/settings.mjs";
 import { files } from "../helpers/files.mjs";
 import { install } from "../helpers/install.mjs";
 import { cocoapods } from "./cocoapods.mjs";
-import { redux } from "../helpers/files/redux.mjs";
+import { DIRNAME } from "../helpers/globals/globals.js";
+import fs from "fs";
 import path from "path";
 
 import inquirer from "inquirer";
@@ -60,7 +61,8 @@ export const reactNativeInit = {
             default: false,
           },
         ]);
-      }).then((usePropTypes) => {
+      })
+      .then((usePropTypes) => {
         settings.usePropTypes = usePropTypes.proptypes;
         return inquirer.prompt([
           {
@@ -77,6 +79,19 @@ export const reactNativeInit = {
       })
       .then((pName) => {
         settings.name = pName;
+        return inquirer.prompt([
+          {
+            type: "confirm",
+            name: "prettier",
+            message: "Would you like to use the Planter prettier file?",
+            default: true,
+          },
+        ]);
+      })
+      .then((pretty) => {
+        if(pretty.prettier === true) {
+          fs.copyFileSync(path.join(DIRNAME, "..", "..", "reactnative", "examples", "config", ".prettierrc.js"), path.join(process.cwd(), ".prettierrc.js"));
+        }
         //CALL A FUNCTION TO USE THE SETTINGS OBJECT TO INSTALL PACKAGES AND CREATE FOLDERS/FILES
         return files.overwriteFile(path.join(process.cwd(), "planter.config.json"), JSON.stringify(settings, null, 2));
       })
@@ -89,7 +104,8 @@ export const reactNativeInit = {
       .then((result) => {
         console.log(chalk.green(result));
         return cocoapods.install();
-      }).then((result) => {
+      })
+      .then((result) => {
         console.log(chalk.green(result));
         return fonts.install();
       })

@@ -73,7 +73,7 @@ function createComponent(folder, name) {
       path.join(getDestPath(), folder, `${name}.tsx`)
     );
   } else {
-    if(settings.hasPropTypes) {
+    if (settings.hasPropTypes) {
       // if proptypes is used... add prop types
       createdPath = files.copyFolder(
         path.resolve(getSourcePath(), "js", "proptypes", "Example.js"),
@@ -102,7 +102,7 @@ function getChildFolders(parent, basePath = undefined) {
   let paths = [];
   for (let index = 0; index < keys.length; index++) {
     const element = keys[index];
-    if (typeof parent[element] === 'string') {
+    if (typeof parent[element] === "string") {
       if (basePath) {
         paths.push(`${basePath}/${element}`);
       } else {
@@ -110,9 +110,7 @@ function getChildFolders(parent, basePath = undefined) {
       }
     } else {
       if (basePath) {
-        paths.push(
-          ...getChildFolders(parent[element], `${basePath}/${element}`),
-        );
+        paths.push(...getChildFolders(parent[element], `${basePath}/${element}`));
       } else {
         paths.push(...getChildFolders(parent[element], `${element}`));
       }
@@ -121,7 +119,7 @@ function getChildFolders(parent, basePath = undefined) {
   return paths;
 }
 
-// Reduce version of getChildFolders 
+// Reduce version of getChildFolders
 // function mapStructure (object, level = 1, basename = '') {
 //   const entries = Object.entries(object);
 //   return entries.reduce((acc, [dirName, content]) => {

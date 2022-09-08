@@ -5,6 +5,8 @@ import chalk from "chalk";
 import { files } from "../helpers/files.mjs";
 import { install } from "../helpers/install.mjs";
 import path from "path";
+import fs from "fs";
+import { DIRNAME } from "../helpers/globals/globals.js";
 import { docs } from "../helpers/docs.mjs";
 
 export const reactInit = {
@@ -71,7 +73,8 @@ export const reactInit = {
             default: false,
           },
         ]);
-      }).then((usePropTypes) => {
+      })
+      .then((usePropTypes) => {
         settings.usePropTypes = usePropTypes.proptypes;
         return inquirer.prompt([
           {
@@ -101,6 +104,19 @@ export const reactInit = {
       })
       .then((pName) => {
         settings.name = pName;
+        return inquirer.prompt([
+          {
+            type: "confirm",
+            name: "prettier",
+            message: "Would you like to use the Planter prettier file?",
+            default: true,
+          },
+        ]);
+      })
+      .then((pretty) => {
+        if(pretty.prettier === true) {
+          fs.copyFileSync(path.join(DIRNAME, "..", "..", "..", ".prettierrc"), path.join(process.cwd(), ".prettierrc"));
+        }
         //CALL A FUNCTION TO USE THE SETTINGS OBJECT TO INSTALL PACKAGES AND CREATE FOLDERS/FILES
         return files.overwriteFile(path.join(process.cwd(), "planter.config.json"), JSON.stringify(settings, null, 2));
       })

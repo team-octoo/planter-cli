@@ -1,10 +1,10 @@
-{
+module.exports = {
   "arrowParens": "avoid",
   "useTabs": false,
   "printWidth": 120,
   "tabWidth": 2,
   "singleQuote": false,
-  "trailingComma": "es5",
+  "trailingComma": "all",
   "bracketSameLine": true,
   "bracketSpacing": false
 }

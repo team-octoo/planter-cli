@@ -1,7 +1,15 @@
 import { test } from "@japa/runner";
 import sinon from "sinon";
 import path from "path";
-import { getRNSourcePath, getRNDestPath, getRNFolders, createRNComponent, createRNTests, createRNLayout, reactNativeComponents } from "../../bin/reactnative/react-native-component.mjs";
+import {
+  getRNSourcePath,
+  getRNDestPath,
+  getRNFolders,
+  createRNComponent,
+  createRNTests,
+  createRNLayout,
+  reactNativeComponents,
+} from "../../bin/reactnative/react-native-component.mjs";
 import fs from "fs";
 import { files } from "../../bin/helpers/files.mjs";
 import inquirer from "inquirer";
@@ -104,7 +112,7 @@ test.group("React Native component", (group) => {
       })
     );
 
-    let inquirerPrompt = sandbox.stub(inquirer, "prompt").resolves({option: "basics"});
+    let inquirerPrompt = sandbox.stub(inquirer, "prompt").resolves({ option: "basics" });
 
     await reactNativeComponents.create("test");
 

@@ -6,7 +6,7 @@ import fs from "fs";
 import path from "path";
 
 test.group("Config detect", (group) => {
-  // create a sinon sandbox 
+  // create a sinon sandbox
   const sandbox = sinon.createSandbox();
   // restore the sandbox to its original after each test
   group.each.teardown(() => {
@@ -38,8 +38,11 @@ test.group("Config detect", (group) => {
     var writeFileStub = sandbox.stub(fs, "writeFileSync").callsFake(function (path, data, cb) {
       return path;
     });
-    const writeFilePath = fs.writeFileSync(path.join(process.cwd(), "README.md"), "Autocreated by planter. You may delete this file.");
-    
+    const writeFilePath = fs.writeFileSync(
+      path.join(process.cwd(), "README.md"),
+      "Autocreated by planter. You may delete this file."
+    );
+
     expect(writeFileStub.calledOnce).toBeTruthy();
   });
 });

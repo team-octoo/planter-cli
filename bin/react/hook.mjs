@@ -11,23 +11,20 @@ const hook = {
     replace(path, elementName);
     console.log(chalk.green("Hook file created at src/utils/hooks..."));
   },
-}
+};
 
 function copyDataFolder(name) {
   const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
-  const filename = `use${camelcase(name, {pascalCase: true})}.${settings.hasTs ? "ts" : "js"}`;
+  const filename = `use${camelcase(name, { pascalCase: true })}.${settings.hasTs ? "ts" : "js"}`;
   const pathName = path.join(process.cwd(), "src", "utils", "hooks");
   const fullPath = `${pathName}/${filename}`;
   files.directoryExistsOrCreate(pathName);
-  fs.copyFileSync(
-    path.resolve(DIRNAME, "..", "..", "react", "examples", "utils", "hooks", "useExample.ts"),
-   fullPath,
-  );
+  fs.copyFileSync(path.resolve(DIRNAME, "..", "..", "react", "examples", "utils", "hooks", "useExample.ts"), fullPath);
   return fullPath;
 }
 
 function replace(path, name) {
-  const pascalCase = camelcase(name, {pascalCase: true});
+  const pascalCase = camelcase(name, { pascalCase: true });
   const camelCaseName = camelcase(name);
   let data = fs.readFileSync(path, "utf8");
   let result = data.replace(/example/g, camelCaseName).replace(/Example/g, pascalCase);

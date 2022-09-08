@@ -17,10 +17,7 @@ export const files = {
   replaceInFiles: (filePath, searchValue, replaceValue) => {
     const buffer = fs.readFileSync(filePath);
     let fileContent = buffer.toString();
-    fileContent = fileContent.replaceAll(
-      searchValue,
-      replaceValue,
-    );
+    fileContent = fileContent.replaceAll(searchValue, replaceValue);
     fs.writeFileSync(filePath, fileContent);
     return true;
   },

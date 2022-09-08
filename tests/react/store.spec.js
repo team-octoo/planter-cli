@@ -3,7 +3,7 @@
 // import store from "../../bin/react/store.mjs";
 
 // test.group("Store", (group) => {
-//   // create a sinon sandbox 
+//   // create a sinon sandbox
 //   const sandbox = sinon.createSandbox();
 //   // restore the sandbox to its original after each test
 //   group.each.teardown(() => {

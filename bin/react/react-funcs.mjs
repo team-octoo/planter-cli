@@ -15,7 +15,8 @@ function createFuncsFolder(name) {
   const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
   let createdPath = files.copyFolder(
     path.resolve(getSourcePath(), "funcs", "example.ts"),
-    path.join(getDestPath(), "funcs", `${name}.${settings.hasTs ? "ts" : "js"}`));
+    path.join(getDestPath(), "funcs", `${name}.${settings.hasTs ? "ts" : "js"}`)
+  );
   files.replaceInFiles(createdPath, "example", name);
 }
 

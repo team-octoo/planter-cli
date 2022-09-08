@@ -10,7 +10,7 @@ import { fonts } from "../../bin/reactnative/fonts.mjs";
 import { reactNativeInit } from "../../bin/reactnative/react-native-init.mjs";
 
 test.group("React Native init", (group) => {
-  // create a sinon sandbox 
+  // create a sinon sandbox
   const sandbox = sinon.createSandbox();
   // restore the sandbox to its original after each test
   group.each.teardown(() => {
@@ -26,8 +26,8 @@ test.group("React Native init", (group) => {
     let cocoaStub = sandbox.stub(cocoapods, "install").resolves("Test cocoapods");
     let fontStub = sandbox.stub(fonts, "install").resolves("Test fonts");
 
-    let inquirerPrompt = sandbox.stub(inquirer, "prompt").resolves({structure: "BEP (recommended)", packages: []});
-    
+    let inquirerPrompt = sandbox.stub(inquirer, "prompt").resolves({ structure: "BEP (recommended)", packages: [] });
+
     //Call functions
     await reactNativeInit.initialise();
 

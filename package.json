@@ -1,6 +1,6 @@
 {
   "name": "@team-octoo/planter",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "CLI tool to easily structure & build React & React Native applications.",
   "main": "index.js",
   "type": "module",
@@ -10,7 +10,8 @@
   "preferGlobal": true,
   "scripts": {
     "test": "node japa-test.config.js",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "pretty": "prettier --write bin tests"
   },
   "keywords": [
     "cli",
@@ -46,6 +47,7 @@
     "@japa/runner": "^2.0.9",
     "@japa/spec-reporter": "^1.1.12",
     "husky": "^8.0.1",
+    "prettier": "2.7.1",
     "sinon": "^14.0.0"
   }
 }

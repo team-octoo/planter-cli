@@ -8,12 +8,7 @@ function replaceIndexContent(filePath) {
   const buffer = fs.readFileSync(filePath);
   let fileContent = buffer.toString();
 
-  fileContent = fileContent.replace(
-    "'./reportWebVitals';",
-    "'./reportWebVitals';" +
-    os.EOL +
-    "import './i18n';",
-  );
+  fileContent = fileContent.replace("'./reportWebVitals';", "'./reportWebVitals';" + os.EOL + "import './i18n';");
   fs.writeFileSync(filePath, fileContent);
   return true;
 }
@@ -25,8 +20,8 @@ function replacePackageContent(filePath) {
   fileContent = fileContent.replace(
     '"scripts": {',
     '"scripts": {' +
-    os.EOL +
-    '    "translate": "i18next \'src/**/*.js\' \'src/components/**/*.js\' \'src/**/*.ts\' \'src/**/*.tsx\'",',
+      os.EOL +
+      "    \"translate\": \"i18next 'src/**/*.js' 'src/components/**/*.js' 'src/**/*.ts' 'src/**/*.tsx'\","
   );
   fs.writeFileSync(filePath, fileContent);
   return true;
@@ -37,7 +32,7 @@ function copyFile(filename, destPath) {
   if (!files.fileExists(path.join(process.cwd(), filename))) {
     fs.copyFileSync(
       path.resolve(DIRNAME, "..", "..", "react", "examples", "i18next", filename),
-      path.join(destPath, filename),
+      path.join(destPath, filename)
     );
   }
 }
@@ -45,20 +40,11 @@ function copyFile(filename, destPath) {
 function copyFiles() {
   const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
 
-  copyFile(
-    "i18next-parser.config.js",
-    path.join(process.cwd()),
-  );
+  copyFile("i18next-parser.config.js", path.join(process.cwd()));
 
-  copyFile(
-    `i18n.js`,
-    path.join(process.cwd(), "src"),
-  );
+  copyFile(`i18n.js`, path.join(process.cwd(), "src"));
 
-  copyFile(
-    "en.json",
-    path.join(process.cwd(), "src", "locales"),
-  );
+  copyFile("en.json", path.join(process.cwd(), "src", "locales"));
 }
 
 export const i18n = {

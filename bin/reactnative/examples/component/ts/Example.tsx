@@ -1,8 +1,8 @@
-import react, { FC } from 'react';
-import {Text, View} from 'react-native';
-import {styles} from './Example.style';
+import react, { FC } from "react";
+import { Text, View } from "react-native";
+import { styles } from "./Example.style";
 
-const Example: FC<Props> = props => {
+const Example: FC<Props> = (props) => {
   return <View>{props.children}</View>;
 };
 

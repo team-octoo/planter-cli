@@ -33,13 +33,26 @@ function addToRootReducer(name) {
   let fileString = buffer.toString();
   fileString = fileString.replace(
     'import { combineReducers } from "redux";',
-    'import { combineReducers } from "redux";' + os.EOL + "import " + pascalCaseName + 'Reducer from "./' + pascalCaseName + 'Reducer";'
+    'import { combineReducers } from "redux";' +
+      os.EOL +
+      "import " +
+      pascalCaseName +
+      'Reducer from "./' +
+      pascalCaseName +
+      'Reducer";'
   );
   if (fileString.indexOf("const rootReducer = combineReducers({});") !== -1) {
     //first reducer
     fileString = fileString.replace(
       "const rootReducer = combineReducers({",
-      "const rootReducer = combineReducers({" + os.EOL + "  " + pascalCaseName + "Reducer: " + pascalCaseName + "Reducer" + os.EOL
+      "const rootReducer = combineReducers({" +
+        os.EOL +
+        "  " +
+        pascalCaseName +
+        "Reducer: " +
+        pascalCaseName +
+        "Reducer" +
+        os.EOL
     );
   } else {
     fileString = fileString.replace(
@@ -88,7 +101,10 @@ function replace(filePaths, name) {
   const uppercase = name.toUpperCase();
   for (let path of filePaths) {
     let data = fs.readFileSync(path, "utf8");
-    let result = data.replace(/example/g, camelCaseName).replace(/Example/g, pascalCase).replace(/EXAMPLE/g, uppercase);
+    let result = data
+      .replace(/example/g, camelCaseName)
+      .replace(/Example/g, pascalCase)
+      .replace(/EXAMPLE/g, uppercase);
     fs.writeFileSync(path, result, "utf8");
   }
   return;

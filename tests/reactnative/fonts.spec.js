@@ -4,7 +4,7 @@ import { files } from "../../bin/helpers/files.mjs";
 import { fonts } from "../../bin/reactnative/fonts.mjs";
 
 test.group("Fonts", (group) => {
-  // create a sinon sandbox 
+  // create a sinon sandbox
   const sandbox = sinon.createSandbox();
   // restore the sandbox to its original after each test
   group.each.teardown(() => {

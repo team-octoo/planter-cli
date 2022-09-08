@@ -4,7 +4,7 @@ import { cocoapods } from "../../bin/reactnative/cocoapods.mjs";
 import child_process from "child_process";
 
 test.group("Cocoapods", (group) => {
-  // create a sinon sandbox 
+  // create a sinon sandbox
   const sandbox = sinon.createSandbox();
   // restore the sandbox to its original after each test
   group.each.teardown(() => {

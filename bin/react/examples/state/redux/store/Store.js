@@ -1,15 +1,15 @@
-import {configureStore} from '@reduxjs/toolkit';
-import storage from 'redux-persist/lib/storage'
-import RootReducer from "../reducers/RootReducer"; 
-import { persistReducer, persistStore } from 'redux-persist'
-import thunk from 'redux-thunk'
-import { createLogger } from 'redux-logger';
+import { configureStore } from "@reduxjs/toolkit";
+import storage from "redux-persist/lib/storage";
+import RootReducer from "../reducers/RootReducer";
+import { persistReducer, persistStore } from "redux-persist";
+import thunk from "redux-thunk";
+import { createLogger } from "redux-logger";
 
 const persistConfig = {
-    key: 'root',
-    version: 1,
-    whitelist: [],
-    storage
+  key: "root",
+  version: 1,
+  whitelist: [],
+  storage,
 };
 
 const persistedReducer = persistReducer(persistConfig, RootReducer);
@@ -27,4 +27,4 @@ const Store = configureStore({
 
 let Persistor = persistStore(Store);
 
-export {Store, Persistor};
+export { Store, Persistor };
