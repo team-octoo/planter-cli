@@ -1,23 +1,23 @@
-import { detect } from "../helpers/detect.mjs";
+import {detect} from "../helpers/detect.mjs";
 import settings from "../utils/settings.mjs";
 import inquirer from "inquirer";
 import chalk from "chalk";
-import { files } from "../helpers/files.mjs";
-import { install } from "../helpers/install.mjs";
+import {files} from "../helpers/files.mjs";
+import {install} from "../helpers/install.mjs";
 import path from "path";
 import fs from "fs";
-import { DIRNAME } from "../helpers/globals/globals.js";
-import { docs } from "../helpers/docs.mjs";
+import {DIRNAME} from "../helpers/globals/globals.js";
+import {docs} from "../helpers/docs.mjs";
 
 export const reactInit = {
   initialise: () => {
     detect
       .typescript()
-      .then((hasTs) => {
+      .then(hasTs => {
         settings.hasTs = hasTs;
         return detect.installer();
       })
-      .then((installer) => {
+      .then(installer => {
         settings.installer = installer;
         return inquirer.prompt([
           {
@@ -28,7 +28,7 @@ export const reactInit = {
           },
         ]);
       })
-      .then((structure) => {
+      .then(structure => {
         settings.structure = structure.structure;
         switch (structure.structure) {
           case "BEP (recommended)":
@@ -63,7 +63,7 @@ export const reactInit = {
           },
         ]);
       })
-      .then((layout) => {
+      .then(layout => {
         settings.layout = layout.layout;
         return inquirer.prompt([
           {
@@ -74,7 +74,7 @@ export const reactInit = {
           },
         ]);
       })
-      .then((usePropTypes) => {
+      .then(usePropTypes => {
         settings.usePropTypes = usePropTypes.proptypes;
         return inquirer.prompt([
           {
@@ -98,11 +98,11 @@ export const reactInit = {
           },
         ]);
       })
-      .then((packages) => {
+      .then(packages => {
         settings.packages = packages.packages;
         return detect.packageName();
       })
-      .then((pName) => {
+      .then(pName => {
         settings.name = pName;
         return inquirer.prompt([
           {
@@ -113,8 +113,8 @@ export const reactInit = {
           },
         ]);
       })
-      .then((pretty) => {
-        if(pretty.prettier === true) {
+      .then(pretty => {
+        if (pretty.prettier === true) {
           fs.copyFileSync(path.join(DIRNAME, "..", "..", "..", ".prettierrc"), path.join(process.cwd(), ".prettierrc"));
         }
         //CALL A FUNCTION TO USE THE SETTINGS OBJECT TO INSTALL PACKAGES AND CREATE FOLDERS/FILES
@@ -130,7 +130,7 @@ export const reactInit = {
       .then(() => {
         console.log(chalk.greenBright("Initialisation has been completed. Have fun creating!"));
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(chalk.red(err));
       });
   },

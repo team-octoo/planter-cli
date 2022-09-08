@@ -1,4 +1,4 @@
-const Example = (props) => {
+const Example = props => {
   return <></>;
 };
 

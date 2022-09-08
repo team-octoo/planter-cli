@@ -1,15 +1,15 @@
-import { test } from "@japa/runner";
+import {test} from "@japa/runner";
 import inquirer from "inquirer";
 import sinon from "sinon";
-import { detect } from "../../bin/helpers/detect.mjs";
-import { docs } from "../../bin/helpers/docs.mjs";
-import { files } from "../../bin/helpers/files.mjs";
-import { install } from "../../bin/helpers/install.mjs";
-import { cocoapods } from "../../bin/reactnative/cocoapods.mjs";
-import { fonts } from "../../bin/reactnative/fonts.mjs";
-import { reactNativeInit } from "../../bin/reactnative/react-native-init.mjs";
+import {detect} from "../../bin/helpers/detect.mjs";
+import {docs} from "../../bin/helpers/docs.mjs";
+import {files} from "../../bin/helpers/files.mjs";
+import {install} from "../../bin/helpers/install.mjs";
+import {cocoapods} from "../../bin/reactnative/cocoapods.mjs";
+import {fonts} from "../../bin/reactnative/fonts.mjs";
+import {reactNativeInit} from "../../bin/reactnative/react-native-init.mjs";
 
-test.group("React Native init", (group) => {
+test.group("React Native init", group => {
   // create a sinon sandbox
   const sandbox = sinon.createSandbox();
   // restore the sandbox to its original after each test
@@ -17,7 +17,7 @@ test.group("React Native init", (group) => {
     sandbox.restore();
   });
 
-  test("Initialise", async ({ expect }) => {
+  test("Initialise", async ({expect}) => {
     let fileOverwriteStub = sandbox.stub(files, "overwriteFile").resolves(true);
     let installDetectStub = sandbox.stub(detect, "installer").resolves("npm");
     let packageDetectStub = sandbox.stub(detect, "packageName").resolves("test");
@@ -26,12 +26,12 @@ test.group("React Native init", (group) => {
     let cocoaStub = sandbox.stub(cocoapods, "install").resolves("Test cocoapods");
     let fontStub = sandbox.stub(fonts, "install").resolves("Test fonts");
 
-    let inquirerPrompt = sandbox.stub(inquirer, "prompt").resolves({ structure: "BEP (recommended)", packages: [] });
+    let inquirerPrompt = sandbox.stub(inquirer, "prompt").resolves({structure: "BEP (recommended)", packages: []});
 
     //Call functions
     await reactNativeInit.initialise();
 
-    expect(inquirerPrompt.calledThrice).toBeTruthy();
+    expect(inquirerPrompt.called).toBeTruthy();
     expect(fontStub.calledOnce).toBeTruthy();
     expect(cocoaStub.calledOnce).toBeTruthy();
     expect(docsStub.calledOnce).toBeTruthy();

@@ -1,13 +1,13 @@
 import fs from "fs";
-import { execSync } from "child_process";
-import { packageMap } from "../utils/package-map.mjs";
+import {execSync} from "child_process";
+import {packageMap} from "../utils/package-map.mjs";
 import chalk from "chalk";
-import { fileURLToPath } from "url";
-import path, { dirname } from "path";
-import { msw } from "./files/msw.mjs";
-import { i18n } from "./files/i18n.mjs";
-import { redux } from "./files/redux.mjs";
-import { postinstall } from "./files/postinstall.js";
+import {fileURLToPath} from "url";
+import path, {dirname} from "path";
+import {msw} from "./files/msw.mjs";
+import {i18n} from "./files/i18n.mjs";
+import {redux} from "./files/redux.mjs";
+import {postinstall} from "./files/postinstall.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -17,23 +17,23 @@ export const install = {
     return new Promise((resolve, reject) => {
       return install
         .installPackages()
-        .then((result) => {
+        .then(result => {
           console.log(chalk.green(result));
           return install.createFolderStructures();
         })
-        .then((result) => {
+        .then(result => {
           console.log(chalk.green(result));
           return install.copyStarterFiles();
         })
-        .then((result) => {
+        .then(result => {
           console.log(chalk.green(result));
           return install.setupPackages();
         })
-        .then((result) => {
+        .then(result => {
           console.log(chalk.green(result));
           resolve("Project setup done");
         })
-        .catch((err) => {
+        .catch(err => {
           reject(err);
         });
     });
@@ -90,13 +90,13 @@ export const install = {
         folders.push(path.join(process.cwd(), "src", "utils", "hooks"));
         folders.push(path.join(process.cwd(), "src", "state", "contexts"));
 
-        Object.keys(settings.components).forEach((element) => {
+        Object.keys(settings.components).forEach(element => {
           let folderpath = "";
           // TODO :: NEED IMPROVEMENT TO RECURSIVELY GO THROUGH OBJECTS
           if (typeof element === "string") {
             folderpath = element;
           } else {
-            Object.keys(element).forEach((subelement) => {
+            Object.keys(element).forEach(subelement => {
               folderpath = path.join(element, subelement);
             });
           }
@@ -104,8 +104,8 @@ export const install = {
           folders.push(path.join(process.cwd(), "src", "components", folderpath));
         });
 
-        folders.forEach((folderpath) => {
-          fs.mkdirSync(folderpath, { recursive: true }, (err) => {
+        folders.forEach(folderpath => {
+          fs.mkdirSync(folderpath, {recursive: true}, err => {
             if (err) reject(err);
           });
           fs.writeFileSync(path.join(folderpath, "README.md"), "Autocreated by planter. You may delete this file.");
@@ -127,7 +127,7 @@ export const install = {
         let devpackages = [];
 
         // iterate over packages to install
-        settings.packages.forEach((element) => {
+        settings.packages.forEach(element => {
           if (packageMap[element]) {
             if (packageMap[element]["no-dev"]) {
               if (settings.hasTs && packageMap[element]["no-dev"]["ts"]) {
@@ -178,7 +178,7 @@ export const install = {
         }
 
         if (settings.packages.indexOf("Mock-service-worker") !== -1) {
-          execSync("npx msw init public/ --save", { stdio: [0, 1, 2] });
+          execSync("npx msw init public/ --save", {stdio: [0, 1, 2]});
         }
 
         resolve("Packages installed");
@@ -191,18 +191,18 @@ export const install = {
   // installers
   installNPM: (packages, devpackages) => {
     if (packages.length > 0) {
-      execSync("npm install " + packages.join(" "), { stdio: [0, 1, 2] });
+      execSync("npm install " + packages.join(" "), {stdio: [0, 1, 2]});
     }
     if (devpackages.length > 0) {
-      execSync("npm install " + devpackages.join(" ") + " --save-dev", { stdio: [0, 1, 2] });
+      execSync("npm install " + devpackages.join(" ") + " --save-dev", {stdio: [0, 1, 2]});
     }
   },
   installYarn: (packages, devpackages) => {
     if (packages.length > 0) {
-      execSync("yarn add " + packages.join(" "), { stdio: [0, 1, 2] });
+      execSync("yarn add " + packages.join(" "), {stdio: [0, 1, 2]});
     }
     if (devpackages.length > 0) {
-      execSync("yarn add " + devpackages.join(" ") + " --dev", { stdio: [0, 1, 2] });
+      execSync("yarn add " + devpackages.join(" ") + " --dev", {stdio: [0, 1, 2]});
     }
   },
 
@@ -235,10 +235,10 @@ export const install = {
       console.log("Setting up msw...");
       msw
         .setupPackage()
-        .then((result) => {
+        .then(result => {
           resolve(result);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(chalk.red(err));
           reject(err);
         });
@@ -248,10 +248,10 @@ export const install = {
     return new Promise((resolve, reject) => {
       i18n
         .setup()
-        .then((result) => {
+        .then(result => {
           resolve(result);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(chalk.red(err));
           reject(err);
         });
@@ -264,10 +264,10 @@ export const install = {
       console.log("Setting up redux...");
       redux
         .setupPackage()
-        .then((result) => {
+        .then(result => {
           resolve(result);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(chalk.red(err));
           reject(err);
         });
@@ -280,10 +280,10 @@ export const install = {
       console.log("Setting up redux...");
       postinstall
         .setupPackage()
-        .then((result) => {
+        .then(result => {
           resolve(result);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(chalk.red(err));
           reject(err);
         });

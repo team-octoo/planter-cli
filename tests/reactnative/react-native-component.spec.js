@@ -1,4 +1,4 @@
-import { test } from "@japa/runner";
+import {test} from "@japa/runner";
 import sinon from "sinon";
 import path from "path";
 import {
@@ -11,10 +11,10 @@ import {
   reactNativeComponents,
 } from "../../bin/reactnative/react-native-component.mjs";
 import fs from "fs";
-import { files } from "../../bin/helpers/files.mjs";
+import {files} from "../../bin/helpers/files.mjs";
 import inquirer from "inquirer";
 
-test.group("React Native component", (group) => {
+test.group("React Native component", group => {
   // create a sinon sandbox
   const sandbox = sinon.createSandbox();
   // restore the sandbox to its original after each test
@@ -22,18 +22,18 @@ test.group("React Native component", (group) => {
     sandbox.restore();
   });
 
-  test("getRNDestPath", async ({ expect }) => {
+  test("getRNDestPath", async ({expect}) => {
     const RNDestPath = getRNDestPath();
     expect(RNDestPath).toContain(process.cwd());
   });
 
-  test("getRNSourcePath", async ({ expect }) => {
+  test("getRNSourcePath", async ({expect}) => {
     // sandbox.stub(files, "copyFolder").resolves(true);
     const RNSourcePath = getRNSourcePath();
     expect(RNSourcePath).toContain(path.join("reactnative", "examples", "component"));
   });
 
-  test("getRNFolders", async ({ expect }) => {
+  test("getRNFolders", async ({expect}) => {
     sandbox.stub(fs, "readFileSync").returns(
       JSON.stringify({
         components: {
@@ -47,7 +47,7 @@ test.group("React Native component", (group) => {
     expect(folders).toEqual(["basics", "elements", "pages"]);
   });
 
-  test("createRNComponent with ts", async ({ expect }) => {
+  test("createRNComponent with ts", async ({expect}) => {
     sandbox.stub(fs, "readFileSync").returns(
       JSON.stringify({
         hasTs: true,
@@ -63,7 +63,7 @@ test.group("React Native component", (group) => {
     expect(replaceStub.calledOnce).toBeTruthy();
   });
 
-  test("createRNComponent no ts", async ({ expect }) => {
+  test("createRNComponent no ts", async ({expect}) => {
     sandbox.stub(fs, "readFileSync").returns(
       JSON.stringify({
         hasTs: false,
@@ -79,7 +79,7 @@ test.group("React Native component", (group) => {
     expect(replaceStub.calledOnce).toBeTruthy();
   });
 
-  test("createRNTests", async ({ expect }) => {
+  test("createRNTests", async ({expect}) => {
     let copyStub = sandbox.stub(files, "copyFolder").returns(true);
     let replaceStub = sandbox.stub(files, "replaceInFiles").returns(true);
 
@@ -89,7 +89,7 @@ test.group("React Native component", (group) => {
     expect(replaceStub.calledOnce).toBeTruthy();
   });
 
-  test("createRNLayout", async ({ expect }) => {
+  test("createRNLayout", async ({expect}) => {
     let copyStub = sandbox.stub(files, "copyFolder").returns(true);
 
     createRNLayout(process.cwd() + "components/test", "test");
@@ -97,7 +97,7 @@ test.group("React Native component", (group) => {
     expect(copyStub.calledOnce).toBeTruthy();
   });
 
-  test("create", async ({ expect }) => {
+  test("create", async ({expect}) => {
     let copyStub = sandbox.stub(files, "copyFolder").returns(true);
     let replaceStub = sandbox.stub(files, "replaceInFiles").returns(true);
     let dirCreateStub = sandbox.stub(files, "directoryExistsOrCreate").resolves(true);
@@ -112,7 +112,7 @@ test.group("React Native component", (group) => {
       })
     );
 
-    let inquirerPrompt = sandbox.stub(inquirer, "prompt").resolves({ option: "basics" });
+    let inquirerPrompt = sandbox.stub(inquirer, "prompt").resolves({option: "basics"});
 
     await reactNativeComponents.create("test");
 

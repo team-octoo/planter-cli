@@ -1,12 +1,12 @@
-import { files } from "../helpers/files.mjs";
+import {files} from "../helpers/files.mjs";
 import camelcase from "camelcase";
 import path from "path";
 import fs from "fs";
 import chalk from "chalk";
-import { DIRNAME } from "../helpers/globals/globals.js";
+import {DIRNAME} from "../helpers/globals/globals.js";
 
 const context = {
-  createContext: async (elementName) => {
+  createContext: async elementName => {
     const path = copyDataFolder(elementName);
     replace(path, elementName);
     console.log(chalk.green("Context file created at src/state/contexts..."));
@@ -15,7 +15,7 @@ const context = {
 
 function copyDataFolder(name) {
   const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
-  const filename = `${camelcase(name, { pascalCase: true })}Context.${settings.hasTs ? "ts" : "js"}`;
+  const filename = `${camelcase(name, {pascalCase: true})}Context.${settings.hasTs ? "ts" : "js"}`;
   const pathName = path.join(process.cwd(), "src", "state", "contexts");
   const fullPath = `${pathName}/${filename}`;
   files.directoryExistsOrCreate(pathName);
@@ -27,7 +27,7 @@ function copyDataFolder(name) {
 }
 
 function replace(path, name) {
-  const pascalCase = camelcase(name, { pascalCase: true });
+  const pascalCase = camelcase(name, {pascalCase: true});
   const camelCaseName = camelcase(name);
   let data = fs.readFileSync(path, "utf8");
   let result = data.replace(/example/g, camelCaseName).replace(/Example/g, pascalCase);

@@ -2,9 +2,9 @@
 import camelcase from "camelcase";
 import path from "path";
 import fs from "fs";
-import { DIRNAME } from "../helpers/globals/globals.js";
+import {DIRNAME} from "../helpers/globals/globals.js";
 import chalk from "chalk";
-import { detect } from "../helpers/detect.mjs";
+import {detect} from "../helpers/detect.mjs";
 import inquirer from "inquirer";
 
 const store = {
@@ -21,12 +21,12 @@ const store = {
           },
         ]);
       })
-      .then((persist) => {
+      .then(persist => {
         const changeFiles = copyDataFolder(name, persist.persisted);
         replace(changeFiles, name);
         console.log(chalk.green("Store file created..."));
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(chalk.red(err));
       });
   },
@@ -35,7 +35,7 @@ const store = {
 function copyDataFolder(name, persisted) {
   const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
 
-  const pascalCase = camelcase(name, { pascalCase: true });
+  const pascalCase = camelcase(name, {pascalCase: true});
   const storeFile = `use${persisted ? "Persistent" : ""}${pascalCase}Store.${settings.hasTs ? "ts" : "js"}`;
 
   const storePathName = path.join(process.cwd(), "src", "state", "stores");
@@ -68,7 +68,7 @@ function copyFile(pathName, fileName, exampleFile) {
 }
 
 function replace(filePaths, name) {
-  const pascalCase = camelcase(name, { pascalCase: true });
+  const pascalCase = camelcase(name, {pascalCase: true});
   const camelCaseName = camelcase(name);
   for (let path of filePaths) {
     let data = fs.readFileSync(path, "utf8");

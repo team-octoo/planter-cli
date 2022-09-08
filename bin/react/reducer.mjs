@@ -3,12 +3,12 @@ import camelcase from "camelcase";
 import path from "path";
 import fs from "fs";
 import os from "os";
-import { DIRNAME } from "../helpers/globals/globals.js";
+import {DIRNAME} from "../helpers/globals/globals.js";
 import chalk from "chalk";
-import { detect } from "../helpers/detect.mjs";
+import {detect} from "../helpers/detect.mjs";
 
 const reducer = {
-  create: async (name) => {
+  create: async name => {
     detect
       .package("react-redux")
       .then(() => {
@@ -17,14 +17,14 @@ const reducer = {
         console.log(chalk.green("Reducer and action file created... Don't forget to import it in the RootReducer."));
         addToRootReducer(name);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(chalk.red(err));
       });
   },
 };
 
 function addToRootReducer(name) {
-  const pascalCaseName = camelcase(name, { pascalCase: true });
+  const pascalCaseName = camelcase(name, {pascalCase: true});
   const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
 
   const buffer = fs.readFileSync(
@@ -70,7 +70,7 @@ function addToRootReducer(name) {
 function copyDataFolder(name) {
   const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
 
-  const pascalCase = camelcase(name, { pascalCase: true });
+  const pascalCase = camelcase(name, {pascalCase: true});
   const actionsFile = `${pascalCase}Actions.${settings.hasTs ? "ts" : "js"}`;
   const reducerFile = `${pascalCase}Reducer.${settings.hasTs ? "ts" : "js"}`;
   const rootFile = `RootReducer.${settings.hasTs ? "ts" : "js"}`;
@@ -96,7 +96,7 @@ function copyFile(pathName, fileName, exampleFile) {
 }
 
 function replace(filePaths, name) {
-  const pascalCase = camelcase(name, { pascalCase: true });
+  const pascalCase = camelcase(name, {pascalCase: true});
   const camelCaseName = camelcase(name);
   const uppercase = name.toUpperCase();
   for (let path of filePaths) {

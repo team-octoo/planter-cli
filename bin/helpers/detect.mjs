@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { files } from "./files.mjs";
+import {files} from "./files.mjs";
 import path from "path";
 
 export const detect = {
@@ -18,7 +18,7 @@ export const detect = {
   },
   library: async () => {
     return new Promise((resolve, reject) => {
-      const { dependencies } = files.readPackageJson();
+      const {dependencies} = files.readPackageJson();
       if (dependencies["react-native"]) {
         resolve("react-native");
       }
@@ -30,8 +30,8 @@ export const detect = {
     });
   },
   typescript: async () => {
-    return new Promise((resolve) => {
-      const { dependencies } = files.readPackageJson();
+    return new Promise(resolve => {
+      const {dependencies} = files.readPackageJson();
       if (dependencies.typescript) {
         resolve(true);
       }
@@ -39,7 +39,7 @@ export const detect = {
     });
   },
   installer: async () => {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       if (files.fileExists(path.join(process.cwd(), "package-lock.json"))) {
         resolve("npm");
       }
@@ -50,13 +50,13 @@ export const detect = {
   },
   packageName: async () => {
     return new Promise((resolve, reject) => {
-      const { name } = files.readPackageJson();
+      const {name} = files.readPackageJson();
       resolve(name);
     });
   },
-  package: async (name) => {
+  package: async name => {
     return new Promise((resolve, reject) => {
-      const { devDependencies, dependencies } = files.readPackageJson();
+      const {devDependencies, dependencies} = files.readPackageJson();
 
       if (dependencies[name]) {
         resolve(true);

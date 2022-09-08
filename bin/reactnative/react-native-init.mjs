@@ -1,22 +1,22 @@
-import { detect } from "../helpers/detect.mjs";
+import {detect} from "../helpers/detect.mjs";
 import settings from "../utils/settings.mjs";
-import { files } from "../helpers/files.mjs";
-import { install } from "../helpers/install.mjs";
-import { cocoapods } from "./cocoapods.mjs";
-import { DIRNAME } from "../helpers/globals/globals.js";
+import {files} from "../helpers/files.mjs";
+import {install} from "../helpers/install.mjs";
+import {cocoapods} from "./cocoapods.mjs";
+import {DIRNAME} from "../helpers/globals/globals.js";
 import fs from "fs";
 import path from "path";
 
 import inquirer from "inquirer";
 import chalk from "chalk";
-import { docs } from "../helpers/docs.mjs";
-import { fonts } from "./fonts.mjs";
+import {docs} from "../helpers/docs.mjs";
+import {fonts} from "./fonts.mjs";
 
 export const reactNativeInit = {
   initialise: () => {
     return detect
       .installer()
-      .then((installer) => {
+      .then(installer => {
         settings.installer = installer;
         return inquirer.prompt([
           {
@@ -27,7 +27,7 @@ export const reactNativeInit = {
           },
         ]);
       })
-      .then((structure) => {
+      .then(structure => {
         settings.structure = structure.structure;
         switch (structure.structure) {
           case "BEP (recommended)":
@@ -62,7 +62,7 @@ export const reactNativeInit = {
           },
         ]);
       })
-      .then((usePropTypes) => {
+      .then(usePropTypes => {
         settings.usePropTypes = usePropTypes.proptypes;
         return inquirer.prompt([
           {
@@ -73,11 +73,11 @@ export const reactNativeInit = {
           },
         ]);
       })
-      .then((packages) => {
+      .then(packages => {
         settings.packages = packages.packages;
         return detect.packageName();
       })
-      .then((pName) => {
+      .then(pName => {
         settings.name = pName;
         return inquirer.prompt([
           {
@@ -88,9 +88,12 @@ export const reactNativeInit = {
           },
         ]);
       })
-      .then((pretty) => {
-        if(pretty.prettier === true) {
-          fs.copyFileSync(path.join(DIRNAME, "..", "..", "reactnative", "examples", "config", ".prettierrc.js"), path.join(process.cwd(), ".prettierrc.js"));
+      .then(pretty => {
+        if (pretty.prettier === true) {
+          fs.copyFileSync(
+            path.join(DIRNAME, "..", "..", "reactnative", "examples", "config", ".prettierrc.cjs"),
+            path.join(process.cwd(), ".prettierrc.js")
+          );
         }
         //CALL A FUNCTION TO USE THE SETTINGS OBJECT TO INSTALL PACKAGES AND CREATE FOLDERS/FILES
         return files.overwriteFile(path.join(process.cwd(), "planter.config.json"), JSON.stringify(settings, null, 2));
@@ -101,15 +104,15 @@ export const reactNativeInit = {
       .then(() => {
         return docs.writeDocs(true);
       })
-      .then((result) => {
+      .then(result => {
         console.log(chalk.green(result));
         return cocoapods.install();
       })
-      .then((result) => {
+      .then(result => {
         console.log(chalk.green(result));
         return fonts.install();
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(chalk.red(err));
       });
   },

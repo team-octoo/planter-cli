@@ -1,6 +1,6 @@
 import React from "react";
-import { Text, View } from "react-native";
-import { styles } from "./Example.style";
+import {Text, View} from "react-native";
+import {styles} from "./Example.style";
 import PropTypes from "prop-types";
 
 Example.propTypes = {};

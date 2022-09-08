@@ -1,13 +1,13 @@
-import { files } from "../helpers/files.mjs";
+import {files} from "../helpers/files.mjs";
 import camelcase from "camelcase";
 import path from "path";
 import fs from "fs";
-import { DIRNAME } from "../helpers/globals/globals.js";
+import {DIRNAME} from "../helpers/globals/globals.js";
 import chalk from "chalk";
-import { detect } from "../helpers/detect.mjs";
+import {detect} from "../helpers/detect.mjs";
 
 const mock = {
-  create: async (name) => {
+  create: async name => {
     detect
       .package("msw")
       .then(() => {
@@ -15,7 +15,7 @@ const mock = {
         replace(file, name);
         console.log(chalk.green("Mock file created... Don't forget to import it in the handlers file."));
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(chalk.red(err));
       });
   },
@@ -39,7 +39,7 @@ function copyFile(pathName, fileName, exampleFile) {
 }
 
 function replace(path, name) {
-  const pascalCase = camelcase(name, { pascalCase: true });
+  const pascalCase = camelcase(name, {pascalCase: true});
   const camelCaseName = camelcase(name);
   let data = fs.readFileSync(path, "utf8");
   let result = data.replace(/example/g, camelCaseName).replace(/Example/g, pascalCase);

@@ -1,24 +1,24 @@
 #! /usr/bin/env node
 
-import { Command } from "commander";
+import {Command} from "commander";
 import chalk from "chalk";
 import fs from "fs";
 import path from "path";
-import { detect } from "./helpers/detect.mjs";
-import { intro } from "./helpers/intro.mjs";
-import { reactInit } from "./react/react-init.mjs";
+import {detect} from "./helpers/detect.mjs";
+import {intro} from "./helpers/intro.mjs";
+import {reactInit} from "./react/react-init.mjs";
 import settings from "./utils/settings.mjs";
-import { reactNativeInit } from "./reactnative/react-native-init.mjs";
+import {reactNativeInit} from "./reactnative/react-native-init.mjs";
 import context from "./react/context.mjs";
 import hook from "./react/hook.mjs";
-import { reactData } from "./react/react-data.mjs";
-import { reactFuncs } from "./react/react-funcs.mjs";
-import { reactComponents } from "./react/react-component.mjs";
+import {reactData} from "./react/react-data.mjs";
+import {reactFuncs} from "./react/react-funcs.mjs";
+import {reactComponents} from "./react/react-component.mjs";
 import reducer from "./react/reducer.mjs";
 import mock from "./react/mock.mjs";
-import { reactNativeComponents } from "./reactnative/react-native-component.mjs";
+import {reactNativeComponents} from "./reactnative/react-native-component.mjs";
 
-import { DIRNAME } from "./helpers/globals/globals.js";
+import {DIRNAME} from "./helpers/globals/globals.js";
 import store from "./react/store.mjs";
 const packageJson = JSON.parse(fs.readFileSync(path.join(DIRNAME, "..", "..", "..", "package.json")));
 const program = new Command();
@@ -41,7 +41,7 @@ program
       .then(() => {
         return detect.library();
       })
-      .then((library) => {
+      .then(library => {
         settings.library = library;
         console.log(library);
         if (library === "react") {
@@ -50,7 +50,7 @@ program
           reactNativeInit.initialise();
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(chalk.red(err));
       });
   });
@@ -59,7 +59,7 @@ program
   .command("plant:context")
   .description("Makes a React context file")
   .argument("<string>", "name of the context element")
-  .action((elementName) => {
+  .action(elementName => {
     const localsettings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
     if (localsettings.library === "react") {
       context.createContext(elementName);
@@ -72,7 +72,7 @@ program
   .command("plant:hook")
   .description("Makes a custom React hook")
   .argument("<string>", "name of the hook element")
-  .action((elementName) => {
+  .action(elementName => {
     const localsettings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
 
     if (localsettings.library === "react") {
@@ -114,7 +114,7 @@ program
   .command("plant:component")
   .description("Makes a component according to the chosen structure")
   .argument("<string>", "name")
-  .action((name) => {
+  .action(name => {
     const localsettings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
     if (localsettings.library === "react") {
       reactComponents.create(name);

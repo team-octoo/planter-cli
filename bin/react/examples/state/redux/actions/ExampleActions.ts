@@ -4,8 +4,8 @@ export const ExampleTypes = {
 
 const ExampleActions = {
   resetExample: () => {
-    return (dispatch) => {
-      dispatch({ type: ExampleTypes.RESET });
+    return dispatch => {
+      dispatch({type: ExampleTypes.RESET});
     };
   },
 };

@@ -1,11 +1,11 @@
 import fs from "fs";
 import path from "path";
-import { DIRNAME } from "../helpers/globals/globals.js";
-import { files } from "../helpers/files.mjs";
+import {DIRNAME} from "../helpers/globals/globals.js";
+import {files} from "../helpers/files.mjs";
 import chalk from "chalk";
 
 export const reactData = {
-  create: (name) => {
+  create: name => {
     createDataFolder(name);
     console.log(chalk.green("Data file created at src/utils/data..."));
   },

@@ -1,13 +1,13 @@
 import os from "os";
 import fs from "fs";
 import path from "path";
-import { docsMap } from "../utils/mkdocs.mjs";
-import { packageMap } from "../utils/package-map.mjs";
-import { files } from "./files.mjs";
+import {docsMap} from "../utils/mkdocs.mjs";
+import {packageMap} from "../utils/package-map.mjs";
+import {files} from "./files.mjs";
 
 export const docs = {
   writeDocs: (rn = false) => {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       let markdownDocs = "";
       markdownDocs = markdownDocs + docs.intro();
       if (rn === true) {
@@ -78,7 +78,7 @@ export const docs = {
 
     let packagetxt =
       "## Packages  " + os.EOL + "These packages were installed at the start of the project:  " + os.EOL + os.EOL;
-    settings.packages.forEach((el) => {
+    settings.packages.forEach(el => {
       if (packageMap[el] !== undefined) {
         packagetxt =
           packagetxt +

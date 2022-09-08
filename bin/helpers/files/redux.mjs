@@ -1,9 +1,9 @@
 import chalk from "chalk";
 import fs from "fs";
-import { files } from "../files.mjs";
-import { fileURLToPath } from "url";
-import path, { dirname } from "path";
-import { detect } from "../detect.mjs";
+import {files} from "../files.mjs";
+import {fileURLToPath} from "url";
+import path, {dirname} from "path";
+import {detect} from "../detect.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

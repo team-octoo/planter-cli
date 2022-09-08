@@ -1,12 +1,12 @@
 import create from "zustand";
-import { persist } from "zustand/middleware";
+import {persist} from "zustand/middleware";
 
 export const usePersistentExampleStore = create(
   persist(
-    (set) => ({
+    set => ({
       name: "",
-      setName: (newName) => set((state) => ({ name: newName })),
-      resetName: () => set({ name: "" }),
+      setName: newName => set(state => ({name: newName})),
+      resetName: () => set({name: ""}),
     }),
     {
       name: "exampleStore", // unique name

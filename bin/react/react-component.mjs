@@ -2,13 +2,13 @@ import fs from "fs";
 import path from "path";
 import camelcase from "camelcase";
 import chalk from "chalk";
-import { DIRNAME } from "../helpers/globals/globals.js";
-import { files } from "../helpers/files.mjs";
+import {DIRNAME} from "../helpers/globals/globals.js";
+import {files} from "../helpers/files.mjs";
 import inquirer from "inquirer";
 
 export const reactComponents = {
-  create: async (name) => {
-    const pascalCase = camelcase(name, { pascalCase: true });
+  create: async name => {
+    const pascalCase = camelcase(name, {pascalCase: true});
     const lowerCase = name.toLowerCase();
     return inquirer
       .prompt([
@@ -19,7 +19,7 @@ export const reactComponents = {
           choices: getFolders(),
         },
       ])
-      .then(async (option) => {
+      .then(async option => {
         const folderArray = option.option.split("/");
         let folder = path.join.apply(null, folderArray.concat([lowerCase]));
         await files.directoryExistsOrCreate(path.join(getDestPath(), folder)),

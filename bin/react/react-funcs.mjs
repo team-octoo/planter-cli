@@ -1,11 +1,11 @@
 import fs from "fs";
 import path from "path";
-import { DIRNAME } from "../helpers/globals/globals.js";
-import { files } from "../helpers/files.mjs";
+import {DIRNAME} from "../helpers/globals/globals.js";
+import {files} from "../helpers/files.mjs";
 import chalk from "chalk";
 
 export const reactFuncs = {
-  create: (name) => {
+  create: name => {
     createFuncsFolder(name);
     console.log(chalk.green("Function file created at src/utils/funcs."));
   },
