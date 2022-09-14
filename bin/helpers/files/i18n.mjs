@@ -5,10 +5,16 @@ import {files} from "../files.mjs";
 import {DIRNAME} from "../globals/globals.js";
 
 function replaceIndexContent(filePath) {
+  const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+
   const buffer = fs.readFileSync(filePath);
   let fileContent = buffer.toString();
 
-  fileContent = fileContent.replace("'./reportWebVitals';", "'./reportWebVitals';" + os.EOL + "import './i18n';");
+  if (settings.library === "react-native") {
+    fileContent = fileContent.replace("'react-native';", "'react-native';" + os.EOL + "import './src/i18n';");
+  } else {
+    fileContent = fileContent.replace("'./reportWebVitals';", "'./reportWebVitals';" + os.EOL + "import './i18n';");
+  }
   fs.writeFileSync(filePath, fileContent);
   return true;
 }
@@ -27,11 +33,13 @@ function replacePackageContent(filePath) {
   return true;
 }
 
-function copyFile(filename, destPath) {
+function copyFile(filename, destPath, subdir = false) {
   files.directoryExistsOrCreate(destPath);
   if (!files.fileExists(path.join(process.cwd(), filename))) {
     fs.copyFileSync(
-      path.resolve(DIRNAME, "..", "..", "react", "examples", "i18next", filename),
+      subdir
+        ? path.resolve(DIRNAME, "..", "..", "react", "examples", "i18next", subdir, filename)
+        : path.resolve(DIRNAME, "..", "..", "react", "examples", "i18next", filename),
       path.join(destPath, filename)
     );
   }
@@ -41,8 +49,11 @@ function copyFiles() {
   const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
 
   copyFile("i18next-parser.config.js", path.join(process.cwd()));
-
-  copyFile(`i18n.js`, path.join(process.cwd(), "src"));
+  if (settings.library === "react-native") {
+    copyFile(`i18n.js`, path.join(process.cwd(), "src"), "RN");
+  } else {
+    copyFile(`i18n.js`, path.join(process.cwd(), "src"));
+  }
 
   copyFile("en.json", path.join(process.cwd(), "src", "locales"));
 }
@@ -52,11 +63,14 @@ export const i18n = {
   setup: () => {
     return new Promise((resolve, reject) => {
       const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
-
       copyFiles();
 
-      const indexFilename = `index.${settings.hasTs ? "tsx" : "js"}`;
-      const indexFilePath = path.join(process.cwd(), "src", indexFilename);
+      let indexFilename = `index.${settings.hasTs ? "tsx" : "js"}`;
+      let indexFilePath = path.join(process.cwd(), "src", indexFilename);
+      if (settings.library === "react-native") {
+        indexFilename = "index.js";
+        indexFilePath = path.join(process.cwd(), indexFilename);
+      }
       if (files.fileExists(indexFilePath)) {
         replaceIndexContent(indexFilePath);
       } else {

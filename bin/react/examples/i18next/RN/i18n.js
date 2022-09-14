@@ -1,7 +1,9 @@
 /* istanbul ignore file */
 import i18n from "i18next";
-import LanguageDetector from "i18next-browser-languagedetector";
+
 import {initReactI18next} from "react-i18next";
+import RNLanguageDetector from "@os-team/i18next-react-native-language-detector";
+import AsyncStoragePlugin from "i18next-react-native-async-storage";
 
 import enTranslation from "./locales/en.json";
 
@@ -14,10 +16,12 @@ const resources = {
 };
 
 i18n
-  .use(LanguageDetector)
+  .use(RNLanguageDetector)
+  .use(AsyncStoragePlugin("en"))
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
     resources,
+    compatibilityJSON: "v3",
     ns: [],
     fallbackLng: "en",
 

@@ -94,9 +94,11 @@ export const packageMap = {
     "no-dev": {
       ts: {
         packages: ["react-i18next", "i18next", "i18next-browser-languagedetector"],
+        "native-packages": ["@os-team/i18next-react-native-language-detector", "i18next-react-native-async-storage"],
       },
       "no-ts": {
         packages: ["react-i18next", "i18next", "i18next-browser-languagedetector"],
+        "native-packages": ["@os-team/i18next-react-native-language-detector", "i18next-react-native-async-storage"],
       },
     },
     dev: {
