@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-import {Command} from "commander";
+import {Argument, Command} from "commander";
 import chalk from "chalk";
 import fs from "fs";
 import path from "path";
@@ -20,6 +20,7 @@ import {reactNativeComponents} from "./reactnative/react-native-component.mjs";
 
 import {DIRNAME} from "./helpers/globals/globals.js";
 import store from "./react/store.mjs";
+import {setup as cicdSetup} from "./reactnative/setupCICD.js";
 const packageJson = JSON.parse(fs.readFileSync(path.join(DIRNAME, "..", "..", "..", "package.json")));
 const program = new Command();
 
@@ -162,6 +163,29 @@ program
       mock.create(name);
     } else if (localsettings.library === "react-native") {
       console.log(chalk.red("Mock service worker cannot be used in react-native at this time..."));
+    }
+  });
+
+program
+  .command("setup:CI/CD")
+  .description("Sets up a CI/CD file for a chosen GitRepo")
+  .addArgument(
+    new Argument("<git provider>", "Git provider").choices(["gitlab", "github", "azure_devops", "bitbucket"])
+  )
+  .action((provider, options) => {
+    const localsettings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+
+    if (localsettings.library === "react") {
+      console.log(chalk.red("CI/CD creation cannot be used in react at this time..."));
+    } else if (localsettings.library === "react-native") {
+      switch (provider) {
+        case "gitlab":
+          cicdSetup.gitlab();
+          break;
+        default:
+          console.log(chalk.red("only 'gitlab' can be used at this time..."));
+          break;
+      }
     }
   });
 
