@@ -108,4 +108,17 @@ export const docsMap = {
     os.EOL +
     "The official documentation shows in detail how the structure works.  ",
   Custom: "A custom method has been chosen...  ",
+
+  "CI/CD":
+    "Planter provides the opportunity to setup your **CI pipelines automatically**.  " +
+    os.EOL +
+    "At the moment we provide CI setup for these **GIT Providers**:  " +
+    os.EOL +
+    os.EOL +
+    "- Gitlab (.gitlab-ci.yml)  " +
+    os.EOL +
+    os.EOL +
+    "To perform CI setup, just run **`planter setup:CI/CD <gitprovider>`**  " +
+    os.EOL +
+    "CD can be setup using a service of your choice (for example: [Microsoft Appcenter](https://appcenter.ms))  ",
 };

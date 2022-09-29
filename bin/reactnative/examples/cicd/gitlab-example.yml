@@ -1,0 +1,11 @@
+image: node:18-alpine
+stages:
+  - test
+  - report-coverage
+
+before_script:
+  - yarn install --frozen-lockfile
+  
+<UNITTEST>
+<LINTTEST>
+<PAGES>
