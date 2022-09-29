@@ -16,6 +16,9 @@ export const docs = {
       markdownDocs = markdownDocs + docs.layout();
       markdownDocs = markdownDocs + docs.structure();
       markdownDocs = markdownDocs + docs.packages();
+      if (rn === true) {
+        markdownDocs = markdownDocs + docs.cicd();
+      }
 
       markdownDocs = markdownDocs + os.EOL + os.EOL + "---" + os.EOL + os.EOL;
 
@@ -94,5 +97,11 @@ export const docs = {
     });
 
     return packagetxt;
+  },
+
+  cicd: () => {
+    let cicdtxt = "## CI/CD Setup  " + os.EOL + os.EOL;
+    cicdtxt = cicdtxt + docsMap["CI/CD"] + os.EOL + os.EOL;
+    return cicdtxt;
   },
 };

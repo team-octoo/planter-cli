@@ -20,7 +20,7 @@ import {reactNativeComponents} from "./reactnative/react-native-component.mjs";
 
 import {DIRNAME} from "./helpers/globals/globals.js";
 import store from "./react/store.mjs";
-import {setup as cicdSetup} from "./reactnative/setupCICD.js";
+import {setup as cicdSetup} from "./reactnative/setupCICD.mjs";
 const packageJson = JSON.parse(fs.readFileSync(path.join(DIRNAME, "..", "..", "..", "package.json")));
 const program = new Command();
 
