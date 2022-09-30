@@ -115,7 +115,9 @@ export const docsMap = {
     "At the moment we provide CI setup for these **GIT Providers**:  " +
     os.EOL +
     os.EOL +
-    "- Gitlab (.gitlab-ci.yml)  " +
+    "- Gitlab  " +
+    os.EOL +
+    "- Github  " +
     os.EOL +
     os.EOL +
     "To perform CI setup, just run **`planter setup:CI/CD <gitprovider>`**  " +
