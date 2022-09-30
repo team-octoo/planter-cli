@@ -8,7 +8,10 @@ import {execSync} from "child_process";
 import {files} from "../helpers/files.mjs";
 import {DIRNAME} from "../helpers/globals/globals.js";
 
-let testBranches = "";
+let testBranchesGitlab = "";
+let productionBranchGitlab = "";
+
+let testBranches = [];
 let productionBranch = "";
 
 export const setup = {
@@ -25,12 +28,46 @@ export const setup = {
         return askTestTreshold();
       })
       .then(() => {
-        if (testBranches || productionBranch) {
+        if (testBranchesGitlab || productionBranchGitlab) {
           return createGitlabFile();
         }
+        return Promise.resolve([]);
+      })
+      .then(filesCreated => {
+        if (filesCreated.length > 0) {
+          console.log(chalk.cyanBright("Gitlab files created..."));
+          filesCreated.map(x => {
+            console.log(chalk.green(x));
+          });
+        }
+      });
+  },
+
+  github: async () => {
+    console.log("start CI/CD Setup for github");
+    return askLocalCommitChecks()
+      .then(() => {
+        return askTestBranches();
       })
       .then(() => {
-        console.log(chalk.green("Gitlab file created..."));
+        return askProductionBranch();
+      })
+      .then(() => {
+        return askTestTreshold();
+      })
+      .then(() => {
+        if (testBranchesGitlab || productionBranchGitlab) {
+          return createGithubFile();
+        }
+        return Promise.resolve([]);
+      })
+      .then(filesCreated => {
+        if (filesCreated.length > 0) {
+          console.log(chalk.cyanBright("Github files created..."));
+          filesCreated.map(x => {
+            console.log(chalk.green(x));
+          });
+        }
       });
   },
 };
@@ -79,11 +116,13 @@ function askTestBranches() {
     ])
     .then(result => {
       if (result.Branches.trim() === "") {
-        testBranches = "";
+        testBranchesGitlab = "";
+        testBranches = [];
         return Promise.resolve();
       }
       let branches = result.Branches.split(",").map(x => x.trim());
-      testBranches = ` && (${branches
+      testBranches = branches;
+      testBranchesGitlab = ` && (${branches
         .map(branch => {
           if (!branch) {
             throw "No branch name added";
@@ -108,10 +147,12 @@ function askProductionBranch() {
     ])
     .then(result => {
       if (result.Branch.trim() === "") {
+        productionBranchGitlab = "";
         productionBranch = "";
         return Promise.resolve();
       }
-      productionBranch = `$CI_COMMIT_BRANCH == "${result.Branch}"`;
+      productionBranch = result.Branch;
+      productionBranchGitlab = `$CI_COMMIT_BRANCH == "${result.Branch}"`;
       return Promise.resolve();
     });
 }
@@ -129,6 +170,13 @@ function askTestTreshold() {
   execSync(
     'npm pkg set jest.coverageReporters[]="clover" jest.coverageReporters[]="json" jest.coverageReporters[]="lcov" jest.coverageReporters[]="text" jest.coverageReporters[]="cobertura"'
   );
+
+  execSync('npm pkg set jest-junit.suiteName="React-Native Unit Tests"');
+  execSync('npm pkg set jest-junit.classNameTemplate="{classname}"');
+  execSync('npm pkg set jest-junit.titleTemplate="{title}"');
+  execSync('npm pkg set jest-junit.ancestorSeparator=" › "');
+  execSync('npm pkg set jest-junit.suiteNameTemplate="{filename}"');
+
   return inquirer
     .prompt([
       {
@@ -196,21 +244,21 @@ function createGitlabFile() {
   let unitTestJob = "";
   let lintTestJob = "";
   let pagesJob = "";
-  if (testBranches || productionBranch) {
+  if (testBranchesGitlab || productionBranchGitlab) {
     unitTestJob = gitlabJobs.unitTest;
     lintTestJob = gitlabJobs.linTest;
-    if (testBranches) {
-      console.log(testBranches);
-      unitTestJob = unitTestJob.replace("<TESTBRANCHES>", testBranches);
-      lintTestJob = lintTestJob.replace("<TESTBRANCHES>", testBranches);
+    if (testBranchesGitlab) {
+      console.log(testBranchesGitlab);
+      unitTestJob = unitTestJob.replace("<TESTBRANCHES>", testBranchesGitlab);
+      lintTestJob = lintTestJob.replace("<TESTBRANCHES>", testBranchesGitlab);
     } else {
       unitTestJob = unitTestJob.replace("<TESTBRANCHES>", "");
       lintTestJob = lintTestJob.replace("<TESTBRANCHES>", "");
     }
 
-    if (productionBranch) {
-      unitTestJob = unitTestJob.replace("<PRODBRANCH>", "|| " + productionBranch);
-      pagesJob = gitlabJobs.pages.replace("<PRODBRANCH>", productionBranch);
+    if (productionBranchGitlab) {
+      unitTestJob = unitTestJob.replace("<PRODBRANCH>", "|| " + productionBranchGitlab);
+      pagesJob = gitlabJobs.pages.replace("<PRODBRANCH>", productionBranchGitlab);
     } else {
       unitTestJob = unitTestJob.replace("<PRODBRANCH>", "");
     }
@@ -219,7 +267,42 @@ function createGitlabFile() {
   files.replaceInFiles(createdPath, "<UNITTEST>", unitTestJob);
   files.replaceInFiles(createdPath, "<LINTTEST>", lintTestJob);
   files.replaceInFiles(createdPath, "<PAGES>", pagesJob);
-  return Promise.resolve();
+  return Promise.resolve([createdPath]);
+}
+
+async function createGithubFile() {
+  console.log(chalk.cyanBright("Now starting on the creation of your github files..."));
+
+  return files
+    .fileExistsOrCreate(path.join(process.cwd(), ".github/workflows/testsOnPR.yml"))
+    .then(() => {
+      return files.fileExistsOrCreate(path.join(process.cwd(), ".github/workflows/testsOnPush.yml"));
+    })
+    .then(() => {
+      let createdPathPR = "";
+      let createdPathPush = "";
+      createdPathPR = files.copyFolder(
+        path.resolve(DIRNAME, "..", "..", "reactnative", "examples", "cicd", "github-pullRequest-example.yml"),
+        path.join(process.cwd(), ".github/workflows/testsOnPR.yml")
+      );
+
+      createdPathPush = files.copyFolder(
+        path.resolve(DIRNAME, "..", "..", "reactnative", "examples", "cicd", "github-push-example.yml"),
+        path.join(process.cwd(), ".github/workflows/testsOnPush.yml")
+      );
+
+      let PRBranches = "";
+      let pushBranches = "";
+
+      testBranches.map(branch => {
+        PRBranches = PRBranches + `      - '${branch}'` + os.EOL;
+      });
+      pushBranches = `      - '${productionBranch}'`;
+
+      files.replaceInFiles(createdPathPR, "<BRANCHES>", PRBranches);
+      files.replaceInFiles(createdPathPush, "<BRANCHES>", pushBranches);
+      return Promise.resolve([createdPathPR, createdPathPush]);
+    });
 }
 
 export const gitlabJobs = {

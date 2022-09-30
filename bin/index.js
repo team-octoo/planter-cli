@@ -182,6 +182,9 @@ program
         case "gitlab":
           cicdSetup.gitlab();
           break;
+        case "github":
+          cicdSetup.github();
+          break;
         default:
           console.log(chalk.red("only 'gitlab' can be used at this time..."));
           break;
