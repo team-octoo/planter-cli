@@ -185,8 +185,11 @@ program
         case "github":
           cicdSetup.github();
           break;
+        case "bitbucket":
+          cicdSetup.bitbucket();
+          break;
         default:
-          console.log(chalk.red("only 'gitlab' can be used at this time..."));
+          console.log(chalk.red("only 'gitlab', 'github' & 'bitbucket' can be used at this time..."));
           break;
       }
     }

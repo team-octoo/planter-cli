@@ -56,7 +56,7 @@ export const setup = {
         return askTestTreshold();
       })
       .then(() => {
-        if (testBranchesGitlab || productionBranchGitlab) {
+        if (testBranches || productionBranch) {
           return createGithubFile();
         }
         return Promise.resolve([]);
@@ -64,6 +64,31 @@ export const setup = {
       .then(filesCreated => {
         if (filesCreated.length > 0) {
           console.log(chalk.cyanBright("Github files created..."));
+          filesCreated.map(x => {
+            console.log(chalk.green(x));
+          });
+        }
+      });
+  },
+
+  bitbucket: async () => {
+    console.log("start CI/CD Setup for bitbucket");
+    return askLocalCommitChecks()
+      .then(() => {
+        return askProductionBranch();
+      })
+      .then(() => {
+        return askTestTreshold();
+      })
+      .then(() => {
+        if (productionBranch) {
+          return createBitbucketFile();
+        }
+        return Promise.resolve([]);
+      })
+      .then(filesCreated => {
+        if (filesCreated.length > 0) {
+          console.log(chalk.cyanBright("Bitbucket file created..."));
           filesCreated.map(x => {
             console.log(chalk.green(x));
           });
@@ -303,6 +328,19 @@ async function createGithubFile() {
       files.replaceInFiles(createdPathPush, "<BRANCHES>", pushBranches);
       return Promise.resolve([createdPathPR, createdPathPush]);
     });
+}
+
+async function createBitbucketFile() {
+  console.log(chalk.cyanBright("Now starting on the creation of your bitbucket files..."));
+
+  let createdPath = "";
+  createdPath = files.copyFolder(
+    path.resolve(DIRNAME, "..", "..", "reactnative", "examples", "cicd", "bitbucket-example.yml"),
+    path.join(process.cwd(), "bitbucket-pipelines.yml")
+  );
+
+  files.replaceInFiles(createdPath, "<PRODBRANCH>", productionBranch);
+  return Promise.resolve([createdPath]);
 }
 
 export const gitlabJobs = {
