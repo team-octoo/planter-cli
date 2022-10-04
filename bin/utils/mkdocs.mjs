@@ -119,6 +119,8 @@ export const docsMap = {
     os.EOL +
     "- Github  " +
     os.EOL +
+    "- Bitbucket  " +
+    os.EOL +
     os.EOL +
     "To perform CI setup, just run **`planter setup:CI/CD <gitprovider>`**  " +
     os.EOL +
