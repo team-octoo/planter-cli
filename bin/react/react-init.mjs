@@ -100,6 +100,9 @@ export const reactInit = {
       })
       .then(packages => {
         settings.packages = packages.packages;
+        if (packages.packages.indexOf("Mock-service-worker") !== -1) {
+          settings.mswPath = "src/mocks";
+        }
         return detect.packageName();
       })
       .then(pName => {

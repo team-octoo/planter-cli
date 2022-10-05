@@ -26,7 +26,8 @@ function copyDataFolder(name) {
 
   const mockFile = `${name}.${settings.hasTs ? "ts" : "js"}`;
 
-  const pathName = path.join(process.cwd(), "src", "mocks", name);
+  const mswPath = settings.mswPath.split("/");
+  const pathName = path.join(process.cwd(), ...mswPath, name);
 
   files.directoryExistsOrCreate(pathName);
   return copyFile(pathName, mockFile, "example.js");
