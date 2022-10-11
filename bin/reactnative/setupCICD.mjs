@@ -202,6 +202,17 @@ function askTestTreshold() {
   execSync('npm pkg set jest-junit.ancestorSeparator=" › "');
   execSync('npm pkg set jest-junit.suiteNameTemplate="{filename}"');
 
+  execSync('npm pkg set scripts.test="jest --ci --reporters=default --reporters=jest-junit"');
+
+  const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+
+  let devpackages = ["jest-junit"];
+  if (settings.installer === "npm") {
+    install.installNPM([], devpackages);
+  } else if (settings.installer === "yarn") {
+    install.installYarn([], devpackages);
+  }
+
   return inquirer
     .prompt([
       {
