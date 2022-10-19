@@ -1,6 +1,4 @@
-import {FC} from "react";
-
-const Example: FC<Props> = props => {
+const Example = () => {
   return <></>;
 };
 
