@@ -44,7 +44,6 @@ program
       })
       .then(library => {
         settings.library = library;
-        console.log(library);
         if (library === "react") {
           reactInit.initialise();
         } else if (library === "react-native") {

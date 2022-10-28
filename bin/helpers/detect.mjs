@@ -31,8 +31,8 @@ export const detect = {
   },
   typescript: async () => {
     return new Promise(resolve => {
-      const {dependencies} = files.readPackageJson();
-      if (dependencies.typescript) {
+      const {dependencies, devDependencies} = files.readPackageJson();
+      if (dependencies.typescript || devDependencies.typescript) {
         resolve(true);
       }
       resolve(false);
@@ -46,6 +46,7 @@ export const detect = {
       if (files.fileExists(path.join(process.cwd(), "yarn.lock"))) {
         resolve("yarn");
       }
+      resolve("unknown");
     });
   },
   packageName: async () => {
