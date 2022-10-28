@@ -19,7 +19,7 @@ Commands should be run in the root-folder of a react or react-native installatio
 "planter" is the script-command which initialises the CLI.   
 
 ## Information    
-This packages has been created by the lovely people at [Octoo](https://octoo.be)  
+This package has been created by the lovely people at [Octoo](https://octoo.be)  
 
 Found a bug or want to extend this package?  
 - Create an issue on Github  
