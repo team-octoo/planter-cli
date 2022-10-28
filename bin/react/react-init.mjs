@@ -8,11 +8,42 @@ import path from "path";
 import fs from "fs";
 import {DIRNAME} from "../helpers/globals/globals.js";
 import {docs} from "../helpers/docs.mjs";
+import {execSync} from "child_process";
 
 export const reactInit = {
   initialise: () => {
     detect
-      .typescript()
+      .installer()
+      .then(installer => {
+        if (installer === "unknown") {
+          return inquirer
+            .prompt([
+              {
+                type: "list",
+                name: "packageManager",
+                message: "Choose which package manager you'd like to use:",
+                choices: ["NPM", "Yarn"],
+              },
+            ])
+            .then(packageManager => {
+              switch (packageManager.packageManager) {
+                case "NPM":
+                  console.log(chalk.yellow("Installing packages."));
+                  execSync("npm install", {stdio: [0, 1, 2]});
+                  console.log(chalk.green("Finished installing packages."));
+                  return;
+                case "Yarn":
+                  console.log(chalk.yellow("Installing packages."));
+                  execSync("yarn", {stdio: [0, 1, 2]});
+                  console.log(chalk.green("Finished installing packages."));
+                  return;
+                default:
+                  return;
+              }
+            });
+        }
+        return detect.typescript();
+      })
       .then(hasTs => {
         settings.hasTs = hasTs;
         return detect.installer();

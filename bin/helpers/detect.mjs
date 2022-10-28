@@ -46,6 +46,7 @@ export const detect = {
       if (files.fileExists(path.join(process.cwd(), "yarn.lock"))) {
         resolve("yarn");
       }
+      resolve("unknown");
     });
   },
   packageName: async () => {
