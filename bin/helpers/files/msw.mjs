@@ -77,14 +77,20 @@ export const msw = {
         if (files.fileExists(filePath)) {
           replaceIndexContent(filePath);
         } else {
-          reject("Could not find src/index.tsx file...");
+          console.log(chalk.red("********************************************************************"));
+          console.log(chalk.red("Could not find index.tsx file. You will have to set up msw manually."));
+          console.log(chalk.red("********************************************************************"));
+          resolve("msw installed but not setup");
         }
       } else {
         const filePath = path.join(process.cwd(), "src", "index.js");
         if (files.fileExists(filePath)) {
           replaceIndexContent(filePath);
         } else {
-          reject("Could not find src/index.js file...");
+          console.log(chalk.red("********************************************************************"));
+          console.log(chalk.red("Could not find index.js file. You will have to set up msw manually."));
+          console.log(chalk.red("********************************************************************"));
+          resolve("msw installed but not setup");
         }
       }
       resolve("msw setup completed");

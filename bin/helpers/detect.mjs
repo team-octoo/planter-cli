@@ -31,8 +31,8 @@ export const detect = {
   },
   typescript: async () => {
     return new Promise(resolve => {
-      const {dependencies} = files.readPackageJson();
-      if (dependencies.typescript) {
+      const {dependencies, devDependencies} = files.readPackageJson();
+      if (dependencies.typescript || devDependencies.typescript) {
         resolve(true);
       }
       resolve(false);
