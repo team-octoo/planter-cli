@@ -6,6 +6,6 @@ interface UsePersistentExampleStore {
 
 export const useExampleStore = create<UsePersistentExampleStore>(set => ({
   name: "",
-  setName: newName => set(state => ({name: newName})),
+  setName: (newName: string) => set(state => ({name: newName})),
   resetName: () => set(state => ({name: ""})),
 }));
