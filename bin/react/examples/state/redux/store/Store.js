@@ -3,7 +3,6 @@ import storage from "redux-persist/lib/storage";
 import RootReducer from "../reducers/RootReducer";
 import {persistReducer, persistStore} from "redux-persist";
 import thunk from "redux-thunk";
-import {createLogger} from "redux-logger";
 
 const persistConfig = {
   key: "root",
@@ -16,7 +15,8 @@ const persistedReducer = persistReducer(persistConfig, RootReducer);
 
 let middleware = [thunk];
 if (process.env.NODE_ENV !== "production") {
-  middleware.push(createLogger());
+  const {logger} = require(`redux-logger`);
+  middleware.push(logger);
 }
 
 const Store = configureStore({

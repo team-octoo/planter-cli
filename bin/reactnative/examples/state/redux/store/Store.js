@@ -1,6 +1,5 @@
 /* istanbul ignore file */
 import {createStore, applyMiddleware} from "redux";
-import {createLogger} from "redux-logger";
 import thunk from "redux-thunk";
 
 import {persistStore, persistReducer, createMigrate} from "redux-persist";
@@ -11,8 +10,9 @@ import Migrations from "./Migrations";
 
 const middleware = [thunk];
 
-if (process.env.NODE_ENV === "development") {
-  middleware.push(createLogger());
+if (process.env.NODE_ENV !== "production") {
+  const {logger} = require(`redux-logger`);
+  middleware.push(logger);
 }
 
 const persistConfig = {
