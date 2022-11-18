@@ -90,6 +90,20 @@ export const packageMap = {
     description: "App Center is your continuous integration, delivery and learning solution for iOS and Android apps.",
   },
 
+  MirageJS: {
+    dev: {
+      ts: {
+        packages: ["jest-fetch-mock", "miragejs", "xmlhttprequest"],
+      },
+      "no-ts": {
+        packages: ["jest-fetch-mock", "miragejs", "xmlhttprequest"],
+      },
+    },
+    docs: "https://miragejs.com/",
+    description:
+      "Mirage JS is an API mocking library that lets you build, test and share a complete working JavaScript application without having to rely on any backend services.",
+  },
+
   i18next: {
     "no-dev": {
       ts: {

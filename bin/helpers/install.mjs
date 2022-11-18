@@ -8,6 +8,7 @@ import {msw} from "./files/msw.mjs";
 import {i18n} from "./files/i18n.mjs";
 import {redux} from "./files/redux.mjs";
 import {postinstall} from "./files/postinstall.js";
+import {mirage} from "./files/mirage.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -30,7 +31,9 @@ export const install = {
           return install.setupPackages();
         })
         .then(result => {
-          console.log(chalk.green(result));
+          if (result) {
+            console.log(chalk.green(result));
+          }
           resolve("Project setup done");
         })
         .catch(err => {
@@ -49,6 +52,9 @@ export const install = {
         }
         if (settings.packages.indexOf("Redux") !== -1) {
           redux.copyFiles();
+        }
+        if (settings.packages.indexOf("MirageJS") !== -1) {
+          mirage.copyFiles();
         }
 
         resolve("Files have been written.");
@@ -81,6 +87,9 @@ export const install = {
         }
         if (settings.packages.indexOf("i18next") !== -1) {
           folders.push(path.join(process.cwd(), "src", "locales"));
+        }
+        if (settings.packages.indexOf("MirageJS") !== -1) {
+          folders.push(path.join(process.cwd(), "src", "mocks"));
         }
         folders.push(path.join(process.cwd(), "src", "assets", "images"));
         folders.push(path.join(process.cwd(), "src", "assets", "fonts"));
@@ -222,6 +231,9 @@ export const install = {
         if (settings.packages.indexOf("i18next") !== -1) {
           console.log(await install.setupI18N());
         }
+        if (settings.packages.indexOf("MirageJS") !== -1) {
+          console.log(await install.setupMiragePackage());
+        }
         resolve("Package setup done");
       } catch (e) {
         reject(e);
@@ -248,6 +260,20 @@ export const install = {
     return new Promise((resolve, reject) => {
       i18n
         .setup()
+        .then(result => {
+          resolve(result);
+        })
+        .catch(err => {
+          console.log(chalk.red(err));
+          reject(err);
+        });
+    });
+  },
+
+  setupMiragePackage: () => {
+    return new Promise((resolve, reject) => {
+      mirage
+        .setupPackage()
         .then(result => {
           resolve(result);
         })

@@ -69,7 +69,7 @@ export const reactNativeInit = {
             type: "checkbox",
             name: "packages",
             message: "Choose which tech/packages you'd like to use in this project:",
-            choices: ["Redux", "Zustand", "i18next", "Patch-Package", "Appcenter"],
+            choices: ["Redux", "Zustand", "i18next", "Patch-Package", "Appcenter", "MirageJS"],
           },
         ]);
       })
