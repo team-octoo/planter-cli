@@ -12,7 +12,7 @@ export const reactData = {
 };
 
 function createDataFolder(name) {
-  const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+  const settings = files.readSettingsJson();
   let createdPath = files.copyFolder(
     path.resolve(getSourcePath(), "data", "example.ts"),
     path.join(getDestPath(), "data", `${name}.${settings.hasTs ? "ts" : "js"}`)

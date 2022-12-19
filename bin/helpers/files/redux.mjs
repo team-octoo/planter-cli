@@ -7,6 +7,7 @@ import {detect} from "../detect.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
 function replaceInFiles(filePath, searchValue, replaceValue) {
   const buffer = fs.readFileSync(filePath);
   let fileContent = buffer.toString();
@@ -15,6 +16,7 @@ function replaceInFiles(filePath, searchValue, replaceValue) {
   fs.writeFileSync(filePath, fileContent);
   return true;
 }
+
 export const redux = {
   setupPackage: () => {
     return new Promise(async (resolve, reject) => {
@@ -37,7 +39,7 @@ export const redux = {
   },
 
   copyFiles: () => {
-    const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+    const settings = files.readSettingsJson();
     console.log("Creating redux files...");
 
     if (

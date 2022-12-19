@@ -1,11 +1,11 @@
-// import { files } from "../helpers/files.mjs";
+import {files} from "../helpers/files.mjs";
 import camelcase from "camelcase";
 import path from "path";
 import fs from "fs";
 import os from "os";
-import {DIRNAME} from "../helpers/globals/globals.js";
 import chalk from "chalk";
 import {detect} from "../helpers/detect.mjs";
+import {DIRNAME} from "../helpers/globals/globals.js";
 
 const reducer = {
   create: async name => {
@@ -25,7 +25,7 @@ const reducer = {
 
 function addToRootReducer(name) {
   const pascalCaseName = camelcase(name, {pascalCase: true});
-  const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+  const settings = files.readSettingsJson();
 
   const buffer = fs.readFileSync(
     path.join(process.cwd(), "src", "state", "reducers", `RootReducer.${settings.hasTs ? "ts" : "js"}`)
@@ -68,7 +68,7 @@ function addToRootReducer(name) {
 }
 
 function copyDataFolder(name) {
-  const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+  const settings = files.readSettingsJson();
 
   const pascalCase = camelcase(name, {pascalCase: true});
   const actionsFile = `${pascalCase}Actions.${settings.hasTs ? "ts" : "js"}`;

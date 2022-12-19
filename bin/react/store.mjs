@@ -2,9 +2,9 @@
 import camelcase from "camelcase";
 import path from "path";
 import fs from "fs";
-import {DIRNAME} from "../helpers/globals/globals.js";
 import chalk from "chalk";
 import {detect} from "../helpers/detect.mjs";
+import {DIRNAME} from "../helpers/globals/globals.js";
 import inquirer from "inquirer";
 
 const store = {
@@ -33,7 +33,7 @@ const store = {
 };
 
 function copyDataFolder(name, persisted) {
-  const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+  const settings = files.readSettingsJson();
 
   const pascalCase = camelcase(name, {pascalCase: true});
   const storeFile = `use${persisted ? "Persistent" : ""}${pascalCase}Store.${settings.hasTs ? "ts" : "js"}`;
@@ -50,7 +50,7 @@ function copyDataFolder(name, persisted) {
 
 function copyFile(pathName, fileName, exampleFile) {
   const fullPath = path.join(pathName, fileName);
-  const localsettings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+  const localsettings = files.readSettingsJson();
   fs.copyFileSync(
     path.resolve(
       DIRNAME,

@@ -14,7 +14,7 @@ const hook = {
 };
 
 function copyDataFolder(name) {
-  const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+  const settings = files.readSettingsJson();
   const filename = `use${camelcase(name, {pascalCase: true})}.${settings.hasTs ? "ts" : "js"}`;
   const pathName = path.join(process.cwd(), "src", "utils", "hooks");
   const fullPath = `${pathName}/${filename}`;

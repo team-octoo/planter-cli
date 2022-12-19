@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 function replaceIndexContent(filePath) {
-  const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+  const settings = files.readSettingsJson();
 
   const buffer = fs.readFileSync(filePath);
   let fileContent = buffer.toString();
@@ -71,7 +71,7 @@ export const msw = {
         if (err) reject(err);
       });
 
-      const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+      const settings = files.readSettingsJson();
       if (settings.hasTs) {
         const filePath = path.join(process.cwd(), "src", "index.tsx");
         if (files.fileExists(filePath)) {
@@ -98,7 +98,7 @@ export const msw = {
   },
 
   copyFiles: () => {
-    const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+    const settings = files.readSettingsJson();
     console.log("Creating mock service worker files...");
     if (
       !files.fileExists(path.join(process.cwd(), "src", "mocks", "handlers.js")) &&
