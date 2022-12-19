@@ -33,7 +33,7 @@ export const docs = {
   },
 
   intro: () => {
-    const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+    const settings = files.readSettingsJson();
 
     let introtxt = docsMap.intro;
     introtxt = introtxt.replace("settings.name", settings.name);
@@ -42,7 +42,7 @@ export const docs = {
   },
 
   layout: () => {
-    const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+    const settings = files.readSettingsJson();
 
     let layouttxt = "";
     if (settings.library === "react-native") {
@@ -59,7 +59,7 @@ export const docs = {
   },
 
   structure: () => {
-    const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+    const settings = files.readSettingsJson();
 
     let structuretxt = "";
     if (docsMap[settings.structure] !== undefined) {
@@ -77,7 +77,7 @@ export const docs = {
   },
 
   packages: () => {
-    const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+    const settings = files.readSettingsJson();
 
     let packagetxt =
       "## Packages  " + os.EOL + "These packages were installed at the start of the project:  " + os.EOL + os.EOL;

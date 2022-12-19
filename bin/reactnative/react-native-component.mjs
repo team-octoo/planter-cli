@@ -50,7 +50,7 @@ export function createRNTests(folder, name) {
 }
 
 export function createRNComponent(folder, name) {
-  const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+  const settings = files.readSettingsJson();
   let createdPath = undefined;
   if (settings.hasTs) {
     createdPath = files.copyFolder(
@@ -76,7 +76,7 @@ export function createRNComponent(folder, name) {
 
 export function getRNFolders() {
   try {
-    const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+    const settings = files.readSettingsJson();
     let folders = [];
 
     folders = getRNChildFolders(settings.components);

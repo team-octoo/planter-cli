@@ -40,7 +40,6 @@ export const mirage = {
   },
 
   copyFiles: () => {
-    const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
     console.log("Creating MirageJS files...");
     if (!files.fileExists(path.join(process.cwd(), "src", "mocks", "server.js"))) {
       fs.copyFileSync(
