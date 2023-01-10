@@ -21,7 +21,7 @@ export const reactNativeComponents = {
         },
       ])
       .then(async option => {
-        let folder = path.join(option.option, lowerCase);
+        let folder = path.join(option.option, pascalCase);
         await files.directoryExistsOrCreate(path.join(getRNDestPath(), folder)),
           await files.directoryExistsOrCreate(path.join(getRNDestPath(), folder, "tests")),
           createRNComponent(folder, pascalCase);

@@ -21,7 +21,7 @@ export const reactComponents = {
       ])
       .then(async option => {
         const folderArray = option.option.split("/");
-        let folder = path.join.apply(null, folderArray.concat([lowerCase]));
+        let folder = path.join.apply(null, folderArray.concat([pascalCase]));
         await files.directoryExistsOrCreate(path.join(getDestPath(), folder)),
           await files.directoryExistsOrCreate(path.join(getDestPath(), folder, "tests")),
           createComponent(folder, pascalCase);
