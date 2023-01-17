@@ -9,7 +9,11 @@ import inquirer from "inquirer";
 export const reactNativeComponents = {
   create: async name => {
     const pascalCase = camelcase(name, {pascalCase: true});
-    const lowerCase = name.toLowerCase();
+    const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+    let casedName = camelcase(name, {pascalCase: true});
+    if (settings.folderCasing === "lowercase") {
+      casedName = name.toLowerCase();
+    }
 
     return inquirer
       .prompt([
@@ -21,7 +25,7 @@ export const reactNativeComponents = {
         },
       ])
       .then(async option => {
-        let folder = path.join(option.option, pascalCase);
+        let folder = path.join(option.option, casedName);
         await files.directoryExistsOrCreate(path.join(getRNDestPath(), folder)),
           await files.directoryExistsOrCreate(path.join(getRNDestPath(), folder, "tests")),
           createRNComponent(folder, pascalCase);

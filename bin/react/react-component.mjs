@@ -8,8 +8,13 @@ import inquirer from "inquirer";
 
 export const reactComponents = {
   create: async name => {
+    const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
     const pascalCase = camelcase(name, {pascalCase: true});
-    const lowerCase = name.toLowerCase();
+    let casedName = camelcase(name, {pascalCase: true});
+    if (settings.folderCasing === "lowercase") {
+      casedName = name.toLowerCase();
+    }
+    // const lowerCase = name.toLowerCase();
     return inquirer
       .prompt([
         {
@@ -21,7 +26,7 @@ export const reactComponents = {
       ])
       .then(async option => {
         const folderArray = option.option.split("/");
-        let folder = path.join.apply(null, folderArray.concat([pascalCase]));
+        let folder = path.join.apply(null, folderArray.concat([casedName]));
         await files.directoryExistsOrCreate(path.join(getDestPath(), folder)),
           await files.directoryExistsOrCreate(path.join(getDestPath(), folder, "tests")),
           createComponent(folder, pascalCase);
