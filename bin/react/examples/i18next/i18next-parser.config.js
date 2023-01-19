@@ -1,4 +1,4 @@
-module.exports = {
+const options = {
   contextSeparator: "$",
   // Key separator used in your translation keys
 
@@ -86,3 +86,5 @@ module.exports = {
   //   description: "${maxLength}", // t('my-key', {maxLength: 150})
   // }
 };
+
+export default options;
