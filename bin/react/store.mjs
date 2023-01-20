@@ -1,4 +1,3 @@
-// import { files } from "../helpers/files.mjs";
 import camelcase from "camelcase";
 import path from "path";
 import fs from "fs";

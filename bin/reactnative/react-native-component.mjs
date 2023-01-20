@@ -1,4 +1,3 @@
-import fs from "fs";
 import path from "path";
 import camelcase from "camelcase";
 import chalk from "chalk";

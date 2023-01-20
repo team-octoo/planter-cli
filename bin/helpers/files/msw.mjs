@@ -1,12 +1,9 @@
 import chalk from "chalk";
 import fs from "fs";
 import os from "os";
-import {fileURLToPath} from "url";
-import path, {dirname} from "path";
+import path from "path";
 import {files} from "../files.mjs";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import {DIRNAME} from "../globals/globals.js";
 
 function replaceIndexContent(filePath) {
   const settings = files.readSettingsJson();
@@ -105,7 +102,7 @@ export const msw = {
       !files.fileExists(path.join(process.cwd(), "src", "mocks", "handlers.ts"))
     ) {
       fs.copyFileSync(
-        path.resolve(__dirname, "..", "..", "react", "examples", "msw", "handlers.ts"),
+        path.resolve(DIRNAME, "..", "..", "react", "examples", "msw", "handlers.ts"),
         path.join(process.cwd(), "src", "mocks", "handlers.ts")
       );
       if (!settings.hasTs) {
@@ -121,7 +118,7 @@ export const msw = {
       !files.fileExists(path.join(process.cwd(), "src", "mocks", "browser.ts"))
     ) {
       fs.copyFileSync(
-        path.resolve(__dirname, "..", "..", "react", "examples", "msw", "browser.ts"),
+        path.resolve(DIRNAME, "..", "..", "react", "examples", "msw", "browser.ts"),
         path.join(process.cwd(), "src", "mocks", "browser.ts")
       );
       if (!settings.hasTs) {
@@ -137,7 +134,7 @@ export const msw = {
       !files.fileExists(path.join(process.cwd(), "src", "mocks", "mockDatabase.ts"))
     ) {
       fs.copyFileSync(
-        path.resolve(__dirname, "..", "..", "react", "examples", "msw", "mockDatabase.ts"),
+        path.resolve(DIRNAME, "..", "..", "react", "examples", "msw", "mockDatabase.ts"),
         path.join(process.cwd(), "src", "mocks", "mockDatabase.ts")
       );
       if (!settings.hasTs) {
@@ -153,7 +150,7 @@ export const msw = {
       !files.fileExists(path.join(process.cwd(), "src", "mocks", "server.ts"))
     ) {
       fs.copyFileSync(
-        path.resolve(__dirname, "..", "..", "react", "examples", "msw", "server.ts"),
+        path.resolve(DIRNAME, "..", "..", "react", "examples", "msw", "server.ts"),
         path.join(process.cwd(), "src", "mocks", "server.ts")
       );
       if (!settings.hasTs) {

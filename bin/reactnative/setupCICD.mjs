@@ -1,7 +1,6 @@
 import chalk from "chalk";
 import inquirer from "inquirer";
 import {install} from "../helpers/install.mjs";
-import fs from "fs";
 import os from "os";
 import path from "path";
 import {execSync} from "child_process";

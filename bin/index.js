@@ -114,7 +114,7 @@ program
 program
   .command("plant:component")
   .description("Makes a component according to the chosen structure")
-  .argument("<string>", "name")
+  .argument("<name>", "Name of the component you wish to plant")
   .action(name => {
     const localsettings = files.readSettingsJson();
     if (localsettings.library === "react") {
