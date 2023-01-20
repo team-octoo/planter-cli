@@ -1,6 +1,6 @@
 import chalk from "chalk";
-import {files} from "./files.mjs";
 import path from "path";
+import {files} from "./files.mjs";
 
 export const detect = {
   config: async (force = false) => {

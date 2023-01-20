@@ -1,12 +1,9 @@
 import chalk from "chalk";
 import fs from "fs";
 import {files} from "../files.mjs";
-import {fileURLToPath} from "url";
-import path, {dirname} from "path";
+import path from "path";
 import {detect} from "../detect.mjs";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import {DIRNAME} from "../globals/globals.js";
 
 function replaceInFiles(filePath, searchValue, replaceValue) {
   const buffer = fs.readFileSync(filePath);
@@ -48,7 +45,7 @@ export const redux = {
     ) {
       fs.copyFileSync(
         path.resolve(
-          __dirname,
+          DIRNAME,
           "..",
           "..",
           settings.library === "react" ? "react" : "reactnative",
@@ -74,7 +71,7 @@ export const redux = {
     ) {
       fs.copyFileSync(
         path.resolve(
-          __dirname,
+          DIRNAME,
           "..",
           "..",
           settings.library === "react" ? "react" : "reactnative",
@@ -100,7 +97,7 @@ export const redux = {
     ) {
       fs.copyFileSync(
         path.resolve(
-          __dirname,
+          DIRNAME,
           "..",
           "..",
           settings.library === "react" ? "react" : "reactnative",

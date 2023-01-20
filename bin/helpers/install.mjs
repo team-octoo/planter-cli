@@ -2,17 +2,13 @@ import fs from "fs";
 import {execSync} from "child_process";
 import {packageMap} from "../utils/package-map.mjs";
 import chalk from "chalk";
-import {fileURLToPath} from "url";
-import path, {dirname} from "path";
+import path from "path";
 import {msw} from "./files/msw.mjs";
 import {i18n} from "./files/i18n.mjs";
 import {redux} from "./files/redux.mjs";
 import {postinstall} from "./files/postinstall.js";
 import {mirage} from "./files/mirage.mjs";
 import {files} from "./files.mjs";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 export const install = {
   full: () => {

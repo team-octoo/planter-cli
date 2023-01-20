@@ -1,4 +1,3 @@
-import fs from "fs";
 import path from "path";
 import {DIRNAME} from "../helpers/globals/globals.js";
 import {files} from "../helpers/files.mjs";

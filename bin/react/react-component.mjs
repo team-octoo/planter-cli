@@ -1,10 +1,9 @@
-import fs from "fs";
 import path from "path";
 import camelcase from "camelcase";
 import chalk from "chalk";
+import inquirer from "inquirer";
 import {DIRNAME} from "../helpers/globals/globals.js";
 import {files} from "../helpers/files.mjs";
-import inquirer from "inquirer";
 
 export const reactComponents = {
   create: async name => {
