@@ -5,7 +5,7 @@ import {files} from "../files.mjs";
 import {DIRNAME} from "../globals/globals.js";
 
 function replaceIndexContent(filePath) {
-  const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+  const settings = files.readSettingsJson();
 
   const buffer = fs.readFileSync(filePath);
   let fileContent = buffer.toString();
@@ -46,7 +46,7 @@ function copyFile(filename, destPath, subdir = false) {
 }
 
 function copyFiles() {
-  const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+  const settings = files.readSettingsJson();
 
   copyFile("i18next-parser.config.js", path.join(process.cwd()));
   if (settings.library === "react-native") {
@@ -62,7 +62,7 @@ export const i18n = {
   // setup steps for package
   setup: () => {
     return new Promise((resolve, reject) => {
-      const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+      const settings = files.readSettingsJson();
       copyFiles();
 
       let indexFilename = `index.${settings.hasTs ? "tsx" : "js"}`;

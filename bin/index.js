@@ -17,10 +17,11 @@ import {reactComponents} from "./react/react-component.mjs";
 import reducer from "./react/reducer.mjs";
 import mock from "./react/mock.mjs";
 import {reactNativeComponents} from "./reactnative/react-native-component.mjs";
-
 import {DIRNAME} from "./helpers/globals/globals.js";
+import {files} from "./helpers/files.mjs";
 import store from "./react/store.mjs";
 import {setup as cicdSetup} from "./reactnative/setupCICD.mjs";
+
 const packageJson = JSON.parse(fs.readFileSync(path.join(DIRNAME, "..", "..", "..", "package.json")));
 const program = new Command();
 
@@ -60,7 +61,7 @@ program
   .description("Makes a React context file")
   .argument("<string>", "name of the context element")
   .action(elementName => {
-    const localsettings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+    const localsettings = files.readSettingsJson();
     if (localsettings.library === "react") {
       context.createContext(elementName);
     } else if (localsettings.library === "react-native") {
@@ -73,7 +74,7 @@ program
   .description("Makes a custom React hook")
   .argument("<string>", "name of the hook element")
   .action(elementName => {
-    const localsettings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+    const localsettings = files.readSettingsJson();
 
     if (localsettings.library === "react") {
       hook.createHook(elementName);
@@ -87,7 +88,7 @@ program
   .description("Makes a data file for exporting a value constant")
   .argument("<string>", "name")
   .action((name, options) => {
-    const localsettings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+    const localsettings = files.readSettingsJson();
 
     if (localsettings.library === "react") {
       reactData.create(name);
@@ -101,7 +102,7 @@ program
   .description("Makes a function file to export a shared function")
   .argument("<string>", "name")
   .action((name, options) => {
-    const localsettings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+    const localsettings = files.readSettingsJson();
 
     if (localsettings.library === "react") {
       reactFuncs.create(name);
@@ -113,9 +114,9 @@ program
 program
   .command("plant:component")
   .description("Makes a component according to the chosen structure")
-  .argument("<string>", "name")
+  .argument("<name>", "Name of the component you wish to plant")
   .action(name => {
-    const localsettings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+    const localsettings = files.readSettingsJson();
     if (localsettings.library === "react") {
       reactComponents.create(name);
     } else if (localsettings.library === "react-native") {
@@ -128,7 +129,7 @@ program
   .description("Makes a reducer and action (Redux only)")
   .argument("<string>", "name")
   .action((name, options) => {
-    const localsettings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+    const localsettings = files.readSettingsJson();
 
     if (localsettings.library === "react") {
       reducer.create(name);
@@ -142,7 +143,7 @@ program
   .description("Makes a store (Zustand only)")
   .argument("<string>", "name")
   .action((name, options) => {
-    const localsettings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+    const localsettings = files.readSettingsJson();
 
     if (localsettings.library === "react" || localsettings.library === "react-native") {
       store.create(name);
@@ -156,7 +157,7 @@ program
   .description("Makes a mock service worker file")
   .argument("<string>", "name")
   .action((name, options) => {
-    const localsettings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+    const localsettings = files.readSettingsJson();
 
     if (localsettings.library === "react") {
       mock.create(name);
@@ -172,7 +173,7 @@ program
     new Argument("<git provider>", "Git provider").choices(["gitlab", "github", "azure_devops", "bitbucket"])
   )
   .action((provider, options) => {
-    const localsettings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+    const localsettings = files.readSettingsJson();
 
     if (localsettings.library === "react") {
       console.log(chalk.red("CI/CD creation cannot be used in react at this time..."));

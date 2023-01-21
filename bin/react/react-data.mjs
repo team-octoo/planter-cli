@@ -1,8 +1,7 @@
-import fs from "fs";
 import path from "path";
+import chalk from "chalk";
 import {DIRNAME} from "../helpers/globals/globals.js";
 import {files} from "../helpers/files.mjs";
-import chalk from "chalk";
 
 export const reactData = {
   create: name => {
@@ -12,7 +11,7 @@ export const reactData = {
 };
 
 function createDataFolder(name) {
-  const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+  const settings = files.readSettingsJson();
   let createdPath = files.copyFolder(
     path.resolve(getSourcePath(), "data", "example.ts"),
     path.join(getDestPath(), "data", `${name}.${settings.hasTs ? "ts" : "js"}`)

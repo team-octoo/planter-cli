@@ -1,10 +1,9 @@
-import fs from "fs";
 import path from "path";
 import camelcase from "camelcase";
 import chalk from "chalk";
+import inquirer from "inquirer";
 import {DIRNAME} from "../helpers/globals/globals.js";
 import {files} from "../helpers/files.mjs";
-import inquirer from "inquirer";
 
 export const reactComponents = {
   create: async name => {
@@ -40,7 +39,7 @@ export const reactComponents = {
 };
 
 async function createLayout(folder, name) {
-  const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+  const settings = files.readSettingsJson();
   if (settings.layout.trim().toLowerCase() === "css") {
     await files.fileExistsOrCreate(path.join(getDestPath(), folder, `${name}.css`));
   } else if (settings.layout.trim().toLowerCase() === "sass") {
@@ -53,7 +52,7 @@ async function createLayout(folder, name) {
 }
 
 function createTests(folder, name) {
-  const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+  const settings = files.readSettingsJson();
   let createdPath = undefined;
   if (settings.hasTs) {
     createdPath = files.copyFolder(
@@ -70,7 +69,7 @@ function createTests(folder, name) {
 }
 
 function createComponent(folder, name) {
-  const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+  const settings = files.readSettingsJson();
   let createdPath = undefined;
   if (settings.hasTs) {
     createdPath = files.copyFolder(
@@ -95,7 +94,7 @@ function createComponent(folder, name) {
 }
 
 function getFolders() {
-  const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+  const settings = files.readSettingsJson();
   let folders = [];
 
   folders = getChildFolders(settings.components);

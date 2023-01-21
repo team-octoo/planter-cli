@@ -1,12 +1,10 @@
 import chalk from "chalk";
 import fs from "fs";
 import {files} from "../files.mjs";
-import {fileURLToPath} from "url";
-import path, {dirname} from "path";
+import path from "path";
 import {detect} from "../detect.mjs";
+import {DIRNAME} from "../globals/globals.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 function replaceInFiles(filePath, searchValue, replaceValue) {
   const buffer = fs.readFileSync(filePath);
   let fileContent = buffer.toString();
@@ -15,6 +13,7 @@ function replaceInFiles(filePath, searchValue, replaceValue) {
   fs.writeFileSync(filePath, fileContent);
   return true;
 }
+
 export const redux = {
   setupPackage: () => {
     return new Promise(async (resolve, reject) => {
@@ -37,7 +36,7 @@ export const redux = {
   },
 
   copyFiles: () => {
-    const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+    const settings = files.readSettingsJson();
     console.log("Creating redux files...");
 
     if (
@@ -46,7 +45,7 @@ export const redux = {
     ) {
       fs.copyFileSync(
         path.resolve(
-          __dirname,
+          DIRNAME,
           "..",
           "..",
           settings.library === "react" ? "react" : "reactnative",
@@ -72,7 +71,7 @@ export const redux = {
     ) {
       fs.copyFileSync(
         path.resolve(
-          __dirname,
+          DIRNAME,
           "..",
           "..",
           settings.library === "react" ? "react" : "reactnative",
@@ -98,7 +97,7 @@ export const redux = {
     ) {
       fs.copyFileSync(
         path.resolve(
-          __dirname,
+          DIRNAME,
           "..",
           "..",
           settings.library === "react" ? "react" : "reactnative",

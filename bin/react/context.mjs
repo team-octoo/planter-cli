@@ -14,7 +14,7 @@ const context = {
 };
 
 function copyDataFolder(name) {
-  const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+  const settings = files.readSettingsJson();
   const filename = `${camelcase(name, {pascalCase: true})}Context.${settings.hasTs ? "ts" : "js"}`;
   const pathName = path.join(process.cwd(), "src", "state", "contexts");
   const fullPath = `${pathName}/${filename}`;

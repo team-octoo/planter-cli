@@ -1,7 +1,6 @@
 import chalk from "chalk";
 import inquirer from "inquirer";
 import {install} from "../helpers/install.mjs";
-import fs from "fs";
 import os from "os";
 import path from "path";
 import {execSync} from "child_process";
@@ -108,7 +107,7 @@ function askLocalCommitChecks() {
       },
     ])
     .then(result => {
-      const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+      const settings = files.readSettingsJson();
       if (result.Husky) {
         let devpackages = ["husky"];
         if (settings.installer === "npm") {
@@ -204,7 +203,7 @@ function askTestTreshold() {
 
   execSync('npm pkg set scripts.test="jest --ci --reporters=default --reporters=jest-junit"');
 
-  const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+  const settings = files.readSettingsJson();
 
   let devpackages = ["jest-junit"];
   if (settings.installer === "npm") {

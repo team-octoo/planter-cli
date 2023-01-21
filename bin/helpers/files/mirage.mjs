@@ -1,12 +1,9 @@
 import chalk from "chalk";
 import fs from "fs";
 import os from "os";
-import path, {dirname} from "path";
-import {fileURLToPath} from "url";
+import path from "path";
 import {files} from "../files.mjs";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import {DIRNAME} from "../globals/globals.js";
 
 function replacePackageContent(filePath) {
   const buffer = fs.readFileSync(filePath);
@@ -40,25 +37,24 @@ export const mirage = {
   },
 
   copyFiles: () => {
-    const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
     console.log("Creating MirageJS files...");
     if (!files.fileExists(path.join(process.cwd(), "src", "mocks", "server.js"))) {
       fs.copyFileSync(
-        path.resolve(__dirname, "..", "..", "reactnative", "examples", "mirage", "mocks", "server.js"),
+        path.resolve(DIRNAME, "..", "..", "reactnative", "examples", "mirage", "mocks", "server.js"),
         path.join(process.cwd(), "src", "mocks", "server.js")
       );
     }
 
     if (!files.fileExists(path.join(process.cwd(), "jest.config.js"))) {
       fs.copyFileSync(
-        path.resolve(__dirname, "..", "..", "reactnative", "examples", "mirage", "jest.config.js"),
+        path.resolve(DIRNAME, "..", "..", "reactnative", "examples", "mirage", "jest.config.js"),
         path.join(process.cwd(), "jest.config.js")
       );
     }
 
     if (!files.fileExists(path.join(process.cwd(), "jest.setup.js"))) {
       fs.copyFileSync(
-        path.resolve(__dirname, "..", "..", "reactnative", "examples", "mirage", "jest.setup.js"),
+        path.resolve(DIRNAME, "..", "..", "reactnative", "examples", "mirage", "jest.setup.js"),
         path.join(process.cwd(), "jest.setup.js")
       );
     }

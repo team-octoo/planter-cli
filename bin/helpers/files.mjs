@@ -2,10 +2,16 @@ import fs from "fs";
 import path from "path";
 
 export const files = {
-  readPackageJson: () => {
-    const buffer = fs.readFileSync(path.join(process.cwd(), "package.json"));
+  readFileSync: filePath => {
+    const buffer = fs.readFileSync(path.join(process.cwd(), filePath));
     const fileJson = JSON.parse(buffer.toString());
     return fileJson;
+  },
+  readPackageJson: () => {
+    return files.readFileSync("package.json");
+  },
+  readSettingsJson: () => {
+    return files.readFileSync("planter.config.json");
   },
   getCurrentDirectoryBase: () => {
     return path.basename(process.cwd());

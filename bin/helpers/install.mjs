@@ -2,16 +2,13 @@ import fs from "fs";
 import {execSync} from "child_process";
 import {packageMap} from "../utils/package-map.mjs";
 import chalk from "chalk";
-import {fileURLToPath} from "url";
-import path, {dirname} from "path";
+import path from "path";
 import {msw} from "./files/msw.mjs";
 import {i18n} from "./files/i18n.mjs";
 import {redux} from "./files/redux.mjs";
 import {postinstall} from "./files/postinstall.js";
 import {mirage} from "./files/mirage.mjs";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import {files} from "./files.mjs";
 
 export const install = {
   full: () => {
@@ -45,7 +42,7 @@ export const install = {
   copyStarterFiles: () => {
     return new Promise((resolve, reject) => {
       try {
-        const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+        const settings = files.readSettingsJson();
         console.log("Creating start files...");
         if (settings.packages.indexOf("Mock-service-worker") !== -1) {
           msw.copyFiles();
@@ -67,7 +64,7 @@ export const install = {
   createFolderStructures: () => {
     return new Promise((resolve, reject) => {
       try {
-        const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+        const settings = files.readSettingsJson();
         console.log("Creating folders...");
         let folders = [];
         if (settings.hasTs) {
@@ -129,7 +126,7 @@ export const install = {
   installPackages: () => {
     return new Promise((resolve, reject) => {
       try {
-        const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+        const settings = files.readSettingsJson();
         console.log("Sit back and relax. Or get a coffee!!");
         console.log("Installing packages...");
         let packages = [];
@@ -217,7 +214,7 @@ export const install = {
 
   setupPackages: () => {
     return new Promise(async (resolve, reject) => {
-      const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+      const settings = files.readSettingsJson();
       try {
         if (settings.packages.indexOf("Mock-service-worker") !== -1) {
           console.log(await install.setupMSWPackage());

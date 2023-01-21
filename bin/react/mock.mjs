@@ -1,9 +1,9 @@
-import {files} from "../helpers/files.mjs";
-import camelcase from "camelcase";
 import path from "path";
 import fs from "fs";
-import {DIRNAME} from "../helpers/globals/globals.js";
+import camelcase from "camelcase";
 import chalk from "chalk";
+import {files} from "../helpers/files.mjs";
+import {DIRNAME} from "../helpers/globals/globals.js";
 import {detect} from "../helpers/detect.mjs";
 
 const mock = {
@@ -22,7 +22,7 @@ const mock = {
 };
 
 function copyDataFolder(name) {
-  const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+  const settings = files.readSettingsJson();
 
   const mockFile = `${name}.${settings.hasTs ? "ts" : "js"}`;
 
