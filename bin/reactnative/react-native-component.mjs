@@ -8,7 +8,7 @@ import inquirer from "inquirer";
 export const reactNativeComponents = {
   create: async name => {
     const pascalCase = camelcase(name, {pascalCase: true});
-    const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+    const settings = files.readSettingsJson();
     let casedName = camelcase(name, {pascalCase: true});
     if (settings.folderCasing === "lowercase") {
       casedName = name.toLowerCase();
