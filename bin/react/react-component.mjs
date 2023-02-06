@@ -7,7 +7,9 @@ import {files} from "../helpers/files.mjs";
 
 export const reactComponents = {
   create: async name => {
-    const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+    // const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
+    const settings = files.readSettingsJson();
+
     const pascalCase = camelcase(name, {pascalCase: true});
     let casedName = camelcase(name, {pascalCase: true});
     if (settings.folderCasing === "lowercase") {
