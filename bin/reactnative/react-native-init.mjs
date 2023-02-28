@@ -15,7 +15,11 @@ import {fonts} from "./fonts.mjs";
 export const reactNativeInit = {
   initialise: () => {
     return detect
-      .installer()
+      .typescript()
+      .then(hasTs => {
+        settings.hasTs = hasTs;
+        return detect.installer();
+      })
       .then(installer => {
         settings.installer = installer;
         return inquirer.prompt([
