@@ -21,6 +21,7 @@ import {DIRNAME} from "./helpers/globals/globals.js";
 import {files} from "./helpers/files.mjs";
 import store from "./react/store.mjs";
 import {setup as cicdSetup} from "./reactnative/setupCICD.mjs";
+import {form} from "./reactnative/react-native-form.mjs";
 
 const packageJson = JSON.parse(fs.readFileSync(path.join(DIRNAME, "..", "..", "..", "package.json")));
 const program = new Command();
@@ -193,6 +194,19 @@ program
           break;
       }
     }
+  });
+
+program
+  .command("plant:form")
+  .description("Sets up a new form using React Hook Form")
+  .argument("<string>", "name")
+  .action((name, options) => {
+    const localsettings = files.readSettingsJson();
+    if (localsettings.library !== "react-native") {
+      console.log(chalk.red(`forms cannot be used in ${localsettings.library} at this time.`));
+      return;
+    }
+    form.create(name).finally(() => console.log("done"));
   });
 
 program.parse(process.argv);

@@ -15,7 +15,11 @@ import {fonts} from "./fonts.mjs";
 export const reactNativeInit = {
   initialise: () => {
     return detect
-      .installer()
+      .typescript()
+      .then(hasTs => {
+        settings.hasTs = hasTs;
+        return detect.installer();
+      })
       .then(installer => {
         settings.installer = installer;
         return inquirer.prompt([
@@ -69,7 +73,7 @@ export const reactNativeInit = {
             type: "checkbox",
             name: "packages",
             message: "Choose which tech/packages you'd like to use in this project:",
-            choices: ["Redux", "Zustand", "i18next", "Patch-Package", "Appcenter", "MirageJS"],
+            choices: ["Redux", "Zustand", "i18next", "Patch-Package", "Appcenter", "MirageJS", "React Hook Forms"],
           },
         ]);
       })

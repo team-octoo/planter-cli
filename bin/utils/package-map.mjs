@@ -212,4 +212,17 @@ export const packageMap = {
     docs: "https://www.npmjs.com/package/patch-package",
     description: "patch-package lets app authors instantly make and keep fixes to npm dependencies.",
   },
+
+  "React Hook Forms": {
+    "no-dev": {
+      ts: {
+        packages: ["@hookform/resolvers", "yup", "react-hook-form"],
+      },
+      "no-ts": {
+        packages: ["@hookform/resolvers", "yup", "react-hook-form"],
+      },
+    },
+    docs: "https://react-hook-form.com/get-started",
+    description: "Performant, flexible and extensible forms with easy-to-use validation.",
+  },
 };
