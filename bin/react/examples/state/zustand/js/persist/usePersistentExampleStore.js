@@ -1,5 +1,5 @@
-import create from "zustand";
-import {persist} from "zustand/middleware";
+import {create} from "zustand";
+import {createJSONStorage, persist} from "zustand/middleware";
 
 export const usePersistentExampleStore = create(
   persist(
@@ -10,7 +10,7 @@ export const usePersistentExampleStore = create(
     }),
     {
       name: "exampleStore", // unique name
-      getStorage: () => window.localStorage, // (optional) by default, 'localStorage' is used
+      storage: createJSONStorage(() => window.localStorage), // (optional) by default, 'localStorage' is used
     }
   )
 );
