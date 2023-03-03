@@ -66,7 +66,7 @@ export const packageMap = {
       "Global predictable state management library. Redux-persist, -thunk, -logger and Immer are also installed.",
   },
   "Mock-service-worker": {
-    "no-dev": {
+    dev: {
       ts: {
         packages: ["msw"],
       },
