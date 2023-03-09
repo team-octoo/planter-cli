@@ -1,12 +1,12 @@
 import {create} from "zustand";
 import {createJSONStorage, persist} from "zustand/middleware";
 
-interface UsePersistentExampleStore {
+interface UsePersistentExampleStoreInterface {
   name: string;
 }
 
 export const usePersistentExampleStore = create(
-  persist<UsePersistentExampleStore>(
+  persist<UsePersistentExampleStoreInterface>(
     set => ({
       name: "",
       setName: (newName: string) => set(state => ({name: newName})),

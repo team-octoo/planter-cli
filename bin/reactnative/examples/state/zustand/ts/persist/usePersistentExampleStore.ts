@@ -2,12 +2,12 @@ import create from "zustand";
 import {persist} from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-interface UsePersistentExampleStore {
+interface UsePersistentExampleStoreInterface {
   name: string;
 }
 
 export const usePersistentExampleStore = create(
-  persist<UsePersistentExampleStore>(
+  persist<UsePersistentExampleStoreInterface>(
     set => ({
       name: "",
       setName: newName => set(state => ({name: newName})),
