@@ -3,6 +3,8 @@ import {createJSONStorage, persist} from "zustand/middleware";
 
 interface UsePersistentExampleStoreInterface {
   name: string;
+  setName: Function;
+  resetName: Function;
 }
 
 export const usePersistentExampleStore = create(

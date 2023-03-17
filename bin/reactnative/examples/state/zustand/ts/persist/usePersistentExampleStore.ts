@@ -4,6 +4,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface UsePersistentExampleStoreInterface {
   name: string;
+  setName: Function;
+  resetName: Function;
 }
 
 export const usePersistentExampleStore = create(

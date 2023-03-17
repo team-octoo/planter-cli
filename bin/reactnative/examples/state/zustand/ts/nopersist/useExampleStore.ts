@@ -2,6 +2,8 @@ import create from "zustand";
 
 interface UseExampleStoreInterface {
   name: string;
+  setName: Function;
+  resetName: Function;
 }
 
 export const useExampleStore = create<UseExampleStoreInterface>(set => ({
