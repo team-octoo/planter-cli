@@ -77,7 +77,7 @@ export function createRNForm(folder, name) {
       path.join(getRNDestPath(), folder, `${name}.tsx`)
     );
   } else {
-    if (settings.hasPropTypes) {
+    if (settings.usePropTypes) {
       // if proptypes is used... add prop types
       createdPath = files.copyFolder(
         path.resolve(getRNSourcePath(), "js", "proptypes", "Example.js"),

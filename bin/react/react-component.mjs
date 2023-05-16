@@ -79,7 +79,7 @@ function createComponent(folder, name) {
       path.join(getDestPath(), folder, `${name}.tsx`)
     );
   } else {
-    if (settings.hasPropTypes) {
+    if (settings.usePropTypes) {
       // if proptypes is used... add prop types
       createdPath = files.copyFolder(
         path.resolve(getSourcePath(), "js", "proptypes", "Example.js"),

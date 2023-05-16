@@ -98,17 +98,6 @@ export const reactInit = {
         settings.layout = layout.layout;
         return inquirer.prompt([
           {
-            type: "confirm",
-            name: "proptypes",
-            message: "Will you use prop-types?",
-            default: false,
-          },
-        ]);
-      })
-      .then(usePropTypes => {
-        settings.usePropTypes = usePropTypes.proptypes;
-        return inquirer.prompt([
-          {
             type: "checkbox",
             name: "packages",
             message: "Choose which tech/packages you'd like to use in this project:",
@@ -131,6 +120,10 @@ export const reactInit = {
       })
       .then(packages => {
         settings.packages = packages.packages;
+        // If package prop-types then change config usePropTypes to yes
+        settings.packages.indexOf("Prop-types") !== -1
+          ? (settings.usePropTypes = true)
+          : (settings.usePropTypes = false);
         if (packages.packages.indexOf("Mock-service-worker") !== -1) {
           settings.mswPath = "src/mocks/endpoints";
         }
