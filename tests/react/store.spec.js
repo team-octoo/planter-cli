@@ -1,4 +1,4 @@
-// import { test } from "@japa/runner";
+import {test} from "@japa/runner";
 // import sinon from "sinon";
 // import store from "../../bin/react/store.mjs";
 
@@ -15,3 +15,8 @@
 //     expect(detected).toBeTruthy();
 //   });
 // });
+
+test("get app path", async ({expect}) => {
+  console.log("test");
+  expect(1).toBe(1);
+});
