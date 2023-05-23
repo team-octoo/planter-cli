@@ -74,7 +74,10 @@ export const i18n = {
       if (files.fileExists(indexFilePath)) {
         replaceIndexContent(indexFilePath);
       } else {
-        reject(`Could not find src/${indexFilename} file...`);
+        console.log(chalk.red("********************************************************************"));
+        console.log(chalk.red("Could not find index.tsx file. You will have to set up i18next manually."));
+        console.log(chalk.red("********************************************************************"));
+        resolve(`Could not find src/${indexFilename} file...`);
       }
 
       const packageFilename = "package.json";
@@ -82,7 +85,10 @@ export const i18n = {
       if (files.fileExists(packageFilePath)) {
         replacePackageContent(packageFilePath);
       } else {
-        reject(`Could not find ${packageFilename} file...`);
+        console.log(chalk.red("********************************************************************"));
+        console.log(chalk.red("Could not find package.json file. You will have to set up i18next manually."));
+        console.log(chalk.red("********************************************************************"));
+        resolve(`Could not find ${packageFilename} file...`);
       }
 
       resolve("i18next setup completed");
