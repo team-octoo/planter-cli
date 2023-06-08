@@ -11,6 +11,7 @@ import {mirage} from "./files/mirage.mjs";
 import {files} from "./files.mjs";
 import inquirer from "inquirer";
 import {appcenter} from "./files/appcenter.mjs";
+import {dotenv} from "./files/dotenv.mjs";
 
 export const install = {
   full: () => {
@@ -54,6 +55,9 @@ export const install = {
         }
         if (settings.packages.indexOf("MirageJS") !== -1) {
           mirage.copyFiles();
+        }
+        if (settings.packages.indexOf("React-Native-Dotenv") !== -1) {
+          dotenv.copyFiles();
         }
 
         resolve("Files have been written.");

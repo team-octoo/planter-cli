@@ -73,13 +73,22 @@ export const reactNativeInit = {
             type: "checkbox",
             name: "packages",
             message: "Choose which tech/packages you'd like to use in this project:",
-            choices: ["Redux", "Zustand", "i18next", "Patch-Package", "Appcenter", "MirageJS", "React Hook Forms"],
+            choices: [
+              "Redux",
+              "Zustand",
+              "i18next",
+              "Patch-Package",
+              "Appcenter",
+              "MirageJS",
+              "React Hook Forms",
+              "React-Native-Dotenv",
+            ],
           },
         ]);
       })
       .then(packages => {
         settings.packages = packages.packages;
-        if (packages.packages.indexOf("Appcenter") !== -1) {
+        if (packages.packages.indexOf("Appcenter") !== -1 && packages.packages.indexOf("React-Native-Dotenv") !== -1) {
           return inquirer.prompt([
             {
               type: "confirm",

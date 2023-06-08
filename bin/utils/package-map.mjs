@@ -225,4 +225,16 @@ export const packageMap = {
     docs: "https://react-hook-form.com/get-started",
     description: "Performant, flexible and extensible forms with easy-to-use validation.",
   },
+  "React-Native-Dotenv": {
+    dev: {
+      ts: {
+        packages: ["react-native-dotenv"],
+      },
+      "no-ts": {
+        packages: ["react-native-dotenv"],
+      },
+    },
+    docs: "https://www.npmjs.com/package/react-native-dotenv",
+    description: "Load environment variables using import statements.",
+  },
 };
