@@ -9,6 +9,9 @@ import {redux} from "./files/redux.mjs";
 import {postinstall} from "./files/postinstall.js";
 import {mirage} from "./files/mirage.mjs";
 import {files} from "./files.mjs";
+import inquirer from "inquirer";
+import {appcenter} from "./files/appcenter.mjs";
+import {dotenv} from "./files/dotenv.mjs";
 
 export const install = {
   full: () => {
@@ -43,7 +46,7 @@ export const install = {
     return new Promise((resolve, reject) => {
       try {
         const settings = files.readSettingsJson();
-        console.log("Creating start files...");
+        console.log(chalk.bgYellow("Creating start files..."));
         if (settings.packages.indexOf("Mock-service-worker") !== -1) {
           msw.copyFiles();
         }
@@ -52,6 +55,9 @@ export const install = {
         }
         if (settings.packages.indexOf("MirageJS") !== -1) {
           mirage.copyFiles();
+        }
+        if (settings.packages.indexOf("React-Native-Dotenv") !== -1) {
+          dotenv.copyFiles();
         }
 
         resolve("Files have been written.");
@@ -65,7 +71,7 @@ export const install = {
     return new Promise((resolve, reject) => {
       try {
         const settings = files.readSettingsJson();
-        console.log("Creating folders...");
+        console.log(chalk.bgYellow("Creating folders..."));
         let folders = [];
         if (settings.hasTs) {
           folders.push(path.join(process.cwd(), "src", "types"));
@@ -127,8 +133,8 @@ export const install = {
     return new Promise((resolve, reject) => {
       try {
         const settings = files.readSettingsJson();
-        console.log("Sit back and relax. Or get a coffee!!");
-        console.log("Installing packages...");
+        console.log(chalk.bgMagentaBright("Sit back and relax. Or get a coffee!!"));
+        console.log(chalk.bgYellow("Installing packages..."));
         let packages = [];
         let devpackages = [];
 
@@ -231,6 +237,9 @@ export const install = {
         if (settings.packages.indexOf("MirageJS") !== -1) {
           console.log(await install.setupMiragePackage());
         }
+        if (settings.packages.indexOf("Appcenter") !== -1 && settings.postbuild) {
+          console.log(chalk.green(await install.setupAppCenterPreBuildScript()));
+        }
         resolve("Package setup done");
       } catch (e) {
         reject(e);
@@ -241,7 +250,7 @@ export const install = {
   //msw setup
   setupMSWPackage: () => {
     return new Promise((resolve, reject) => {
-      console.log("Setting up msw...");
+      console.log(chalk.bgYellow("Setting up msw..."));
       msw
         .setupPackage()
         .then(result => {
@@ -284,7 +293,7 @@ export const install = {
   //redux setup
   setupReduxPackage: () => {
     return new Promise((resolve, reject) => {
-      console.log("Setting up redux...");
+      console.log(chalk.bgYellow("Setting up redux..."));
       redux
         .setupPackage()
         .then(result => {
@@ -300,9 +309,24 @@ export const install = {
   //redux setup
   setupPostInstall: () => {
     return new Promise((resolve, reject) => {
-      console.log("Setting up redux...");
+      console.log(chalk.bgYellow("Setting up PostInstall..."));
       postinstall
         .setupPackage()
+        .then(result => {
+          resolve(result);
+        })
+        .catch(err => {
+          console.log(chalk.red(err));
+          reject(err);
+        });
+    });
+  },
+
+  setupAppCenterPreBuildScript: () => {
+    return new Promise((resolve, reject) => {
+      console.log(chalk.bgYellow("Creating `AppCenter-Pre-Build.sh`"));
+      appcenter
+        .setupPreBuildScript()
         .then(result => {
           resolve(result);
         })

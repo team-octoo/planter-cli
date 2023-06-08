@@ -73,12 +73,35 @@ export const reactNativeInit = {
             type: "checkbox",
             name: "packages",
             message: "Choose which tech/packages you'd like to use in this project:",
-            choices: ["Redux", "Zustand", "i18next", "Patch-Package", "Appcenter", "MirageJS", "React Hook Forms"],
+            choices: [
+              "Redux",
+              "Zustand",
+              "i18next",
+              "Patch-Package",
+              "Appcenter",
+              "MirageJS",
+              "React Hook Forms",
+              "React-Native-Dotenv",
+            ],
           },
         ]);
       })
       .then(packages => {
         settings.packages = packages.packages;
+        if (packages.packages.indexOf("Appcenter") !== -1 && packages.packages.indexOf("React-Native-Dotenv") !== -1) {
+          return inquirer.prompt([
+            {
+              type: "confirm",
+              name: "postbuild",
+              message: "Do you want to add a `appcenter-pre-build` script to the app?",
+              default: true,
+            },
+          ]);
+        }
+        return Promise.resolve({postbuild: false});
+      })
+      .then(postBuildScript => {
+        settings.postbuild = postBuildScript.postbuild;
         return detect.packageName();
       })
       .then(pName => {
@@ -105,19 +128,20 @@ export const reactNativeInit = {
       .then(() => {
         return install.full();
       })
-      .then(() => {
+      .then(result => {
+        if (result) console.log(chalk.green(result));
         return docs.writeDocs(true);
       })
       .then(result => {
-        console.log(chalk.green(result));
+        if (result) console.log(chalk.green(result));
         return cocoapods.install();
       })
       .then(result => {
-        console.log(chalk.green(result));
+        if (result) console.log(chalk.green(result));
         return fonts.install();
       })
       .catch(err => {
-        console.log(chalk.red(err));
+        if (err) console.log(chalk.red(err));
       });
   },
 };
