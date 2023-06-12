@@ -1,4 +1,5 @@
 let settings = {
+  version: 1,
   name: "name",
   library: "react",
   installer: "npm",

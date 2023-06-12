@@ -65,4 +65,12 @@ export const files = {
       resolve();
     });
   },
+  overwriteFileSync: (filePath, content) => {
+    const folderPath = path.dirname(filePath);
+    fs.mkdirSync(folderPath, {recursive: true}, err => {
+      if (err) return false;
+    });
+    fs.writeFileSync(filePath, content);
+    return true;
+  },
 };
