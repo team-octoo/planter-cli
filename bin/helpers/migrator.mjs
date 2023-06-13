@@ -1,6 +1,12 @@
 import {files} from "./files.mjs";
 import path from "path";
 
+/**
+ *
+ * SUPER IMPORTANT WHEN CREATING A NEW VERSION
+ * Change the settings.mjs file in the utils folder to reflect the new version you created
+ *
+ */
 const migrate = from => {
   return new Promise((resolve, reject) => {
     const currentVersion = 1;
