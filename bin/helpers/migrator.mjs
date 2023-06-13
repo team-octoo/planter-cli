@@ -1,3 +1,4 @@
+import settings from "../utils/settings.mjs";
 import {files} from "./files.mjs";
 import path from "path";
 
@@ -9,10 +10,11 @@ import path from "path";
  */
 const migrate = from => {
   return new Promise((resolve, reject) => {
-    const currentVersion = 1;
+    const currentVersion = settings.version;
     let configVersion = from;
     let config = {...files.readSettingsJson()};
     for (let i = configVersion; i <= currentVersion; i++) {
+      /** VERSION 0 --> 1 */
       if (i === 0) {
         config.version = 1;
         const fileWritten = files.overwriteFileSync(
@@ -23,6 +25,8 @@ const migrate = from => {
           reject("Could not write planter config file.");
         }
       }
+
+      /** RESOLVING VERSION */
       if (i === currentVersion) {
         resolve();
       }
