@@ -12,7 +12,7 @@ const migrate = from => {
   return new Promise((resolve, reject) => {
     const currentVersion = settings.version;
     let configVersion = from;
-    let config = {...files.readSettingsJson()};
+    let config = files.readSettingsJson();
     for (let i = configVersion; i <= currentVersion; i++) {
       /** VERSION 0 --> 1 */
       if (i === 0) {
