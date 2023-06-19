@@ -22,6 +22,7 @@ import {files} from "./helpers/files.mjs";
 import store from "./react/store.mjs";
 import {setup as cicdSetup} from "./reactnative/setupCICD.mjs";
 import {form} from "./reactnative/react-native-form.mjs";
+import {migrator} from "./helpers/migrator.mjs";
 
 const packageJson = JSON.parse(fs.readFileSync(path.join(DIRNAME, "..", "..", "..", "package.json")));
 const program = new Command();
@@ -62,12 +63,14 @@ program
   .description("Makes a React context file")
   .argument("<string>", "name of the context element")
   .action(elementName => {
-    const localsettings = files.readSettingsJson();
-    if (localsettings.library === "react") {
-      context.createContext(elementName);
-    } else if (localsettings.library === "react-native") {
-      context.createContext(elementName);
-    }
+    migrator.check().then(() => {
+      const localsettings = files.readSettingsJson();
+      if (localsettings.library === "react") {
+        context.createContext(elementName);
+      } else if (localsettings.library === "react-native") {
+        context.createContext(elementName);
+      }
+    });
   });
 
 program
@@ -75,13 +78,14 @@ program
   .description("Makes a custom React hook")
   .argument("<string>", "name of the hook element")
   .action(elementName => {
-    const localsettings = files.readSettingsJson();
-
-    if (localsettings.library === "react") {
-      hook.createHook(elementName);
-    } else if (localsettings.library === "react-native") {
-      hook.createHook(elementName);
-    }
+    migrator.check().then(() => {
+      const localsettings = files.readSettingsJson();
+      if (localsettings.library === "react") {
+        hook.createHook(elementName);
+      } else if (localsettings.library === "react-native") {
+        hook.createHook(elementName);
+      }
+    });
   });
 
 program
@@ -89,13 +93,14 @@ program
   .description("Makes a data file for exporting a value constant")
   .argument("<string>", "name")
   .action((name, options) => {
-    const localsettings = files.readSettingsJson();
-
-    if (localsettings.library === "react") {
-      reactData.create(name);
-    } else if (localsettings.library === "react-native") {
-      reactData.create(name);
-    }
+    migrator.check().then(() => {
+      const localsettings = files.readSettingsJson();
+      if (localsettings.library === "react") {
+        reactData.create(name);
+      } else if (localsettings.library === "react-native") {
+        reactData.create(name);
+      }
+    });
   });
 
 program
@@ -103,13 +108,14 @@ program
   .description("Makes a function file to export a shared function")
   .argument("<string>", "name")
   .action((name, options) => {
-    const localsettings = files.readSettingsJson();
-
-    if (localsettings.library === "react") {
-      reactFuncs.create(name);
-    } else if (localsettings.library === "react-native") {
-      reactFuncs.create(name);
-    }
+    migrator.check().then(() => {
+      const localsettings = files.readSettingsJson();
+      if (localsettings.library === "react") {
+        reactFuncs.create(name);
+      } else if (localsettings.library === "react-native") {
+        reactFuncs.create(name);
+      }
+    });
   });
 
 program
@@ -117,12 +123,14 @@ program
   .description("Makes a component according to the chosen structure")
   .argument("<name>", "Name of the component you wish to plant")
   .action(name => {
-    const localsettings = files.readSettingsJson();
-    if (localsettings.library === "react") {
-      reactComponents.create(name);
-    } else if (localsettings.library === "react-native") {
-      reactNativeComponents.create(name);
-    }
+    migrator.check().then(() => {
+      const localsettings = files.readSettingsJson();
+      if (localsettings.library === "react") {
+        reactComponents.create(name);
+      } else if (localsettings.library === "react-native") {
+        reactNativeComponents.create(name);
+      }
+    });
   });
 
 program
@@ -130,13 +138,14 @@ program
   .description("Makes a reducer and action (Redux only)")
   .argument("<string>", "name")
   .action((name, options) => {
-    const localsettings = files.readSettingsJson();
-
-    if (localsettings.library === "react") {
-      reducer.create(name);
-    } else if (localsettings.library === "react-native") {
-      reducer.create(name);
-    }
+    migrator.check().then(() => {
+      const localsettings = files.readSettingsJson();
+      if (localsettings.library === "react") {
+        reducer.create(name);
+      } else if (localsettings.library === "react-native") {
+        reducer.create(name);
+      }
+    });
   });
 
 program
@@ -144,13 +153,14 @@ program
   .description("Makes a store (Zustand only)")
   .argument("<string>", "name")
   .action((name, options) => {
-    const localsettings = files.readSettingsJson();
-
-    if (localsettings.library === "react" || localsettings.library === "react-native") {
-      store.create(name);
-    } else {
-      console.log(chalk.red("React or React-Native is required for this command."));
-    }
+    migrator.check().then(() => {
+      const localsettings = files.readSettingsJson();
+      if (localsettings.library === "react" || localsettings.library === "react-native") {
+        store.create(name);
+      } else {
+        console.log(chalk.red("React or React-Native is required for this command."));
+      }
+    });
   });
 
 program
@@ -158,13 +168,14 @@ program
   .description("Makes a mock service worker file")
   .argument("<string>", "name")
   .action((name, options) => {
-    const localsettings = files.readSettingsJson();
-
-    if (localsettings.library === "react") {
-      mock.create(name);
-    } else if (localsettings.library === "react-native") {
-      console.log(chalk.red("Mock service worker cannot be used in react-native at this time..."));
-    }
+    migrator.check().then(() => {
+      const localsettings = files.readSettingsJson();
+      if (localsettings.library === "react") {
+        mock.create(name);
+      } else if (localsettings.library === "react-native") {
+        console.log(chalk.red("Mock service worker cannot be used in react-native at this time..."));
+      }
+    });
   });
 
 program
@@ -174,26 +185,27 @@ program
     new Argument("<git provider>", "Git provider").choices(["gitlab", "github", "azure_devops", "bitbucket"])
   )
   .action((provider, options) => {
-    const localsettings = files.readSettingsJson();
-
-    if (localsettings.library === "react") {
-      console.log(chalk.red("CI/CD creation cannot be used in react at this time..."));
-    } else if (localsettings.library === "react-native") {
-      switch (provider) {
-        case "gitlab":
-          cicdSetup.gitlab();
-          break;
-        case "github":
-          cicdSetup.github();
-          break;
-        case "bitbucket":
-          cicdSetup.bitbucket();
-          break;
-        default:
-          console.log(chalk.red("only 'gitlab', 'github' & 'bitbucket' can be used at this time..."));
-          break;
+    migrator.check().then(() => {
+      const localsettings = files.readSettingsJson();
+      if (localsettings.library === "react") {
+        console.log(chalk.red("CI/CD creation cannot be used in react at this time..."));
+      } else if (localsettings.library === "react-native") {
+        switch (provider) {
+          case "gitlab":
+            cicdSetup.gitlab();
+            break;
+          case "github":
+            cicdSetup.github();
+            break;
+          case "bitbucket":
+            cicdSetup.bitbucket();
+            break;
+          default:
+            console.log(chalk.red("only 'gitlab', 'github' & 'bitbucket' can be used at this time..."));
+            break;
+        }
       }
-    }
+    });
   });
 
 program
@@ -201,12 +213,14 @@ program
   .description("Sets up a new form using React Hook Form")
   .argument("<string>", "name")
   .action((name, options) => {
-    const localsettings = files.readSettingsJson();
-    if (localsettings.library !== "react-native") {
-      console.log(chalk.red(`forms cannot be used in ${localsettings.library} at this time.`));
-      return;
-    }
-    form.create(name).finally(() => console.log("done"));
+    migrator.check().then(() => {
+      const localsettings = files.readSettingsJson();
+      if (localsettings.library !== "react-native") {
+        console.log(chalk.red(`forms cannot be used in ${localsettings.library} at this time.`));
+        return;
+      }
+      form.create(name).finally(() => console.log("done"));
+    });
   });
 
 program.parse(process.argv);
