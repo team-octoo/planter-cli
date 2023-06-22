@@ -60,6 +60,12 @@ export const install = {
         if (settings.packages.indexOf("React-Native-Dotenv") !== -1) {
           dotenv.copyFiles();
         }
+        if (settings.packages.includes("Navigation-native-stack")) {
+          reactNavigation.copyNativeStackFiles();
+        }
+        if (settings.packages.includes("Navigation-tab")) {
+          reactNavigation.copyTabFiles();
+        }
 
         resolve("Files have been written.");
       } catch (err) {
@@ -95,6 +101,7 @@ export const install = {
         if (settings.packages.indexOf("MirageJS") !== -1) {
           folders.push(path.join(process.cwd(), "src", "mocks"));
         }
+
         folders.push(path.join(process.cwd(), "src", "assets", "images"));
         folders.push(path.join(process.cwd(), "src", "assets", "fonts"));
         folders.push(path.join(process.cwd(), "src", "assets", "misc"));

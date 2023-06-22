@@ -113,14 +113,22 @@ export const reactNativeInit = {
               {name: "None (don't install react-navigation)", value: "none"},
               {name: "Stack navigation", value: "stack"},
               {name: "Tab navigation", value: "tab"},
-              {name: "Drawer navigation", value: "drawer"},
             ],
           },
         ]);
       })
       .then(navigation => {
         if (navigation.navigation === "none") return detect.packageName();
+        settings.components.navigation = "folder";
         settings.packages.push("React-Navigation");
+        switch (navigation.navigation) {
+          case "stack":
+            settings.packages.push("Navigation-native-stack");
+            break;
+          case "tab":
+            settings.packages.push("Navigation-tabs");
+            break;
+        }
         return detect.packageName();
       })
       .then(pName => {

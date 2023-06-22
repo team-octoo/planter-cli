@@ -67,4 +67,63 @@ export const reactNavigation = {
       resolve("React Navigation setup completed");
     });
   },
+
+  copyNativeStackFiles: () => {
+    const settings = files.readSettingsJson();
+    console.log("Creating Native Stack MainNavigation...");
+
+    if (
+      !files.fileExists(path.join(process.cwd(), "src", "components", "navigation", "MainNavigation.js")) &&
+      !files.fileExists(path.join(process.cwd(), "src", "components", "navigation", "MainNavigation.tsx"))
+    ) {
+      fs.copyFileSync(
+        path.resolve(
+          DIRNAME,
+          "..",
+          "..",
+          "reactnative",
+          "examples",
+          "navigation",
+          settings.hasTs ? "ts" : "js",
+          settings.hasTs ? "native-stack.tsx" : "native-stack.js"
+        ),
+        path.join(
+          process.cwd(),
+          "src",
+          "components",
+          "navigation",
+          settings.hasTs ? "MainNavigation.tsx" : "MainNavigation.js"
+        )
+      );
+    }
+  },
+  copyTabFiles: () => {
+    const settings = files.readSettingsJson();
+    console.log("Creating Native Stack MainNavigation...");
+
+    if (
+      !files.fileExists(path.join(process.cwd(), "src", "components", "navigation", "MainNavigation.js")) &&
+      !files.fileExists(path.join(process.cwd(), "src", "components", "navigation", "MainNavigation.tsx"))
+    ) {
+      fs.copyFileSync(
+        path.resolve(
+          DIRNAME,
+          "..",
+          "..",
+          "reactnative",
+          "examples",
+          "navigation",
+          settings.hasTs ? "ts" : "js",
+          settings.hasTs ? "tab.tsx" : "tab.js"
+        ),
+        path.join(
+          process.cwd(),
+          "src",
+          "components",
+          "navigation",
+          settings.hasTs ? "MainNavigation.tsx" : "MainNavigation.js"
+        )
+      );
+    }
+  },
 };

@@ -249,4 +249,28 @@ export const packageMap = {
     docs: "https://reactnavigation.org/docs/getting-started/",
     description: "Routing and navigation for Expo and React Native apps.",
   },
+  "Navigation-native-stack": {
+    "no-dev": {
+      ts: {
+        packages: ["@react-navigation/native-stack"],
+      },
+      "no-ts": {
+        packages: ["@react-navigation/native-stack"],
+      },
+    },
+    docs: "https://reactnavigation.org/docs/getting-started/",
+    description: "Routing and navigation for Expo and React Native apps.",
+  },
+  "Navigation-tabs": {
+    "no-dev": {
+      ts: {
+        packages: ["@react-navigation/bottom-tabs"],
+      },
+      "no-ts": {
+        packages: ["@react-navigation/bottom-tabs"],
+      },
+    },
+    docs: "https://reactnavigation.org/docs/getting-started/",
+    description: "Routing and navigation for Expo and React Native apps.",
+  },
 };
