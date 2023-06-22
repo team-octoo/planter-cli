@@ -11,6 +11,7 @@ import inquirer from "inquirer";
 import chalk from "chalk";
 import {docs} from "../helpers/docs.mjs";
 import {fonts} from "./fonts.mjs";
+import {intro} from "../helpers/intro.mjs";
 
 export const reactNativeInit = {
   initialise: () => {
@@ -100,8 +101,26 @@ export const reactNativeInit = {
         }
         return Promise.resolve({postbuild: false});
       })
+
       .then(postBuildScript => {
         settings.postbuild = postBuildScript.postbuild;
+        return inquirer.prompt([
+          {
+            type: "list",
+            name: "navigation",
+            message: "Choose base navigation you want to use in the app:",
+            choices: [
+              {name: "None (don't install react-navigation)", value: "none"},
+              {name: "Stack navigation", value: "stack"},
+              {name: "Tab navigation", value: "tab"},
+              {name: "Drawer navigation", value: "drawer"},
+            ],
+          },
+        ]);
+      })
+      .then(navigation => {
+        if (navigation.navigation === "none") return detect.packageName();
+        settings.packages.push("React-Navigation");
         return detect.packageName();
       })
       .then(pName => {
@@ -139,6 +158,25 @@ export const reactNativeInit = {
       .then(result => {
         if (result) console.log(chalk.green(result));
         return fonts.install();
+      })
+      .then(result => {
+        if (result) console.log(chalk.green(result));
+        console.log("");
+        console.log("");
+        return intro.play(false);
+      })
+      .then(() => {
+        console.log("✨  Planter successfuly finished!  ✨");
+        console.log("");
+        console.log("");
+        if (settings.packages.includes("React-Navigation")) {
+          console.log(
+            chalk.magentaBright("Don't forget to wrap your app with the Navigation Container:"),
+            "https://reactnavigation.org/docs/getting-started/#wrapping-your-app-in-navigationcontainer"
+          );
+          console.log("");
+          console.log("");
+        }
       })
       .catch(err => {
         if (err) console.log(chalk.red(err));

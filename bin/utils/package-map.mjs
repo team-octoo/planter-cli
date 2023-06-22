@@ -237,4 +237,16 @@ export const packageMap = {
     docs: "https://www.npmjs.com/package/react-native-dotenv",
     description: "Load environment variables using import statements.",
   },
+  "React-Navigation": {
+    "no-dev": {
+      ts: {
+        packages: ["@react-navigation/native", "react-native-screens", "react-native-safe-area-context"],
+      },
+      "no-ts": {
+        packages: ["@react-navigation/native", "react-native-screens", "react-native-safe-area-context"],
+      },
+    },
+    docs: "https://reactnavigation.org/docs/getting-started/",
+    description: "Routing and navigation for Expo and React Native apps.",
+  },
 };

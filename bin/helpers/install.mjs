@@ -12,6 +12,7 @@ import {files} from "./files.mjs";
 import inquirer from "inquirer";
 import {appcenter} from "./files/appcenter.mjs";
 import {dotenv} from "./files/dotenv.mjs";
+import {reactNavigation} from "./files/reactNavigation.mjs";
 
 export const install = {
   full: () => {
@@ -240,6 +241,9 @@ export const install = {
         if (settings.packages.indexOf("Appcenter") !== -1 && settings.postbuild) {
           console.log(chalk.green(await install.setupAppCenterPreBuildScript()));
         }
+        if (settings.packages.indexOf("React-Navigation") !== -1) {
+          console.log(chalk.green(await install.setupReactNavigationCore()));
+        }
         resolve("Package setup done");
       } catch (e) {
         reject(e);
@@ -327,6 +331,21 @@ export const install = {
       console.log(chalk.bgYellow("Creating `AppCenter-Pre-Build.sh`"));
       appcenter
         .setupPreBuildScript()
+        .then(result => {
+          resolve(result);
+        })
+        .catch(err => {
+          console.log(chalk.red(err));
+          reject(err);
+        });
+    });
+  },
+
+  setupReactNavigationCore: () => {
+    return new Promise((resolve, reject) => {
+      console.log(chalk.bgYellow("Setting up React Navigation"));
+      reactNavigation
+        .setupPackage()
         .then(result => {
           resolve(result);
         })
