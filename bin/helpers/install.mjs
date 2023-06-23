@@ -1,7 +1,7 @@
 import fs from "fs";
 import {execSync} from "child_process";
 import {packageMap} from "../utils/package-map.mjs";
-import chalk from "chalk";
+import chalk, {Chalk} from "chalk";
 import path from "path";
 import {msw} from "./files/msw.mjs";
 import {i18n} from "./files/i18n.mjs";
@@ -13,6 +13,21 @@ import inquirer from "inquirer";
 import {appcenter} from "./files/appcenter.mjs";
 import {dotenv} from "./files/dotenv.mjs";
 import {reactNavigation} from "./files/reactNavigation.mjs";
+
+const getAllFolders = (parentObject, parentFolder) => {
+  let folders = [];
+  Object.keys(parentObject).forEach(element => {
+    if (element === ".") {
+      return;
+    }
+    if (typeof parentObject[element] === "string") {
+      folders.push(path.join(parentFolder, element));
+    } else {
+      folders.push(...getAllFolders(parentObject[element], path.join(parentFolder, element)));
+    }
+  });
+  return folders;
+};
 
 export const install = {
   full: () => {
@@ -61,10 +76,10 @@ export const install = {
           dotenv.copyFiles();
         }
         if (settings.packages.includes("Navigation-native-stack")) {
-          reactNavigation.copyNativeStackFiles();
+          reactNavigation.copyNavigatorFiles("native-stack");
         }
-        if (settings.packages.includes("Navigation-tab")) {
-          reactNavigation.copyTabFiles();
+        if (settings.packages.includes("Navigation-tabs")) {
+          reactNavigation.copyNavigatorFiles("tab");
         }
 
         resolve("Files have been written.");
@@ -110,19 +125,7 @@ export const install = {
         folders.push(path.join(process.cwd(), "src", "utils", "hooks"));
         folders.push(path.join(process.cwd(), "src", "state", "contexts"));
 
-        Object.keys(settings.components).forEach(element => {
-          let folderpath = "";
-          // TODO :: NEED IMPROVEMENT TO RECURSIVELY GO THROUGH OBJECTS
-          if (typeof element === "string") {
-            folderpath = element;
-          } else {
-            Object.keys(element).forEach(subelement => {
-              folderpath = path.join(element, subelement);
-            });
-          }
-
-          folders.push(path.join(process.cwd(), "src", "components", folderpath));
-        });
+        folders.push(...getAllFolders(settings.components, path.join(process.cwd(), "src", "components")));
 
         folders.forEach(folderpath => {
           fs.mkdirSync(folderpath, {recursive: true}, err => {

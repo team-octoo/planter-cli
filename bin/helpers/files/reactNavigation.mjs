@@ -68,13 +68,15 @@ export const reactNavigation = {
     });
   },
 
-  copyNativeStackFiles: () => {
+  copyNavigatorFiles: type => {
     const settings = files.readSettingsJson();
     console.log("Creating Native Stack MainNavigation...");
 
     if (
       !files.fileExists(path.join(process.cwd(), "src", "components", "navigation", "MainNavigation.js")) &&
-      !files.fileExists(path.join(process.cwd(), "src", "components", "navigation", "MainNavigation.tsx"))
+      !files.fileExists(
+        path.join(process.cwd(), "src", "components", "navigation", "MainNavigation", "MainNavigation.tsx")
+      )
     ) {
       fs.copyFileSync(
         path.resolve(
@@ -85,44 +87,27 @@ export const reactNavigation = {
           "examples",
           "navigation",
           settings.hasTs ? "ts" : "js",
-          settings.hasTs ? "native-stack.tsx" : "native-stack.js"
+          settings.hasTs ? `${type}.tsx` : `${type}.js`
         ),
         path.join(
           process.cwd(),
           "src",
           "components",
           "navigation",
-          settings.hasTs ? "MainNavigation.tsx" : "MainNavigation.js"
+          settings.hasTs ? "MainNavigation/MainNavigation.tsx" : "MainNavigation.js"
         )
       );
     }
-  },
-  copyTabFiles: () => {
-    const settings = files.readSettingsJson();
-    console.log("Creating Native Stack MainNavigation...");
 
     if (
-      !files.fileExists(path.join(process.cwd(), "src", "components", "navigation", "MainNavigation.js")) &&
-      !files.fileExists(path.join(process.cwd(), "src", "components", "navigation", "MainNavigation.tsx"))
+      settings.hasTs &&
+      !files.fileExists(
+        path.join(process.cwd(), "src", "components", "navigation", "MainNavigation", "MainNavigation.types.tsx")
+      )
     ) {
       fs.copyFileSync(
-        path.resolve(
-          DIRNAME,
-          "..",
-          "..",
-          "reactnative",
-          "examples",
-          "navigation",
-          settings.hasTs ? "ts" : "js",
-          settings.hasTs ? "tab.tsx" : "tab.js"
-        ),
-        path.join(
-          process.cwd(),
-          "src",
-          "components",
-          "navigation",
-          settings.hasTs ? "MainNavigation.tsx" : "MainNavigation.js"
-        )
+        path.resolve(DIRNAME, "..", "..", "reactnative", "examples", "navigation", "ts", "MainNavigation.types.ts"),
+        path.join(process.cwd(), "src", "components", "navigation", "MainNavigation", "MainNavigation.types.ts")
       );
     }
   },

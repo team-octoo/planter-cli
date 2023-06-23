@@ -119,7 +119,12 @@ export const reactNativeInit = {
       })
       .then(navigation => {
         if (navigation.navigation === "none") return detect.packageName();
-        settings.components.navigation = "folder";
+        if (settings.hasTs) {
+          settings.components.navigation = {MainNavigation: "folder", ".": "folder"};
+        } else {
+          settings.components.navigation = "folder";
+        }
+
         settings.packages.push("React-Navigation");
         switch (navigation.navigation) {
           case "stack":

@@ -1,9 +1,10 @@
-import React from "react";
+import React, {FC} from "react";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import RootStackParamList from "./MainNavigation.types";
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
-function MainNavigation() {
+const MainNavigation: FC = () => {
   return (
     <Stack.Navigator>
       {/* Add your stack pages here like this:
@@ -13,6 +14,6 @@ function MainNavigation() {
        */}
     </Stack.Navigator>
   );
-}
+};
 
 export default MainNavigation;
