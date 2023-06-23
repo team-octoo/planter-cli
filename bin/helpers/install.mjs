@@ -12,6 +12,22 @@ import {files} from "./files.mjs";
 import inquirer from "inquirer";
 import {appcenter} from "./files/appcenter.mjs";
 import {dotenv} from "./files/dotenv.mjs";
+import {reactNavigation} from "./files/reactNavigation.mjs";
+
+const getAllFolders = (parentObject, parentFolder) => {
+  let folders = [];
+  Object.keys(parentObject).forEach(element => {
+    if (element === ".") {
+      return;
+    }
+    if (typeof parentObject[element] === "string") {
+      folders.push(path.join(parentFolder, element));
+    } else {
+      folders.push(...getAllFolders(parentObject[element], path.join(parentFolder, element)));
+    }
+  });
+  return folders;
+};
 
 export const install = {
   full: () => {
@@ -59,6 +75,12 @@ export const install = {
         if (settings.packages.indexOf("React-Native-Dotenv") !== -1) {
           dotenv.copyFiles();
         }
+        if (settings.packages.includes("Navigation-native-stack")) {
+          reactNavigation.copyNavigatorFiles("native-stack");
+        }
+        if (settings.packages.includes("Navigation-tabs")) {
+          reactNavigation.copyNavigatorFiles("tab");
+        }
 
         resolve("Files have been written.");
       } catch (err) {
@@ -94,6 +116,7 @@ export const install = {
         if (settings.packages.indexOf("MirageJS") !== -1) {
           folders.push(path.join(process.cwd(), "src", "mocks"));
         }
+
         folders.push(path.join(process.cwd(), "src", "assets", "images"));
         folders.push(path.join(process.cwd(), "src", "assets", "fonts"));
         folders.push(path.join(process.cwd(), "src", "assets", "misc"));
@@ -102,19 +125,7 @@ export const install = {
         folders.push(path.join(process.cwd(), "src", "utils", "hooks"));
         folders.push(path.join(process.cwd(), "src", "state", "contexts"));
 
-        Object.keys(settings.components).forEach(element => {
-          let folderpath = "";
-          // TODO :: NEED IMPROVEMENT TO RECURSIVELY GO THROUGH OBJECTS
-          if (typeof element === "string") {
-            folderpath = element;
-          } else {
-            Object.keys(element).forEach(subelement => {
-              folderpath = path.join(element, subelement);
-            });
-          }
-
-          folders.push(path.join(process.cwd(), "src", "components", folderpath));
-        });
+        folders.push(...getAllFolders(settings.components, path.join(process.cwd(), "src", "components")));
 
         folders.forEach(folderpath => {
           fs.mkdirSync(folderpath, {recursive: true}, err => {
@@ -240,6 +251,9 @@ export const install = {
         if (settings.packages.indexOf("Appcenter") !== -1 && settings.postbuild) {
           console.log(chalk.green(await install.setupAppCenterPreBuildScript()));
         }
+        if (settings.packages.indexOf("React-Navigation") !== -1) {
+          console.log(chalk.green(await install.setupReactNavigationCore()));
+        }
         resolve("Package setup done");
       } catch (e) {
         reject(e);
@@ -327,6 +341,21 @@ export const install = {
       console.log(chalk.bgYellow("Creating `AppCenter-Pre-Build.sh`"));
       appcenter
         .setupPreBuildScript()
+        .then(result => {
+          resolve(result);
+        })
+        .catch(err => {
+          console.log(chalk.red(err));
+          reject(err);
+        });
+    });
+  },
+
+  setupReactNavigationCore: () => {
+    return new Promise((resolve, reject) => {
+      console.log(chalk.bgYellow("Setting up React Navigation"));
+      reactNavigation
+        .setupPackage()
         .then(result => {
           resolve(result);
         })
