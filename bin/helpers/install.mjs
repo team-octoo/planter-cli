@@ -1,7 +1,7 @@
 import fs from "fs";
 import {execSync} from "child_process";
 import {packageMap} from "../utils/package-map.mjs";
-import chalk, {Chalk} from "chalk";
+import chalk from "chalk";
 import path from "path";
 import {msw} from "./files/msw.mjs";
 import {i18n} from "./files/i18n.mjs";
