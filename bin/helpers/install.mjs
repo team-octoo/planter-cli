@@ -6,7 +6,7 @@ import path from "path";
 import {msw} from "./files/msw.mjs";
 import {i18n} from "./files/i18n.mjs";
 import {redux} from "./files/redux.mjs";
-import {postinstall} from "./files/postinstall.js";
+import {postinstall} from "./files/postinstall.mjs";
 import {mirage} from "./files/mirage.mjs";
 import {files} from "./files.mjs";
 import inquirer from "inquirer";

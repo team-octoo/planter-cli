@@ -3,7 +3,7 @@ import fs from "fs";
 import {files} from "../files.mjs";
 import path from "path";
 import {detect} from "../detect.mjs";
-import {DIRNAME} from "../globals/globals.js";
+import {DIRNAME} from "../globals/globals.mjs";
 import os from "os";
 function findFileInPath(filePath, fileName) {
   const dirContent = fs.readdirSync(filePath, {withFileTypes: true});

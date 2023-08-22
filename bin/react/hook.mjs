@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 import chalk from "chalk";
 import {files} from "../helpers/files.mjs";
-import {DIRNAME} from "../helpers/globals/globals.js";
+import {DIRNAME} from "../helpers/globals/globals.mjs";
 
 const hook = {
   createHook: async elementName => {

@@ -6,7 +6,7 @@ import {files} from "../helpers/files.mjs";
 import {install} from "../helpers/install.mjs";
 import path from "path";
 import fs from "fs";
-import {DIRNAME} from "../helpers/globals/globals.js";
+import {DIRNAME} from "../helpers/globals/globals.mjs";
 import {docs} from "../helpers/docs.mjs";
 import {execSync} from "child_process";
 

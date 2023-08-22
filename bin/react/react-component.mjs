@@ -2,7 +2,7 @@ import path from "path";
 import camelcase from "camelcase";
 import chalk from "chalk";
 import inquirer from "inquirer";
-import {DIRNAME} from "../helpers/globals/globals.js";
+import {DIRNAME} from "../helpers/globals/globals.mjs";
 import {files} from "../helpers/files.mjs";
 
 export const reactComponents = {

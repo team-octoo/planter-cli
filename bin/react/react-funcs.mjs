@@ -1,5 +1,5 @@
 import path from "path";
-import {DIRNAME} from "../helpers/globals/globals.js";
+import {DIRNAME} from "../helpers/globals/globals.mjs";
 import {files} from "../helpers/files.mjs";
 import chalk from "chalk";
 

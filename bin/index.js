@@ -17,7 +17,7 @@ import {reactComponents} from "./react/react-component.mjs";
 import reducer from "./react/reducer.mjs";
 import mock from "./react/mock.mjs";
 import {reactNativeComponents} from "./reactnative/react-native-component.mjs";
-import {DIRNAME} from "./helpers/globals/globals.js";
+import {DIRNAME} from "./helpers/globals/globals.mjs";
 import {files} from "./helpers/files.mjs";
 import store from "./react/store.mjs";
 import {setup as cicdSetup} from "./reactnative/setupCICD.mjs";

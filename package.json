@@ -3,13 +3,12 @@
   "version": "0.0.48",
   "description": "CLI tool to easily structure & build React & React Native applications.",
   "main": "index.js",
-  "type": "module",
   "bin": {
     "planter": "./bin/index.js"
   },
   "preferGlobal": true,
   "scripts": {
-    "test": "node japa-test.config.js",
+    "test": "node japa-test.config.mjs",
     "prepare": "husky install",
     "pretty": "prettier --write bin tests"
   },

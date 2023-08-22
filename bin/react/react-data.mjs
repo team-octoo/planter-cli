@@ -1,6 +1,6 @@
 import path from "path";
 import chalk from "chalk";
-import {DIRNAME} from "../helpers/globals/globals.js";
+import {DIRNAME} from "../helpers/globals/globals.mjs";
 import {files} from "../helpers/files.mjs";
 
 export const reactData = {

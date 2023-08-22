@@ -3,7 +3,7 @@ import fs from "fs";
 import {files} from "../files.mjs";
 import path from "path";
 import {detect} from "../detect.mjs";
-import {DIRNAME} from "../globals/globals.js";
+import {DIRNAME} from "../globals/globals.mjs";
 
 function replaceInFiles(filePath, searchValue, replaceValue) {
   const buffer = fs.readFileSync(filePath);

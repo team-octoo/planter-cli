@@ -3,7 +3,7 @@ import camelcase from "camelcase";
 import path from "path";
 import fs from "fs";
 import chalk from "chalk";
-import {DIRNAME} from "../helpers/globals/globals.js";
+import {DIRNAME} from "../helpers/globals/globals.mjs";
 
 const context = {
   createContext: async elementName => {

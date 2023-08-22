@@ -3,7 +3,7 @@ import fs from "fs";
 import camelcase from "camelcase";
 import chalk from "chalk";
 import {files} from "../helpers/files.mjs";
-import {DIRNAME} from "../helpers/globals/globals.js";
+import {DIRNAME} from "../helpers/globals/globals.mjs";
 import {detect} from "../helpers/detect.mjs";
 
 const mock = {

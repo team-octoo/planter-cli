@@ -2,7 +2,7 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 import {files} from "../files.mjs";
-import {DIRNAME} from "../globals/globals.js";
+import {DIRNAME} from "../globals/globals.mjs";
 
 export const appcenter = {
   setupPreBuildScript: () => {

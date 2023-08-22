@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import {files} from "../helpers/files.mjs";
 import path from "path";
-import {DIRNAME} from "../helpers/globals/globals.js";
+import {DIRNAME} from "../helpers/globals/globals.mjs";
 
 export const fonts = {
   install: () => {

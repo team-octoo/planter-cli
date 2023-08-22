@@ -1,7 +1,7 @@
 import path from "path";
 import camelcase from "camelcase";
 import chalk from "chalk";
-import {DIRNAME} from "../helpers/globals/globals.js";
+import {DIRNAME} from "../helpers/globals/globals.mjs";
 import {files} from "../helpers/files.mjs";
 import inquirer from "inquirer";
 

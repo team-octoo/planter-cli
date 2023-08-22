@@ -5,7 +5,7 @@ import fs from "fs";
 import os from "os";
 import chalk from "chalk";
 import {detect} from "../helpers/detect.mjs";
-import {DIRNAME} from "../helpers/globals/globals.js";
+import {DIRNAME} from "../helpers/globals/globals.mjs";
 import inquirer from "inquirer";
 import {getRNFolders} from "./react-native-component.mjs";
 

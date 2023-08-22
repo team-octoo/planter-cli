@@ -5,7 +5,7 @@ import os from "os";
 import path from "path";
 import {execSync} from "child_process";
 import {files} from "../helpers/files.mjs";
-import {DIRNAME} from "../helpers/globals/globals.js";
+import {DIRNAME} from "../helpers/globals/globals.mjs";
 
 let testBranchesGitlab = "";
 let productionBranchGitlab = "";

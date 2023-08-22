@@ -3,7 +3,7 @@ import settings from "../utils/settings.mjs";
 import {files} from "../helpers/files.mjs";
 import {install} from "../helpers/install.mjs";
 import {cocoapods} from "./cocoapods.mjs";
-import {DIRNAME} from "../helpers/globals/globals.js";
+import {DIRNAME} from "../helpers/globals/globals.mjs";
 import fs from "fs";
 import path from "path";
 

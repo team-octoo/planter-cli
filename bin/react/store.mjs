@@ -3,7 +3,7 @@ import path from "path";
 import fs from "fs";
 import chalk from "chalk";
 import {detect} from "../helpers/detect.mjs";
-import {DIRNAME} from "../helpers/globals/globals.js";
+import {DIRNAME} from "../helpers/globals/globals.mjs";
 import inquirer from "inquirer";
 import {files} from "../helpers/files.mjs";
 
