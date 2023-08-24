@@ -56,17 +56,11 @@ export const msw = {
     //if .env.development or .env.production exists
     return new Promise((resolve, reject) => {
       files.fileExistsOrCreate(path.join(process.cwd(), ".env.development"));
-      fs.appendFileSync(path.join(process.cwd(), ".env.development"), "REACT_APP_MOCK_API=1", function (err) {
-        if (err) reject(err);
-      });
+      fs.appendFileSync(path.join(process.cwd(), ".env.development"), "REACT_APP_MOCK_API=1");
       files.fileExistsOrCreate(path.join(process.cwd(), ".env.test"));
-      fs.appendFileSync(path.join(process.cwd(), ".env.test"), "REACT_APP_MOCK_API=1", function (err) {
-        if (err) reject(err);
-      });
+      fs.appendFileSync(path.join(process.cwd(), ".env.test"), "REACT_APP_MOCK_API=1");
       files.fileExistsOrCreate(path.join(process.cwd(), ".env.production"));
-      fs.appendFileSync(path.join(process.cwd(), ".env.production"), "REACT_APP_MOCK_API=0", function (err) {
-        if (err) reject(err);
-      });
+      fs.appendFileSync(path.join(process.cwd(), ".env.production"), "REACT_APP_MOCK_API=0");
 
       const settings = files.readSettingsJson();
       if (settings.hasTs) {

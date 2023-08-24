@@ -28,11 +28,9 @@ export const files = {
     return true;
   },
   directoryExistsOrCreate: folderPath => {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       if (!files.directoryExists(folderPath)) {
-        fs.mkdirSync(folderPath, {recursive: true}, err => {
-          if (err) reject(err);
-        });
+        fs.mkdirSync(folderPath, {recursive: true});
       }
       resolve();
     });
@@ -45,11 +43,9 @@ export const files = {
   },
   fileExistsOrCreate: filePath => {
     const folderPath = path.dirname(filePath);
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       if (!fs.existsSync(filePath)) {
-        fs.mkdirSync(folderPath, {recursive: true}, err => {
-          if (err) reject(err);
-        });
+        fs.mkdirSync(folderPath, {recursive: true});
         fs.writeFileSync(filePath, "");
       }
       resolve();
@@ -57,19 +53,15 @@ export const files = {
   },
   overwriteFile: (filePath, content) => {
     const folderPath = path.dirname(filePath);
-    return new Promise((resolve, reject) => {
-      fs.mkdirSync(folderPath, {recursive: true}, err => {
-        if (err) reject(err);
-      });
+    return new Promise<void>((resolve, reject) => {
+      fs.mkdirSync(folderPath, {recursive: true});
       fs.writeFileSync(filePath, content);
       resolve();
     });
   },
   overwriteFileSync: (filePath, content) => {
     const folderPath = path.dirname(filePath);
-    fs.mkdirSync(folderPath, {recursive: true}, err => {
-      if (err) return false;
-    });
+    fs.mkdirSync(folderPath, {recursive: true});
     fs.writeFileSync(filePath, content);
     return true;
   },

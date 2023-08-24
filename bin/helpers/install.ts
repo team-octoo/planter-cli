@@ -128,9 +128,7 @@ export const install = {
         folders.push(...getAllFolders(settings.components, path.join(process.cwd(), "src", "components")));
 
         folders.forEach(folderpath => {
-          fs.mkdirSync(folderpath, {recursive: true}, err => {
-            if (err) reject(err);
-          });
+          fs.mkdirSync(folderpath, {recursive: true});
           fs.writeFileSync(path.join(folderpath, "README.md"), "Autocreated by planter. You may delete this file.");
         });
 

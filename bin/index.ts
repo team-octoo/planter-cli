@@ -24,7 +24,8 @@ import {setup as cicdSetup} from "./reactnative/setupCICD";
 import {form} from "./reactnative/react-native-form";
 import {migrator} from "./helpers/migrator";
 
-const packageJson = JSON.parse(fs.readFileSync(path.join(DIRNAME, "..", "..", "..", "package.json")));
+const packageJson = JSON.parse(fs.readFileSync(path.join(DIRNAME, "..", "..", "package.json")).toString());
+// const packageJson = JSON.parse(fs.readFileSync(path.join(DIRNAME, "..", "..", "..", "package.json")).toString());
 const program = new Command();
 
 program.description("React & React-native CLI tool for structured applications.");

@@ -7,7 +7,7 @@ import {files} from "./files";
 
 export const docs = {
   writeDocs: (rn = false) => {
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
       let markdownDocs = "";
       markdownDocs = markdownDocs + docs.intro();
       if (rn === true) {

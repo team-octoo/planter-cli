@@ -8,7 +8,7 @@ import inquirer from "inquirer";
 import {files} from "../helpers/files";
 
 const store = {
-  create: async (name, persisted) => {
+  create: async (name, persisted = null) => {
     detect
       .package("zustand")
       .then(() => {

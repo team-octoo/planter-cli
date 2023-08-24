@@ -165,7 +165,6 @@ export const reactNativeInit = {
         return docs.writeDocs(true);
       })
       .then(result => {
-        if (result) console.log(chalk.green(result));
         return cocoapods.install();
       })
       .then(result => {

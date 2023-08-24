@@ -34,7 +34,7 @@ function replacePackageContent(filePath) {
   return true;
 }
 
-function copyFile(filename, destPath, subdir = false) {
+function copyFile(filename, destPath, subdir = "") {
   files.directoryExistsOrCreate(destPath);
   if (!files.fileExists(path.join(process.cwd(), filename))) {
     fs.copyFileSync(

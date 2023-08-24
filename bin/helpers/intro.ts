@@ -3,7 +3,7 @@ import figlet from "figlet";
 
 export const intro = {
   play: (withClear = true) => {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       if (withClear) clear();
       figlet("PLANTER", function (err, data) {
         if (err) reject("Something went wrong...");

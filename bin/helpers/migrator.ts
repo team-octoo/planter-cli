@@ -9,7 +9,7 @@ import path from "path";
  *
  */
 const migrate = from => {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     const currentVersion = settings.version;
     let configVersion = from;
     let config = files.readSettingsJson();
