@@ -54,7 +54,7 @@ test.group("React Native component", group => {
       })
     );
 
-    let copyStub = sandbox.stub(files, "copyFolder").returns(true);
+    let copyStub = sandbox.stub(files, "copyFile").returns(true);
     let replaceStub = sandbox.stub(files, "replaceInFiles").returns(true);
 
     createRNComponent(process.cwd() + "components/test", "test");
@@ -70,7 +70,7 @@ test.group("React Native component", group => {
       })
     );
 
-    let copyStub = sandbox.stub(files, "copyFolder").returns(true);
+    let copyStub = sandbox.stub(files, "copyFile").returns(true);
     let replaceStub = sandbox.stub(files, "replaceInFiles").returns(true);
 
     createRNComponent(process.cwd() + "components/test", "test");
@@ -80,7 +80,7 @@ test.group("React Native component", group => {
   });
 
   test("createRNTests", async ({expect}) => {
-    let copyStub = sandbox.stub(files, "copyFolder").returns(true);
+    let copyStub = sandbox.stub(files, "copyFile").returns(true);
     let replaceStub = sandbox.stub(files, "replaceInFiles").returns(true);
 
     createRNTests(process.cwd() + "components/test", "test");
@@ -90,7 +90,7 @@ test.group("React Native component", group => {
   });
 
   test("createRNLayout", async ({expect}) => {
-    let copyStub = sandbox.stub(files, "copyFolder").returns(true);
+    let copyStub = sandbox.stub(files, "copyFile").returns(true);
 
     createRNLayout(process.cwd() + "components/test", "test");
 
@@ -98,7 +98,7 @@ test.group("React Native component", group => {
   });
 
   test("create", async ({expect}) => {
-    let copyStub = sandbox.stub(files, "copyFolder").returns(true);
+    let copyStub = sandbox.stub(files, "copyFile").returns(true);
     let replaceStub = sandbox.stub(files, "replaceInFiles").returns(true);
     let dirCreateStub = sandbox.stub(files, "directoryExistsOrCreate").resolves(true);
     sandbox.stub(fs, "readFileSync").returns(

@@ -8,7 +8,7 @@ export const fonts = {
     return new Promise((resolve, reject) => {
       console.log(chalk.bgYellow("Copying fonts config file..."));
 
-      files.copyFolder(
+      files.copyFile(
         path.join(DIRNAME, "..", "..", "reactnative", "examples", "config", "react-native.config.js"),
         path.join(process.cwd(), "react-native.config.js")
       );

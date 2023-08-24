@@ -12,10 +12,8 @@ export const reactData = {
 
 function createDataFolder(name) {
   const settings = files.readSettingsJson();
-  let createdPath = files.copyFolder(
-    path.resolve(getSourcePath(), "data", "example.ts"),
-    path.join(getDestPath(), "data", `${name}.${settings.hasTs ? "ts" : "js"}`)
-  );
+  let createdPath = path.join(getDestPath(), "data", `${name}.${settings.hasTs ? "ts" : "js"}`);
+  files.copyFile(path.resolve(getSourcePath(), "data", "example.ts"), createdPath);
   files.replaceInFiles(createdPath, "example", name);
 }
 

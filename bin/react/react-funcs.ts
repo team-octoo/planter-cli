@@ -12,10 +12,8 @@ export const reactFuncs = {
 
 function createFuncsFolder(name) {
   const settings = files.readSettingsJson();
-  let createdPath = files.copyFolder(
-    path.resolve(getSourcePath(), "funcs", "example.ts"),
-    path.join(getDestPath(), "funcs", `${name}.${settings.hasTs ? "ts" : "js"}`)
-  );
+  let createdPath = path.join(getDestPath(), "funcs", `${name}.${settings.hasTs ? "ts" : "js"}`);
+  files.copyFile(path.resolve(getSourcePath(), "funcs", "example.ts"), createdPath);
   files.replaceInFiles(createdPath, "example", name);
 }
 

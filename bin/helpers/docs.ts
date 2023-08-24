@@ -26,9 +26,8 @@ export const docs = {
       if (files.fileExists(path.join(process.cwd(), "README.md"))) {
         readmeContent = markdownDocs + fs.readFileSync(path.join(process.cwd(), "README.md").toString());
       }
-      files.overwriteFile(path.join(process.cwd(), "README.md"), readmeContent).then(() => {
-        resolve();
-      });
+      files.overwriteFile(path.join(process.cwd(), "README.md"), readmeContent);
+      resolve();
     });
   },
 

@@ -17,13 +17,7 @@ const migrate = from => {
       /** VERSION 0 --> 1 */
       if (i === 0) {
         config.version = 1;
-        const fileWritten = files.overwriteFileSync(
-          path.join(process.cwd(), "planter.config.json"),
-          JSON.stringify(config, null, 2)
-        );
-        if (!fileWritten) {
-          reject("Could not write planter config file.");
-        }
+        files.overwriteFile(path.join(process.cwd(), "planter.config.json"), JSON.stringify(config, null, 2));
       }
 
       /** RESOLVING VERSION */

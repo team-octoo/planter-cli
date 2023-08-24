@@ -28,9 +28,9 @@ export const reactComponents = {
       .then(async option => {
         const folderArray = option.option.split("/");
         let folder = path.join.apply(null, folderArray.concat([casedName]));
-        await files.directoryExistsOrCreate(path.join(getDestPath(), folder)),
-          await files.directoryExistsOrCreate(path.join(getDestPath(), folder, "tests")),
-          createComponent(folder, pascalCase);
+        files.directoryExistsOrCreate(path.join(getDestPath(), folder));
+        files.directoryExistsOrCreate(path.join(getDestPath(), folder, "tests"));
+        createComponent(folder, pascalCase);
         createTests(folder, pascalCase);
         await createLayout(folder, pascalCase);
       })
@@ -55,41 +55,31 @@ async function createLayout(folder, name) {
 
 function createTests(folder, name) {
   const settings = files.readSettingsJson();
-  let createdPath = undefined;
+  let createdPath;
   if (settings.hasTs) {
-    createdPath = files.copyFolder(
-      path.resolve(getSourcePath(), "tests", "Example.test.tsx"),
-      path.join(getDestPath(), folder, "tests", `${name}.test.tsx`)
-    );
+    createdPath = path.join(getDestPath(), folder, "tests", `${name}.test.tsx`);
+    files.copyFile(path.resolve(getSourcePath(), "tests", "Example.test.tsx"), createdPath);
   } else {
-    createdPath = files.copyFolder(
-      path.resolve(getSourcePath(), "tests", "Example.test.js"),
-      path.join(getDestPath(), folder, "tests", `${name}.test.js`)
-    );
+    createdPath = path.join(getDestPath(), folder, "tests", `${name}.test.js`);
+    files.copyFile(path.resolve(getSourcePath(), "tests", "Example.test.js"), createdPath);
   }
   files.replaceInFiles(createdPath, "Example", name);
 }
 
 function createComponent(folder, name) {
   const settings = files.readSettingsJson();
-  let createdPath = undefined;
+  let createdPath;
   if (settings.hasTs) {
-    createdPath = files.copyFolder(
-      path.resolve(getSourcePath(), "ts", "Example.tsx"),
-      path.join(getDestPath(), folder, `${name}.tsx`)
-    );
+    createdPath = path.join(getDestPath(), folder, `${name}.tsx`);
+    files.copyFile(path.resolve(getSourcePath(), "ts", "Example.tsx"), createdPath);
   } else {
     if (settings.hasPropTypes) {
       // if proptypes is used... add prop types
-      createdPath = files.copyFolder(
-        path.resolve(getSourcePath(), "js", "proptypes", "Example.js"),
-        path.join(getDestPath(), folder, `${name}.js`)
-      );
+      createdPath = path.join(getDestPath(), folder, `${name}.js`);
+      files.copyFile(path.resolve(getSourcePath(), "js", "proptypes", "Example.js"), createdPath);
     } else {
-      createdPath = files.copyFolder(
-        path.resolve(getSourcePath(), "js", "Example.js"),
-        path.join(getDestPath(), folder, `${name}.js`)
-      );
+      createdPath = path.join(getDestPath(), folder, `${name}.js`);
+      files.copyFile(path.resolve(getSourcePath(), "js", "Example.js"), createdPath);
     }
   }
   files.replaceInFiles(createdPath, "Example", name);
@@ -97,10 +87,7 @@ function createComponent(folder, name) {
 
 function getFolders() {
   const settings = files.readSettingsJson();
-  let folders = [];
-
-  folders = getChildFolders(settings.components);
-  return folders;
+  return getChildFolders(settings.components);
 }
 
 function getChildFolders(parent, basePath = undefined) {

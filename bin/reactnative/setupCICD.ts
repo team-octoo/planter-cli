@@ -270,10 +270,10 @@ function askTestTreshold() {
 
 function createGitlabFile() {
   console.log(chalk.cyanBright("Now starting on the creation of your gitlab file..."));
-  let createdPath = "";
-  createdPath = files.copyFolder(
+  const createdPath = path.join(process.cwd(), ".gitlab-ci.yml");
+  files.copyFile(
     path.resolve(DIRNAME, "..", "..", "reactnative", "examples", "cicd", "gitlab-example.yml"),
-    path.join(process.cwd(), ".gitlab-ci.yml")
+    createdPath
   );
 
   let unitTestJob = "";
@@ -308,45 +308,41 @@ function createGitlabFile() {
 async function createGithubFile() {
   console.log(chalk.cyanBright("Now starting on the creation of your github files..."));
 
-  return files
-    .fileExistsOrCreate(path.join(process.cwd(), ".github/workflows/testsOnPR.yml"))
-    .then(() => {
-      return files.fileExistsOrCreate(path.join(process.cwd(), ".github/workflows/testsOnPush.yml"));
-    })
-    .then(() => {
-      let createdPathPR = "";
-      let createdPathPush = "";
-      createdPathPR = files.copyFolder(
-        path.resolve(DIRNAME, "..", "..", "reactnative", "examples", "cicd", "github-pullRequest-example.yml"),
-        path.join(process.cwd(), ".github/workflows/testsOnPR.yml")
-      );
+  files.fileExistsOrCreate(path.join(process.cwd(), ".github/workflows/testsOnPR.yml"));
+  files.fileExistsOrCreate(path.join(process.cwd(), ".github/workflows/testsOnPush.yml"));
 
-      createdPathPush = files.copyFolder(
-        path.resolve(DIRNAME, "..", "..", "reactnative", "examples", "cicd", "github-push-example.yml"),
-        path.join(process.cwd(), ".github/workflows/testsOnPush.yml")
-      );
+  let createdPathPR = path.join(process.cwd(), ".github/workflows/testsOnPR.yml");
+  files.copyFile(
+    path.resolve(DIRNAME, "..", "..", "reactnative", "examples", "cicd", "github-pullRequest-example.yml"),
+    createdPathPR
+  );
 
-      let PRBranches = "";
-      let pushBranches = "";
+  let createdPathPush = path.join(process.cwd(), ".github/workflows/testsOnPush.yml");
+  files.copyFile(
+    path.resolve(DIRNAME, "..", "..", "reactnative", "examples", "cicd", "github-push-example.yml"),
+    createdPathPush
+  );
 
-      testBranches.map(branch => {
-        PRBranches = PRBranches + `      - '${branch}'` + os.EOL;
-      });
-      pushBranches = `      - '${productionBranch}'`;
+  let PRBranches = "";
+  let pushBranches;
 
-      files.replaceInFiles(createdPathPR, "<BRANCHES>", PRBranches);
-      files.replaceInFiles(createdPathPush, "<BRANCHES>", pushBranches);
-      return Promise.resolve([createdPathPR, createdPathPush]);
-    });
+  testBranches.map(branch => {
+    PRBranches = PRBranches + `      - '${branch}'` + os.EOL;
+  });
+  pushBranches = `      - '${productionBranch}'`;
+
+  files.replaceInFiles(createdPathPR, "<BRANCHES>", PRBranches);
+  files.replaceInFiles(createdPathPush, "<BRANCHES>", pushBranches);
+  return Promise.resolve([createdPathPR, createdPathPush]);
 }
 
 async function createBitbucketFile() {
   console.log(chalk.cyanBright("Now starting on the creation of your bitbucket files..."));
 
-  let createdPath = "";
-  createdPath = files.copyFolder(
+  const createdPath = path.join(process.cwd(), "bitbucket-pipelines.yml");
+  files.copyFile(
     path.resolve(DIRNAME, "..", "..", "reactnative", "examples", "cicd", "bitbucket-example.yml"),
-    path.join(process.cwd(), "bitbucket-pipelines.yml")
+    createdPath
   );
 
   files.replaceInFiles(createdPath, "<PRODBRANCH>", productionBranch);

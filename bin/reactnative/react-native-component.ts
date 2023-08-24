@@ -38,40 +38,30 @@ export const reactNativeComponents = {
 };
 
 export async function createRNLayout(folder, name) {
-  let createdPath = files.copyFolder(
-    path.resolve(getRNSourcePath(), "css", "Example.style.js"),
-    path.join(getRNDestPath(), folder, `${name}.style.js`)
-  );
+  let createdPath = path.join(getRNDestPath(), folder, `${name}.style.js`);
+  files.copyFile(path.resolve(getRNSourcePath(), "css", "Example.style.js"), createdPath);
 }
 
 export function createRNTests(folder, name) {
-  let createdPath = files.copyFolder(
-    path.resolve(getRNSourcePath(), "tests", "Example.test.js"),
-    path.join(getRNDestPath(), folder, "tests", `${name}.test.js`)
-  );
+  let createdPath = path.join(getRNDestPath(), folder, "tests", `${name}.test.js`);
+  files.copyFile(path.resolve(getRNSourcePath(), "tests", "Example.test.js"), createdPath);
   files.replaceInFiles(createdPath, "Example", name);
 }
 
 export function createRNComponent(folder, name) {
   const settings = files.readSettingsJson();
-  let createdPath = undefined;
+  let createdPath;
   if (settings.hasTs) {
-    createdPath = files.copyFolder(
-      path.resolve(getRNSourcePath(), "ts", "Example.tsx"),
-      path.join(getRNDestPath(), folder, `${name}.tsx`)
-    );
+    createdPath = path.join(getRNDestPath(), folder, `${name}.tsx`);
+    files.copyFile(path.resolve(getRNSourcePath(), "ts", "Example.tsx"), createdPath);
   } else {
     if (settings.hasPropTypes) {
       // if proptypes is used... add prop types
-      createdPath = files.copyFolder(
-        path.resolve(getRNSourcePath(), "js", "proptypes", "Example.js"),
-        path.join(getRNDestPath(), folder, `${name}.js`)
-      );
+      createdPath = path.join(getRNDestPath(), folder, `${name}.js`);
+      files.copyFile(path.resolve(getRNSourcePath(), "js", "proptypes", "Example.js"), createdPath);
     } else {
-      createdPath = files.copyFolder(
-        path.resolve(getRNSourcePath(), "js", "Example.js"),
-        path.join(getRNDestPath(), folder, `${name}.js`)
-      );
+      createdPath = path.join(getRNDestPath(), folder, `${name}.js`);
+      files.copyFile(path.resolve(getRNSourcePath(), "js", "Example.js"), createdPath);
     }
   }
   files.replaceInFiles(createdPath, "Example", name);

@@ -12,7 +12,7 @@ test.group("Fonts", group => {
   });
 
   test("Copy file", async ({expect}) => {
-    sandbox.stub(files, "copyFolder").resolves(true);
+    sandbox.stub(files, "copyFile").resolves(true);
     const detected = await fonts.install();
     expect(detected).toBeTruthy();
   });
