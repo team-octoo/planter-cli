@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import {DIRNAME} from "../globals";
 
 export const files = {
   readJson: filePath => {
@@ -7,7 +8,18 @@ export const files = {
     return JSON.parse(buffer.toString());
   },
 
-  readPackageJson: () => files.readJson("package.json"),
+  readPlanterPackageJson: () => {
+    const filePath = path.join(DIRNAME, "..", "package.json");
+    console.log();
+    console.log(DIRNAME);
+    console.log(filePath);
+    console.log();
+    const readJson = JSON.parse(fs.readFileSync(filePath).toString());
+    console.log("DONE");
+    return readJson;
+  },
+
+  readProjectPackageJson: () => files.readJson("package.json"),
 
   readSettingsJson: () => files.readJson("planter.config.json"),
 

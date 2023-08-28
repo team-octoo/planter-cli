@@ -9,7 +9,7 @@ export const fonts = {
       console.log(chalk.bgYellow("Copying fonts config file..."));
 
       files.copyFile(
-        path.join(DIRNAME, "..", "..", "reactnative", "examples", "config", "react-native.config.js"),
+        path.join(DIRNAME, "reactnative", "examples", "config", "react-native.config.js"),
         path.join(process.cwd(), "react-native.config.js")
       );
       resolve("Fonts config file copied!");

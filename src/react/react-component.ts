@@ -2,7 +2,7 @@ import path from "path";
 import camelcase from "camelcase";
 import chalk from "chalk";
 import inquirer from "inquirer";
-import {DIRNAME} from "../helpers/globals/globals";
+import {DIRNAME} from "../globals";
 import {files} from "../helpers/files";
 
 export const reactComponents = {
@@ -126,7 +126,7 @@ function getChildFolders(parent, basePath = undefined) {
 // }
 
 function getSourcePath() {
-  return path.resolve(DIRNAME, "..", "..", "react", "examples", "component");
+  return path.resolve(DIRNAME, "react", "examples", "component");
 }
 
 function getDestPath() {

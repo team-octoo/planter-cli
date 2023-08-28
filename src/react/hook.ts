@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 import chalk from "chalk";
 import {files} from "../helpers/files";
-import {DIRNAME} from "../helpers/globals/globals";
+import {DIRNAME} from "../globals";
 
 const hook = {
   createHook: async elementName => {
@@ -19,7 +19,7 @@ function copyDataFolder(name) {
   const pathName = path.join(process.cwd(), "src", "utils", "hooks");
   const fullPath = `${pathName}/${filename}`;
   files.directoryExistsOrCreate(pathName);
-  fs.copyFileSync(path.resolve(DIRNAME, "..", "..", "react", "examples", "utils", "hooks", "useExample.ts"), fullPath);
+  fs.copyFileSync(path.resolve(DIRNAME, "react", "examples", "utils", "hooks", "useExample.ts"), fullPath);
   return fullPath;
 }
 

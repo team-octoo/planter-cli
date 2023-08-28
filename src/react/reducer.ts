@@ -5,7 +5,7 @@ import fs from "fs";
 import os from "os";
 import chalk from "chalk";
 import {detect} from "../helpers/detect";
-import {DIRNAME} from "../helpers/globals/globals";
+import {DIRNAME} from "../globals";
 
 const reducer = {
   create: async name => {
@@ -88,10 +88,7 @@ function copyDataFolder(name) {
 
 function copyFile(pathName, fileName, exampleFile) {
   const fullPath = `${pathName}/${fileName}`;
-  fs.copyFileSync(
-    path.resolve(DIRNAME, "..", "..", "react", "examples", "state", "redux", exampleFile),
-    `${pathName}/${fileName}`
-  );
+  fs.copyFileSync(path.resolve(DIRNAME, "react", "examples", "state", "redux", exampleFile), `${pathName}/${fileName}`);
   return fullPath;
 }
 

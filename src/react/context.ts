@@ -3,7 +3,7 @@ import camelcase from "camelcase";
 import path from "path";
 import fs from "fs";
 import chalk from "chalk";
-import {DIRNAME} from "../helpers/globals/globals";
+import {DIRNAME} from "../globals";
 
 const context = {
   createContext: async elementName => {
@@ -19,10 +19,7 @@ function copyDataFolder(name) {
   const pathName = path.join(process.cwd(), "src", "state", "contexts");
   const fullPath = `${pathName}/${filename}`;
   files.directoryExistsOrCreate(pathName);
-  fs.copyFileSync(
-    path.resolve(DIRNAME, "..", "..", "react", "examples", "state", "contexts", "ExampleContext.ts"),
-    fullPath
-  );
+  fs.copyFileSync(path.resolve(DIRNAME, "react", "examples", "state", "contexts", "ExampleContext.ts"), fullPath);
   return fullPath;
 }
 

@@ -10,7 +10,7 @@ export const dotenv = {
     console.log("Creating .env files...");
     if (!files.fileExists(path.join(process.cwd(), ".env"))) {
       fs.copyFileSync(
-        path.resolve(DIRNAME, "..", "..", "reactnative", "examples", "dotenv", "example.env"),
+        path.resolve(DIRNAME, "reactnative", "examples", "dotenv", "example.env"),
         path.join(path.join(process.cwd(), ".env"))
       );
     }

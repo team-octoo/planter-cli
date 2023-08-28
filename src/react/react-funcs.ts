@@ -1,5 +1,5 @@
 import path from "path";
-import {DIRNAME} from "../helpers/globals/globals";
+import {DIRNAME} from "../globals";
 import {files} from "../helpers/files";
 import chalk from "chalk";
 
@@ -18,7 +18,7 @@ function createFuncsFolder(name) {
 }
 
 function getSourcePath() {
-  return path.resolve(DIRNAME, "..", "..", "react", "examples", "utils");
+  return path.resolve(DIRNAME, "react", "examples", "utils");
 }
 
 function getDestPath() {

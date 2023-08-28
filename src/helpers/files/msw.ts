@@ -96,7 +96,7 @@ export const msw = {
       !files.fileExists(path.join(process.cwd(), "src", "mocks", "handlers.ts"))
     ) {
       fs.copyFileSync(
-        path.resolve(DIRNAME, "..", "..", "react", "examples", "msw", "handlers.ts"),
+        path.resolve(DIRNAME, "react", "examples", "msw", "handlers.ts"),
         path.join(process.cwd(), "src", "mocks", "handlers.ts")
       );
       if (!settings.hasTs) {
@@ -112,7 +112,7 @@ export const msw = {
       !files.fileExists(path.join(process.cwd(), "src", "mocks", "browser.ts"))
     ) {
       fs.copyFileSync(
-        path.resolve(DIRNAME, "..", "..", "react", "examples", "msw", "browser.ts"),
+        path.resolve(DIRNAME, "react", "examples", "msw", "browser.ts"),
         path.join(process.cwd(), "src", "mocks", "browser.ts")
       );
       if (!settings.hasTs) {
@@ -128,7 +128,7 @@ export const msw = {
       !files.fileExists(path.join(process.cwd(), "src", "mocks", "mockDatabase.ts"))
     ) {
       fs.copyFileSync(
-        path.resolve(DIRNAME, "..", "..", "react", "examples", "msw", "mockDatabase.ts"),
+        path.resolve(DIRNAME, "react", "examples", "msw", "mockDatabase.ts"),
         path.join(process.cwd(), "src", "mocks", "mockDatabase.ts")
       );
       if (!settings.hasTs) {
@@ -144,7 +144,7 @@ export const msw = {
       !files.fileExists(path.join(process.cwd(), "src", "mocks", "server.ts"))
     ) {
       fs.copyFileSync(
-        path.resolve(DIRNAME, "..", "..", "react", "examples", "msw", "server.ts"),
+        path.resolve(DIRNAME, "react", "examples", "msw", "server.ts"),
         path.join(process.cwd(), "src", "mocks", "server.ts")
       );
       if (!settings.hasTs) {

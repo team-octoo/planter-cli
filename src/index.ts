@@ -17,15 +17,14 @@ import {reactComponents} from "./react/react-component";
 import reducer from "./react/reducer";
 import mock from "./react/mock";
 import {reactNativeComponents} from "./reactnative/react-native-component";
-import {DIRNAME} from "./helpers/globals/globals";
+import {DIRNAME} from "./globals";
 import {files} from "./helpers/files";
 import store from "./react/store";
 import {setup as cicdSetup} from "./reactnative/setupCICD";
 import {form} from "./reactnative/react-native-form";
 import {migrator} from "./helpers/migrator";
 
-const packageJson = JSON.parse(fs.readFileSync(path.join(DIRNAME, "..", "..", "package.json")).toString());
-// const packageJson = JSON.parse(fs.readFileSync(path.join(DIRNAME, "..", "..", "..", "package.json")).toString());
+const packageJson = files.readPlanterPackageJson();
 const program = new Command();
 
 program.description("React & React-native CLI tool for structured applications.");

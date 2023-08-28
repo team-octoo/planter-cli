@@ -5,7 +5,7 @@ import os from "os";
 import path from "path";
 import {execSync} from "child_process";
 import {files} from "../helpers/files";
-import {DIRNAME} from "../helpers/globals/globals";
+import {DIRNAME} from "../globals";
 
 let testBranchesGitlab = "";
 let productionBranchGitlab = "";
@@ -271,10 +271,7 @@ function askTestTreshold() {
 function createGitlabFile() {
   console.log(chalk.cyanBright("Now starting on the creation of your gitlab file..."));
   const createdPath = path.join(process.cwd(), ".gitlab-ci.yml");
-  files.copyFile(
-    path.resolve(DIRNAME, "..", "..", "reactnative", "examples", "cicd", "gitlab-example.yml"),
-    createdPath
-  );
+  files.copyFile(path.resolve(DIRNAME, "reactnative", "examples", "cicd", "gitlab-example.yml"), createdPath);
 
   let unitTestJob = "";
   let lintTestJob = "";
@@ -313,15 +310,12 @@ async function createGithubFile() {
 
   let createdPathPR = path.join(process.cwd(), ".github/workflows/testsOnPR.yml");
   files.copyFile(
-    path.resolve(DIRNAME, "..", "..", "reactnative", "examples", "cicd", "github-pullRequest-example.yml"),
+    path.resolve(DIRNAME, "reactnative", "examples", "cicd", "github-pullRequest-example.yml"),
     createdPathPR
   );
 
   let createdPathPush = path.join(process.cwd(), ".github/workflows/testsOnPush.yml");
-  files.copyFile(
-    path.resolve(DIRNAME, "..", "..", "reactnative", "examples", "cicd", "github-push-example.yml"),
-    createdPathPush
-  );
+  files.copyFile(path.resolve(DIRNAME, "reactnative", "examples", "cicd", "github-push-example.yml"), createdPathPush);
 
   let PRBranches = "";
   let pushBranches;
@@ -340,10 +334,7 @@ async function createBitbucketFile() {
   console.log(chalk.cyanBright("Now starting on the creation of your bitbucket files..."));
 
   const createdPath = path.join(process.cwd(), "bitbucket-pipelines.yml");
-  files.copyFile(
-    path.resolve(DIRNAME, "..", "..", "reactnative", "examples", "cicd", "bitbucket-example.yml"),
-    createdPath
-  );
+  files.copyFile(path.resolve(DIRNAME, "reactnative", "examples", "cicd", "bitbucket-example.yml"), createdPath);
 
   files.replaceInFiles(createdPath, "<PRODBRANCH>", productionBranch);
   return Promise.resolve([createdPath]);

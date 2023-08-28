@@ -12,8 +12,6 @@ export const appcenter = {
         fs.copyFileSync(
           path.resolve(
             DIRNAME,
-            "..",
-            "..",
             settings.library === "react" ? "react" : "reactnative",
             "examples",
             "appcenter",

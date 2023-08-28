@@ -18,7 +18,7 @@ export const detect = {
   },
   library: async () => {
     return new Promise((resolve, reject) => {
-      const {dependencies} = files.readPackageJson();
+      const {dependencies} = files.readPlanterPackageJson();
       if (dependencies["react-native"]) {
         resolve("react-native");
       }
@@ -31,7 +31,7 @@ export const detect = {
   },
   typescript: async () => {
     return new Promise(resolve => {
-      const {dependencies, devDependencies} = files.readPackageJson();
+      const {dependencies, devDependencies} = files.readProjectPackageJson();
       if (dependencies) {
         if (dependencies.typescript) {
           resolve(true);
@@ -59,13 +59,13 @@ export const detect = {
   },
   packageName: async () => {
     return new Promise((resolve, reject) => {
-      const {name} = files.readPackageJson();
+      const {name} = files.readProjectPackageJson();
       resolve(name);
     });
   },
   package: async name => {
     return new Promise((resolve, reject) => {
-      const {devDependencies, dependencies} = files.readPackageJson();
+      const {devDependencies, dependencies} = files.readProjectPackageJson();
 
       if (dependencies[name]) {
         resolve(true);

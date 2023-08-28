@@ -115,7 +115,7 @@ export function getRNChildFolders(parent, basePath = undefined) {
 // }
 
 export function getRNSourcePath() {
-  return path.resolve(DIRNAME, "..", "..", "reactnative", "examples", "component");
+  return path.resolve(DIRNAME, "reactnative", "examples", "component");
 }
 
 export function getRNDestPath() {

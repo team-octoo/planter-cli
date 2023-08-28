@@ -5,7 +5,7 @@ import fs from "fs";
 import os from "os";
 import chalk from "chalk";
 import {detect} from "../helpers/detect";
-import {DIRNAME} from "../helpers/globals/globals";
+import {DIRNAME} from "../globals";
 import inquirer from "inquirer";
 import {getRNFolders} from "./react-native-component";
 
@@ -84,7 +84,7 @@ export function createRNForm(folder, name) {
 }
 
 export function getRNSourcePath() {
-  return path.resolve(DIRNAME, "..", "..", "reactnative", "examples", "form");
+  return path.resolve(DIRNAME, "reactnative", "examples", "form");
 }
 
 export function getRNDestPath() {

@@ -46,8 +46,6 @@ export const redux = {
       fs.copyFileSync(
         path.resolve(
           DIRNAME,
-          "..",
-          "..",
           settings.library === "react" ? "react" : "reactnative",
           "examples",
           "state",
@@ -72,8 +70,6 @@ export const redux = {
       fs.copyFileSync(
         path.resolve(
           DIRNAME,
-          "..",
-          "..",
           settings.library === "react" ? "react" : "reactnative",
           "examples",
           "state",
@@ -98,8 +94,6 @@ export const redux = {
       fs.copyFileSync(
         path.resolve(
           DIRNAME,
-          "..",
-          "..",
           settings.library === "react" ? "react" : "reactnative",
           "examples",
           "state",

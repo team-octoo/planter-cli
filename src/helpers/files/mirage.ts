@@ -40,21 +40,21 @@ export const mirage = {
     console.log("Creating MirageJS files...");
     if (!files.fileExists(path.join(process.cwd(), "src", "mocks", "server.js"))) {
       fs.copyFileSync(
-        path.resolve(DIRNAME, "..", "..", "reactnative", "examples", "mirage", "mocks", "server.js"),
+        path.resolve(DIRNAME, "reactnative", "examples", "mirage", "mocks", "server.js"),
         path.join(process.cwd(), "src", "mocks", "server.js")
       );
     }
 
     if (!files.fileExists(path.join(process.cwd(), "jest.config.js"))) {
       fs.copyFileSync(
-        path.resolve(DIRNAME, "..", "..", "reactnative", "examples", "mirage", "jest.config.js"),
+        path.resolve(DIRNAME, "reactnative", "examples", "mirage", "jest.config.js"),
         path.join(process.cwd(), "jest.config.js")
       );
     }
 
     if (!files.fileExists(path.join(process.cwd(), "jest.setup.js"))) {
       fs.copyFileSync(
-        path.resolve(DIRNAME, "..", "..", "reactnative", "examples", "mirage", "jest.setup.js"),
+        path.resolve(DIRNAME, "reactnative", "examples", "mirage", "jest.setup.js"),
         path.join(process.cwd(), "jest.setup.js")
       );
     }

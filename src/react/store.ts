@@ -3,7 +3,7 @@ import path from "path";
 import fs from "fs";
 import chalk from "chalk";
 import {detect} from "../helpers/detect";
-import {DIRNAME} from "../helpers/globals/globals";
+import {DIRNAME} from "../globals";
 import inquirer from "inquirer";
 import {files} from "../helpers/files";
 
@@ -54,8 +54,6 @@ function copyFile(pathName, fileName, exampleFile) {
   fs.copyFileSync(
     path.resolve(
       DIRNAME,
-      "..",
-      "..",
       localsettings.library === "react" ? "react" : "reactnative",
       "examples",
       "state",

@@ -1,6 +1,6 @@
 import path from "path";
 import chalk from "chalk";
-import {DIRNAME} from "../helpers/globals/globals";
+import {DIRNAME} from "../globals";
 import {files} from "../helpers/files";
 
 export const reactData = {
@@ -18,7 +18,7 @@ function createDataFolder(name) {
 }
 
 function getSourcePath() {
-  return path.resolve(DIRNAME, "..", "..", "react", "examples", "utils");
+  return path.resolve(DIRNAME, "react", "examples", "utils");
 }
 
 function getDestPath() {

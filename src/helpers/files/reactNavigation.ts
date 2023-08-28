@@ -81,8 +81,6 @@ export const reactNavigation = {
       fs.copyFileSync(
         path.resolve(
           DIRNAME,
-          "..",
-          "..",
           "reactnative",
           "examples",
           "navigation",
@@ -106,7 +104,7 @@ export const reactNavigation = {
       )
     ) {
       fs.copyFileSync(
-        path.resolve(DIRNAME, "..", "..", "reactnative", "examples", "navigation", "ts", "MainNavigation.types.ts"),
+        path.resolve(DIRNAME, "reactnative", "examples", "navigation", "ts", "MainNavigation.types.ts"),
         path.join(process.cwd(), "src", "components", "navigation", "MainNavigation", "MainNavigation.types.ts")
       );
     }

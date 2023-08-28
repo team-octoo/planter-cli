@@ -39,8 +39,8 @@ function copyFile(filename, destPath, subdir = "") {
   if (!files.fileExists(path.join(process.cwd(), filename))) {
     fs.copyFileSync(
       subdir
-        ? path.resolve(DIRNAME, "..", "..", "react", "examples", "i18next", subdir, filename)
-        : path.resolve(DIRNAME, "..", "..", "react", "examples", "i18next", filename),
+        ? path.resolve(DIRNAME, "react", "examples", "i18next", subdir, filename)
+        : path.resolve(DIRNAME, "react", "examples", "i18next", filename),
       path.join(destPath, filename)
     );
   }
@@ -81,15 +81,14 @@ export const i18n = {
         resolve(`Could not find src/${indexFilename} file...`);
       }
 
-      const packageFilename = "package.json";
-      const packageFilePath = path.join(process.cwd(), packageFilename);
+      const packageFilePath = path.join(process.cwd(), "package.json");
       if (files.fileExists(packageFilePath)) {
         replacePackageContent(packageFilePath);
       } else {
         console.log(chalk.red("********************************************************************"));
         console.log(chalk.red("Could not find package.json file. You will have to set up i18next manually."));
         console.log(chalk.red("********************************************************************"));
-        resolve(`Could not find ${packageFilename} file...`);
+        resolve(`Could not find package.json file...`);
       }
 
       resolve("i18next setup completed");

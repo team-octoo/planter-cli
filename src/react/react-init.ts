@@ -6,7 +6,7 @@ import {files} from "../helpers/files";
 import {install} from "../helpers/install";
 import path from "path";
 import fs from "fs";
-import {DIRNAME} from "../helpers/globals/globals";
+import {DIRNAME} from "../globals";
 import {docs} from "../helpers/docs";
 import {execSync} from "child_process";
 
@@ -149,7 +149,7 @@ export const reactInit = {
       })
       .then(pretty => {
         if (pretty.prettier === true) {
-          fs.copyFileSync(path.join(DIRNAME, "..", "..", "..", ".prettierrc"), path.join(process.cwd(), ".prettierrc"));
+          fs.copyFileSync(path.join(DIRNAME, "..", ".prettierrc"), path.join(process.cwd(), ".prettierrc"));
         }
         //CALL A FUNCTION TO USE THE SETTINGS OBJECT TO INSTALL PACKAGES AND CREATE FOLDERS/FILES
         return files.overwriteFile(path.join(process.cwd(), "planter.config.json"), JSON.stringify(settings, null, 2));

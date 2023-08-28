@@ -3,7 +3,7 @@ import fs from "fs";
 import camelcase from "camelcase";
 import chalk from "chalk";
 import {files} from "../helpers/files";
-import {DIRNAME} from "../helpers/globals/globals";
+import {DIRNAME} from "../globals";
 import {detect} from "../helpers/detect";
 
 const mock = {
@@ -35,7 +35,7 @@ function copyDataFolder(name) {
 
 function copyFile(pathName, fileName, exampleFile) {
   const fullPath = `${pathName}/${fileName}`;
-  fs.copyFileSync(path.resolve(DIRNAME, "..", "..", "react", "examples", "msw", "example", exampleFile), fullPath);
+  fs.copyFileSync(path.resolve(DIRNAME, "react", "examples", "msw", "example", exampleFile), fullPath);
   return fullPath;
 }
 
