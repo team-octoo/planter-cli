@@ -1,7 +1,7 @@
 import {test} from "@japa/runner";
 import sinon from "sinon";
-import {files} from "../../bin/helpers/files";
-import {fonts} from "../../bin/reactnative/fonts";
+import {files} from "../../src/helpers/files";
+import {fonts} from "../../src/reactnative/fonts";
 
 test.group("Fonts", group => {
   // create a sinon sandbox

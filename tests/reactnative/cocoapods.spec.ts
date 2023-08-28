@@ -1,6 +1,6 @@
 import {test} from "@japa/runner";
 import sinon from "sinon";
-import {cocoapods} from "../../bin/reactnative/cocoapods";
+import {cocoapods} from "../../src/reactnative/cocoapods";
 import child_process from "child_process";
 
 test.group("Cocoapods", group => {

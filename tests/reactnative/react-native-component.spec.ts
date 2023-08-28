@@ -9,9 +9,9 @@ import {
   createRNTests,
   createRNLayout,
   reactNativeComponents,
-} from "../../bin/reactnative/react-native-component";
+} from "../../src/reactnative/react-native-component";
 import fs from "fs";
-import {files} from "../../bin/helpers/files";
+import {files} from "../../src/helpers/files";
 import inquirer from "inquirer";
 
 test.group("React Native component", group => {

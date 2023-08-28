@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "name": "playground",
+  "library": "react",
+  "installer": "npm",
+  "hasTs": false,
+  "layout": "CSS",
+  "packages": [],
+  "components": {
+    "basics": "folder",
+    "elements": "folder",
+    "pages": "folder"
+  },
+  "structure": "BEP (recommended)",
+  "usePropTypes": true
+}

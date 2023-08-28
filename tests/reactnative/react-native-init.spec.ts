@@ -1,13 +1,13 @@
 import {test} from "@japa/runner";
 import inquirer from "inquirer";
 import sinon from "sinon";
-import {detect} from "../../bin/helpers/detect";
-import {docs} from "../../bin/helpers/docs";
-import {files} from "../../bin/helpers/files";
-import {install} from "../../bin/helpers/install";
-import {cocoapods} from "../../bin/reactnative/cocoapods";
-import {fonts} from "../../bin/reactnative/fonts";
-import {reactNativeInit} from "../../bin/reactnative/react-native-init";
+import {detect} from "../../src/helpers/detect";
+import {docs} from "../../src/helpers/docs";
+import {files} from "../../src/helpers/files";
+import {install} from "../../src/helpers/install";
+import {cocoapods} from "../../src/reactnative/cocoapods";
+import {fonts} from "../../src/reactnative/fonts";
+import {reactNativeInit} from "../../src/reactnative/react-native-init";
 
 test.group("React Native init", group => {
   // create a sinon sandbox
