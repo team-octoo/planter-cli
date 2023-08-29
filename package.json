@@ -4,11 +4,13 @@
   "description": "CLI tool to easily structure & build React & React Native applications.",
   "main": "index.js",
   "bin": {
-    "planter": "src/index.ts"
+    "planter": "bin/index.js"
   },
   "preferGlobal": true,
   "scripts": {
-    "test": "ts-node japa-test.config.ts",
+	"build": "tsc",
+	"publish": "test && build && publish",
+    "test": "ts-node --project tsconfig-test.json japa-test.config.ts",
     "prepare": "husky install",
     "start": "ts-node src/index.ts",
     "pretty": "prettier --write src tests"

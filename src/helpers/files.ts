@@ -10,13 +10,7 @@ export const files = {
 
   readPlanterPackageJson: () => {
     const filePath = path.join(DIRNAME, "..", "package.json");
-    console.log();
-    console.log(DIRNAME);
-    console.log(filePath);
-    console.log();
-    const readJson = JSON.parse(fs.readFileSync(filePath).toString());
-    console.log("DONE");
-    return readJson;
+    return JSON.parse(fs.readFileSync(filePath).toString());
   },
 
   readProjectPackageJson: () => files.readJson("package.json"),

@@ -5,7 +5,18 @@
 		"forceConsistentCasingInFileNames": true,
 		"strict": false,
 		"skipLibCheck": true,
-		"baseUrl": "src",
-		"outDir": "bin"
-	}
+		"outDir": "bin",
+		"moduleResolution": "NodeNext",
+		"module": "none",
+		"rootDir": "src",
+		"types": ["node"]
+	},
+	"include": [
+		"src/**/*"
+	],
+	"exclude": [
+		"src/reactnative/examples/**/*",
+		"src/react/examples/**/*",
+		"tests/**/*"
+	]
 }
