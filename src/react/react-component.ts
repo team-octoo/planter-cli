@@ -4,6 +4,7 @@ import chalk from "chalk";
 import inquirer from "inquirer";
 import {DIRNAME} from "../globals";
 import {files} from "../helpers/files";
+import {PlanterConfigV1, PlanterConfigV2} from "../helpers/migrator";
 
 export const reactComponents = {
   create: async name => {
@@ -90,11 +91,7 @@ function getComponentTypeOptions(): string[] {
   return getChildFolders(settings.components).map(pathArray => path.join(...pathArray));
 }
 
-type ComponentOptions = {
-  [key: string]: "folder" | ComponentOptions;
-};
-
-function getChildFolders(config: ComponentOptions, basePath: string[] = []): string[][] {
+function getChildFolders(config: PlanterConfigV1["components"], basePath: string[] = []): string[][] {
   return Object.entries(config).flatMap(([element, value]) => {
     const path = [...basePath, element];
 

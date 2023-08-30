@@ -9,6 +9,7 @@ import fs from "fs";
 import {DIRNAME} from "../globals";
 import {docs} from "../helpers/docs";
 import {execSync} from "child_process";
+import {getComponentStructureConfig} from "../helpers/structure-type";
 
 export const reactInit = {
   initialise: () => {
@@ -49,7 +50,7 @@ export const reactInit = {
         return detect.installer();
       })
       .then(installer => {
-        settings.installer = installer;
+        settings.installer = installer as any;
         return inquirer.prompt([
           {
             type: "list",
@@ -61,30 +62,7 @@ export const reactInit = {
       })
       .then(structure => {
         settings.structure = structure.structure;
-        switch (structure.structure) {
-          case "BEP (recommended)":
-            settings.components = {
-              basics: "folder",
-              elements: "folder",
-              pages: "folder",
-            };
-            break;
-          case "Atomic":
-            settings.components = {
-              atoms: "folder",
-              molecules: "folder",
-              organisms: "folder",
-              templates: "folder",
-              pages: "folder",
-            };
-            break;
-          case "Custom":
-            settings.components = {};
-            console.log(
-              chalk.yellow("!! After the setup, define your own custom component structure in the config file !!")
-            );
-            break;
-        }
+        settings.components = getComponentStructureConfig(settings.structure);
         return inquirer.prompt([
           {
             type: "list",
@@ -137,7 +115,7 @@ export const reactInit = {
         return detect.packageName();
       })
       .then(pName => {
-        settings.name = pName;
+        settings.name = pName as any;
         return inquirer.prompt([
           {
             type: "confirm",

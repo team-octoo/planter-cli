@@ -12,17 +12,18 @@ import {docs} from "../helpers/docs";
 import {fonts} from "./fonts";
 import {intro} from "../helpers/intro";
 import {DIRNAME} from "../globals";
+import {getComponentStructureConfig} from "../helpers/structure-type";
 
 export const reactNativeInit = {
   initialise: () => {
     return detect
       .typescript()
       .then(hasTs => {
-        settings.hasTs = hasTs;
+        settings.hasTs = hasTs as any;
         return detect.installer();
       })
       .then(installer => {
-        settings.installer = installer;
+        settings.installer = installer as any;
         return inquirer.prompt([
           {
             type: "list",
@@ -34,30 +35,7 @@ export const reactNativeInit = {
       })
       .then(structure => {
         settings.structure = structure.structure;
-        switch (structure.structure) {
-          case "BEP (recommended)":
-            settings.components = {
-              basics: "folder",
-              elements: "folder",
-              pages: "folder",
-            };
-            break;
-          case "Atomic":
-            settings.components = {
-              atoms: "folder",
-              molecules: "folder",
-              organisms: "folder",
-              templates: "folder",
-              pages: "folder",
-            };
-            break;
-          case "Custom":
-            settings.components = {};
-            console.log(
-              chalk.yellow("!! After the setup, define your own custom component structure in the config file !!")
-            );
-            break;
-        }
+        settings.components = getComponentStructureConfig(settings.structure);
         return inquirer.prompt([
           {
             type: "confirm",
@@ -103,7 +81,7 @@ export const reactNativeInit = {
       })
 
       .then(postBuildScript => {
-        settings.postbuild = postBuildScript.postbuild;
+        settings.postbuild = postBuildScript.postbuild as any;
         return inquirer.prompt([
           {
             type: "list",
@@ -119,10 +97,17 @@ export const reactNativeInit = {
       })
       .then(navigation => {
         if (navigation.navigation === "none") return detect.packageName();
+        settings.components.navigation = {
+          component: "src/components/navigation/@camelCase",
+          style: "src/components/navigation/@camelCase",
+          test: "src/components/navigation/test/@camelCase",
+        };
         if (settings.hasTs) {
-          settings.components.navigation = {MainNavigation: "folder", ".": "folder"};
-        } else {
-          settings.components.navigation = "folder";
+          settings.components["main-navigation"] = {
+            component: "src/components/navigation/MainNavigation/@camelCase",
+            style: "src/components/navigation/MainNavigation/@camelCase",
+            test: "src/components/navigation/MainNavigation/test/@camelCase",
+          };
         }
 
         settings.packages.push("React-Navigation");
@@ -137,7 +122,7 @@ export const reactNativeInit = {
         return detect.packageName();
       })
       .then(pName => {
-        settings.name = pName;
+        settings.name = pName as any;
         return inquirer.prompt([
           {
             type: "confirm",

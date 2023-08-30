@@ -60,7 +60,7 @@ Planter cli has a config file named `./planter.config.json`.
 
 | Key            | Description                                                             | Type                                                 |
 |----------------|-------------------------------------------------------------------------|------------------------------------------------------|
-| `version`      | Version of the planter cli                                              | `0 \| 1`                                             |
+| `version`      | Version of the planter cli                                              | `number`                                             |
 | `name`         | Name of the application                                                 | `string`                                             |
 | `library`      | Type of react library                                                   | `'react' \| 'react-native'`                          |
 | `installer`    | npm or yarn                                                             | `'npm' \| 'yarn'`                                    |

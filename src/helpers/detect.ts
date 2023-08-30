@@ -16,18 +16,17 @@ export const detect = {
       reject("Planter config file detected... use --force option.");
     });
   },
-  library: async () => {
-    return new Promise((resolve, reject) => {
-      const {dependencies} = files.readPlanterPackageJson();
-      if (dependencies["react-native"]) {
-        resolve("react-native");
-      }
-      if (dependencies.react) {
-        resolve("react");
-      }
+  library: async (): Promise<"react" | "react-native"> => {
+    const {dependencies} = files.readProjectPackageJson();
 
-      reject("No React or React-native library detected...");
-    });
+    if (dependencies["react-native"]) {
+      return "react-native";
+    }
+    if (dependencies["react"]) {
+      return "react";
+    }
+
+    throw new Error("No React or React-native library detected...");
   },
   typescript: async () => {
     return new Promise(resolve => {

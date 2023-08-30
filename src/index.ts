@@ -39,14 +39,10 @@ program
   .action((str, options) => {
     intro
       .play()
-      .then(() => {
-        return detect.config(str.force);
-      })
-      .then(() => {
-        return detect.library();
-      })
+      .then(() => detect.config(str.force))
+      .then(() => detect.library())
       .then(library => {
-        settings.library = library;
+        settings.library = library as any;
         if (library === "react") {
           reactInit.initialise();
         } else if (library === "react-native") {
