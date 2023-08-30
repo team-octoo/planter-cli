@@ -10,9 +10,6 @@ export const reactNativeComponents = {
     const pascalCase = camelcase(name, {pascalCase: true});
     const settings = files.readSettingsJson();
     let casedName = camelcase(name, {pascalCase: true});
-    if (settings.folderCasing === "lowercase") {
-      casedName = name.toLowerCase();
-    }
 
     return inquirer
       .prompt([
@@ -55,7 +52,7 @@ export function createRNComponent(folder, name) {
     createdPath = path.join(getRNDestPath(), folder, `${name}.tsx`);
     files.copyFile(path.resolve(getRNSourcePath(), "ts", "Example.tsx"), createdPath);
   } else {
-    if (settings.hasPropTypes) {
+    if (settings.usePropTypes) {
       // if proptypes is used... add prop types
       createdPath = path.join(getRNDestPath(), folder, `${name}.js`);
       files.copyFile(path.resolve(getRNSourcePath(), "js", "proptypes", "Example.js"), createdPath);

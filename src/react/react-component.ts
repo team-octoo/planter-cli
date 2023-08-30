@@ -4,7 +4,6 @@ import chalk from "chalk";
 import inquirer from "inquirer";
 import {DIRNAME} from "../globals";
 import {files} from "../helpers/files";
-import {PlanterConfigV1, PlanterConfigV2} from "../helpers/migrator";
 
 export const reactComponents = {
   create: async name => {
@@ -13,9 +12,6 @@ export const reactComponents = {
 
     const pascalCase = camelcase(name, {pascalCase: true});
     let casedName = camelcase(name, {pascalCase: true});
-    if (settings.folderCasing === "lowercase") {
-      casedName = name.toLowerCase();
-    }
     // const lowerCase = name.toLowerCase();
     return inquirer
       .prompt([
@@ -74,7 +70,7 @@ function createComponent(folder, name) {
     createdPath = path.join(getDestPath(), folder, `${name}.tsx`);
     files.copyFile(path.resolve(getSourcePath(), "ts", "Example.tsx"), createdPath);
   } else {
-    if (settings.hasPropTypes) {
+    if (settings.usePropTypes) {
       // if proptypes is used... add prop types
       createdPath = path.join(getDestPath(), folder, `${name}.js`);
       files.copyFile(path.resolve(getSourcePath(), "js", "proptypes", "Example.js"), createdPath);
@@ -87,18 +83,7 @@ function createComponent(folder, name) {
 }
 
 function getComponentTypeOptions(): string[] {
-  const settings = files.readSettingsJson();
-  return getChildFolders(settings.components).map(pathArray => path.join(...pathArray));
-}
-
-function getChildFolders(config: PlanterConfigV1["components"], basePath: string[] = []): string[][] {
-  return Object.entries(config).flatMap(([element, value]) => {
-    const path = [...basePath, element];
-
-    if (typeof value === "string") return [path];
-
-    return getChildFolders(value, path);
-  });
+  return Object.keys(files.readSettingsJson());
 }
 
 function getSourcePath() {

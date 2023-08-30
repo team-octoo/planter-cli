@@ -13,7 +13,7 @@ export type PlanterConfigV0 = {
   library: "react" | "react-native";
   installer: "npm" | "yarn";
   hasTs: boolean;
-  layout: "css" | "css modules" | "sass" | "sass modules";
+  layout: "css" | "css modules" | "sass" | "sass modules" | "Styled-components";
   packages: string[];
   components: ComponentOptionsV0;
   structure: StructureType;
@@ -48,7 +48,8 @@ const migrate = from => {
   return new Promise<void>((resolve, reject) => {
     const currentVersion = settings.version;
     let configVersion = from;
-    let config = files.readSettingsJson();
+
+    let config = files.readSettingsJson() as any;
     for (let i = configVersion; i <= currentVersion; i++) {
       /** VERSION 0 --> 1 */
       if (i === 0) {

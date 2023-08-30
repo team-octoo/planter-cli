@@ -37,9 +37,6 @@ export const form = {
         const pascalCase = camelcase(nameWithFormEnd, {pascalCase: true});
         const settings = files.readSettingsJson();
         let casedName = camelcase(nameWithFormEnd, {pascalCase: true});
-        if (settings.folderCasing === "lowercase") {
-          casedName = casedName.toLowerCase();
-        }
         let folder = path.join(option.option, "forms", casedName);
         await files.directoryExistsOrCreate(path.join(getRNDestPath(), folder)),
           await files.directoryExistsOrCreate(path.join(getRNDestPath(), folder, "tests")),
@@ -71,7 +68,7 @@ export function createRNForm(folder, name) {
     createdPath = path.join(getRNDestPath(), folder, `${name}.tsx`);
     files.copyFile(path.resolve(getRNSourcePath(), "ts", "Example.tsx"), createdPath);
   } else {
-    if (settings.hasPropTypes) {
+    if (settings.usePropTypes) {
       // if proptypes is used... add prop types
       createdPath = path.join(getRNDestPath(), folder, `${name}.js`);
       files.copyFile(path.resolve(getRNSourcePath(), "js", "proptypes", "Example.js"), createdPath);

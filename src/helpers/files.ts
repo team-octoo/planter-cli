@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import {DIRNAME} from "../globals";
+import {PlanterConfigV2} from "./migrator";
 
 export const files = {
   readJson: filePath => {
@@ -15,7 +16,7 @@ export const files = {
 
   readProjectPackageJson: () => files.readJson("package.json"),
 
-  readSettingsJson: () => files.readJson("planter.config.json"),
+  readSettingsJson: () => files.readJson("planter.config.json") as PlanterConfigV2,
 
   copyFile: (src, dest) => fs.copyFileSync(src, dest),
 
