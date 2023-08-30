@@ -8,8 +8,6 @@ import {files} from "../helpers/files";
 export const reactComponents = {
   create: async name => {
     const settings = files.readSettingsJson();
-    const pascalCase = camelcase(name, {pascalCase: true});
-    let casedName = camelcase(name, {pascalCase: true});
 
     return inquirer
       .prompt([
@@ -27,18 +25,39 @@ export const reactComponents = {
           if (fileType === "test") return createTests(path, fileName);
         }
 
+        function getFileConfig(
+          name: string,
+          pathConfig: string
+        ): {
+          folderPath: string;
+          fileName: string;
+        } {
+          const caseOptions = {
+            "@camelCase": camelcase(name, {pascalCase: false}),
+            "@pascalCase": camelcase(name, {pascalCase: true}),
+          };
+
+          const caseOption = Object.keys(caseOptions).find(caseOption => pathConfig.endsWith(caseOption));
+
+          if (!caseOption) throw new Error(`Unknown file name replacer for "${pathConfig}"`);
+
+          return {
+            fileName: caseOptions[caseOption],
+            folderPath: pathConfig.replace(caseOption, ""),
+          };
+        }
+
         const componentLocations = settings.components[option.option];
 
-        for (const [fileType, partialPath] of Object.entries(componentLocations)) {
-          const folderPath = path.join(process.cwd(), partialPath);
-          files.directoryExistsOrCreate(folderPath);
+        for (const [fileType, pathConfig] of Object.entries(componentLocations)) {
+          const fileConfig = getFileConfig(name, pathConfig);
+          const folderPath = path.join(process.cwd(), fileConfig.folderPath);
 
-          createFileForComponent(fileType, folderPath, casedName);
+          files.directoryExistsOrCreate(folderPath);
+          createFileForComponent(fileType, folderPath, fileConfig.fileName);
         }
       })
-      .then(() => {
-        console.log(chalk.green("Component created..."));
-      });
+      .then(() => console.log(chalk.green("Component created...")));
   },
 };
 
