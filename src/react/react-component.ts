@@ -7,12 +7,10 @@ import {files} from "../helpers/files";
 
 export const reactComponents = {
   create: async name => {
-    // const settings = JSON.parse(fs.readFileSync(path.join(process.cwd(), "planter.config.json").toString()));
     const settings = files.readSettingsJson();
-
     const pascalCase = camelcase(name, {pascalCase: true});
     let casedName = camelcase(name, {pascalCase: true});
-    // const lowerCase = name.toLowerCase();
+
     return inquirer
       .prompt([
         {
@@ -23,13 +21,20 @@ export const reactComponents = {
         },
       ])
       .then(async option => {
-        const folderArray = option.option.split("/");
-        let folder = path.join.apply(null, folderArray.concat([casedName]));
-        files.directoryExistsOrCreate(path.join(getDestPath(), folder));
-        files.directoryExistsOrCreate(path.join(getDestPath(), folder, "tests"));
-        createComponent(folder, pascalCase);
-        createTests(folder, pascalCase);
-        await createLayout(folder, pascalCase);
+        function createFileForComponent(fileType: string, path: string, fileName: string) {
+          if (fileType === "component") return createComponent(path, fileName);
+          if (fileType === "style") return createLayout(path, fileName);
+          if (fileType === "test") return createTests(path, fileName);
+        }
+
+        const componentLocations = settings.components[option.option];
+
+        for (const [fileType, partialPath] of Object.entries(componentLocations)) {
+          const folderPath = path.join(process.cwd(), partialPath);
+          files.directoryExistsOrCreate(folderPath);
+
+          createFileForComponent(fileType, folderPath, casedName);
+        }
       })
       .then(() => {
         console.log(chalk.green("Component created..."));
@@ -37,16 +42,16 @@ export const reactComponents = {
   },
 };
 
-async function createLayout(folder, name) {
+function createLayout(folder, name) {
   const settings = files.readSettingsJson();
   if (settings.layout.trim().toLowerCase() === "css") {
-    await files.fileExistsOrCreate(path.join(getDestPath(), folder, `${name}.css`));
+    files.fileExistsOrCreate(path.join(getDestPath(), folder, `${name}.css`));
   } else if (settings.layout.trim().toLowerCase() === "sass") {
-    await files.fileExistsOrCreate(path.join(getDestPath(), folder, `${name}.scss`));
+    files.fileExistsOrCreate(path.join(getDestPath(), folder, `${name}.scss`));
   } else if (settings.layout.trim().toLowerCase() === "css-modules") {
-    await files.fileExistsOrCreate(path.join(getDestPath(), folder, `${name}.module.css`));
+    files.fileExistsOrCreate(path.join(getDestPath(), folder, `${name}.module.css`));
   } else if (settings.layout.trim().toLowerCase() === "sass-modules") {
-    await files.fileExistsOrCreate(path.join(getDestPath(), folder, `${name}.module.scss`));
+    files.fileExistsOrCreate(path.join(getDestPath(), folder, `${name}.module.scss`));
   }
 }
 
