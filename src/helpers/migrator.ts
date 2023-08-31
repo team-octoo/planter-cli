@@ -38,6 +38,10 @@ export type PlanterConfigV2 = Omit<PlanterConfigV1, "version" | "components"> & 
   >;
 };
 
+export type PlanterConfigV3 = Omit<PlanterConfigV2, "version"> & {
+  version: 3;
+};
+
 /**
  *
  * SUPER IMPORTANT WHEN CREATING A NEW VERSION
@@ -54,7 +58,6 @@ const migrate = from => {
       /** VERSION 0 --> 1 */
       if (i === 0) {
         config.version = 1;
-        files.overwriteFile(path.join(process.cwd(), "planter.config.json"), JSON.stringify(config, null, 2));
       }
 
       if (i === 1) {
@@ -72,14 +75,28 @@ const migrate = from => {
           };
         }
 
-        files.overwriteFile(path.join(process.cwd(), "planter.config.json"), JSON.stringify(config, null, 2));
+        config.components = newOptions;
+      }
+
+      if (i === 2) {
+        config.version = 3;
+
+        config.components = Object.fromEntries(
+          Object.entries(config.components as PlanterConfigV2["components"]).map(([key, value]) => [
+            key,
+            Object.fromEntries(Object.entries(value).map(([key, value]) => [key, path.join(value, "@pascalCase")])),
+          ])
+        );
       }
 
       /** RESOLVING VERSION */
       if (i === currentVersion) {
-        resolve();
+        break;
       }
     }
+
+    files.overwriteFile(path.join(process.cwd(), "planter.config.json"), JSON.stringify(config, null, 2));
+    resolve();
   });
 };
 

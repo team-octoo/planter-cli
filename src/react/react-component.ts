@@ -43,7 +43,7 @@ export const reactComponents = {
 
           return {
             fileName: caseOptions[caseOption],
-            folderPath: pathConfig.replace(caseOption, ""),
+            folderPath: pathConfig.replace(caseOption, caseOptions[caseOption]),
           };
         }
 
@@ -51,10 +51,8 @@ export const reactComponents = {
 
         for (const [fileType, pathConfig] of Object.entries(componentLocations)) {
           const fileConfig = getFileConfig(name, pathConfig);
-          const folderPath = path.join(process.cwd(), fileConfig.folderPath);
-
-          files.directoryExistsOrCreate(folderPath);
-          createFileForComponent(fileType, folderPath, fileConfig.fileName);
+          files.directoryExistsOrCreate(path.join(process.cwd(), fileConfig.folderPath));
+          createFileForComponent(fileType, fileConfig.folderPath, fileConfig.fileName);
         }
       })
       .then(() => console.log(chalk.green("Component created...")));
@@ -78,10 +76,10 @@ function createTests(folder, name) {
   const settings = files.readSettingsJson();
   let createdPath;
   if (settings.hasTs) {
-    createdPath = path.join(getDestPath(), folder, "tests", `${name}.test.tsx`);
+    createdPath = path.join(getDestPath(), folder, `${name}.test.tsx`);
     files.copyFile(path.resolve(getSourcePath(), "tests", "Example.test.tsx"), createdPath);
   } else {
-    createdPath = path.join(getDestPath(), folder, "tests", `${name}.test.js`);
+    createdPath = path.join(getDestPath(), folder, `${name}.test.js`);
     files.copyFile(path.resolve(getSourcePath(), "tests", "Example.test.js"), createdPath);
   }
   files.replaceInFiles(createdPath, "Example", name);
@@ -107,7 +105,7 @@ function createComponent(folder, name) {
 }
 
 function getComponentTypeOptions(): string[] {
-  return Object.keys(files.readSettingsJson());
+  return Object.keys(files.readSettingsJson().components);
 }
 
 function getSourcePath() {
@@ -115,5 +113,5 @@ function getSourcePath() {
 }
 
 function getDestPath() {
-  return path.resolve(process.cwd(), "src", "components");
+  return path.resolve(process.cwd());
 }
