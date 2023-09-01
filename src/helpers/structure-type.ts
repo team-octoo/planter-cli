@@ -10,17 +10,17 @@ export function getComponentStructureConfig(structure: StructureType): PlanterCo
       blocks: {
         component: "src/components/blocks/@camelCase",
         style: "src/components/blocks/@camelCase",
-        test: "src/components/blocks/@camelCase/test",
+        test: "src/components/blocks/@camelCase/tests",
       },
       elements: {
         component: "src/components/elements/@camelCase",
         style: "src/components/elements/@camelCase",
-        test: "src/components/elements/@camelCase/test",
+        test: "src/components/elements/@camelCase/tests",
       },
       pages: {
         component: "src/components/pages/@camelCase",
         style: "src/components/pages/@camelCase",
-        test: "src/components/pages/@camelCase/test",
+        test: "src/components/pages/@camelCase/tests",
       },
     };
   if (structure === "Atomic")
@@ -28,27 +28,27 @@ export function getComponentStructureConfig(structure: StructureType): PlanterCo
       atoms: {
         component: "src/components/atoms/@camelCase",
         style: "src/components/atoms/@camelCase",
-        test: "src/components/atoms/@camelCase/test",
+        test: "src/components/atoms/@camelCase/tests",
       },
       molecules: {
         component: "src/components/molecules/@camelCase",
         style: "src/components/molecules/@camelCase",
-        test: "src/components/molecules/@camelCase/test",
+        test: "src/components/molecules/@camelCase/tests",
       },
       organisms: {
         component: "src/components/organisms/@camelCase",
         style: "src/components/organisms/@camelCase",
-        test: "src/components/organisms/@camelCase/test",
+        test: "src/components/organisms/@camelCase/tests",
       },
       templates: {
         component: "src/components/templates/@camelCase",
         style: "src/components/templates/@camelCase",
-        test: "src/components/templates/@camelCase/test",
+        test: "src/components/templates/@camelCase/tests",
       },
       pages: {
         component: "src/components/pages/@camelCase",
         style: "src/components/pages/@camelCase",
-        test: "src/components/pages/@camelCase/test",
+        test: "src/components/pages/@camelCase/tests",
       },
     };
   if (structure === "Custom") {

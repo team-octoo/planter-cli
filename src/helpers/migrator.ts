@@ -3,6 +3,9 @@ import {files} from "./files";
 import path from "path";
 import {StructureType} from "./structure-type";
 
+export const layouts = ["css", "css modules", "sass", "sass modules", "custom"] as const;
+export type Layouts = typeof layouts[number];
+
 type ComponentOptionsV0 = {
   [key: string]: "folder" | ComponentOptionsV0;
 };
@@ -13,7 +16,7 @@ export type PlanterConfigV0 = {
   library: "react" | "react-native";
   installer: "npm" | "yarn";
   hasTs: boolean;
-  layout: "css" | "css modules" | "sass" | "sass modules" | "Styled-components";
+  layout: Layouts;
   packages: string[];
   components: ComponentOptionsV0;
   structure: StructureType;

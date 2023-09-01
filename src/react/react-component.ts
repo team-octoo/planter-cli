@@ -37,13 +37,14 @@ export const reactComponents = {
             "@pascalCase": camelcase(name, {pascalCase: true}),
           };
 
-          const caseOption = Object.keys(caseOptions).find(caseOption => pathConfig.endsWith(caseOption));
-
-          if (!caseOption) throw new Error(`Unknown file name replacer for "${pathConfig}"`);
+          const folderPath = Object.entries(caseOptions).reduce(
+            (folderPath, [replacer, value]) => folderPath.replace(replacer, value),
+            pathConfig
+          );
 
           return {
-            fileName: caseOptions[caseOption],
-            folderPath: pathConfig.replace(caseOption, caseOptions[caseOption]),
+            fileName: camelcase(name, {pascalCase: false}),
+            folderPath,
           };
         }
 
