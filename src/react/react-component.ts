@@ -4,6 +4,10 @@ import chalk from "chalk";
 import inquirer from "inquirer";
 import {DIRNAME} from "../globals";
 import {files} from "../helpers/files";
+import {assertNever} from "../helpers/assert-never";
+import {LayoutType, PlanterConfigV3} from "../helpers/migrator";
+
+type FileType = keyof PlanterConfigV3["components"][string];
 
 export const reactComponents = {
   create: async name => {
@@ -19,90 +23,43 @@ export const reactComponents = {
         },
       ])
       .then(async option => {
-        function createFileForComponent(fileType: string, path: string, fileName: string) {
-          if (fileType === "component") return createComponent(path, fileName);
-          if (fileType === "style") return createLayout(path, fileName);
-          if (fileType === "test") return createTests(path, fileName);
-        }
-
-        function getFileConfig(
-          name: string,
-          pathConfig: string
-        ): {
-          folderPath: string;
-          fileName: string;
-        } {
-          const caseOptions = {
-            "@camelCase": camelcase(name, {pascalCase: false}),
-            "@pascalCase": camelcase(name, {pascalCase: true}),
-          };
-
-          const folderPath = Object.entries(caseOptions).reduce(
-            (folderPath, [replacer, value]) => folderPath.replace(replacer, value),
-            pathConfig
-          );
-
-          return {
-            fileName: camelcase(name, {pascalCase: false}),
-            folderPath,
-          };
-        }
-
         const componentLocations = settings.components[option.option];
 
         for (const [fileType, pathConfig] of Object.entries(componentLocations)) {
-          const fileConfig = getFileConfig(name, pathConfig);
-          files.directoryExistsOrCreate(path.join(process.cwd(), fileConfig.folderPath));
-          createFileForComponent(fileType, fileConfig.folderPath, fileConfig.fileName);
+          createFileForComponent(fileType as FileType, pathConfig, camelcase(name));
         }
       })
       .then(() => console.log(chalk.green("Component created...")));
   },
 };
 
-function createLayout(folder, name) {
+function createComponent(filePath: string, name: string) {
   const settings = files.readSettingsJson();
-  if (settings.layout.trim().toLowerCase() === "css") {
-    files.fileExistsOrCreate(path.join(getDestPath(), folder, `${name}.css`));
-  } else if (settings.layout.trim().toLowerCase() === "sass") {
-    files.fileExistsOrCreate(path.join(getDestPath(), folder, `${name}.scss`));
-  } else if (settings.layout.trim().toLowerCase() === "css-modules") {
-    files.fileExistsOrCreate(path.join(getDestPath(), folder, `${name}.module.css`));
-  } else if (settings.layout.trim().toLowerCase() === "sass-modules") {
-    files.fileExistsOrCreate(path.join(getDestPath(), folder, `${name}.module.scss`));
-  }
+
+  const examplePath: string = settings.hasTs
+    ? path.resolve(getSourcePath(), "ts", "Example.tsx")
+    : settings.usePropTypes
+    ? path.resolve(getSourcePath(), "js", "proptypes", "Example.js")
+    : path.resolve(getSourcePath(), "js", "Example.js");
+
+  files.copyFile(examplePath, filePath);
+
+  files.replaceInFiles(filePath, "Example", name);
 }
 
-function createTests(folder, name) {
-  const settings = files.readSettingsJson();
-  let createdPath;
-  if (settings.hasTs) {
-    createdPath = path.join(getDestPath(), folder, `${name}.test.tsx`);
-    files.copyFile(path.resolve(getSourcePath(), "tests", "Example.test.tsx"), createdPath);
-  } else {
-    createdPath = path.join(getDestPath(), folder, `${name}.test.js`);
-    files.copyFile(path.resolve(getSourcePath(), "tests", "Example.test.js"), createdPath);
-  }
-  files.replaceInFiles(createdPath, "Example", name);
+function createLayout(filePath: string) {
+  files.fileExistsOrCreate(filePath);
 }
 
-function createComponent(folder, name) {
+function createTests(filePath: string, name: string) {
   const settings = files.readSettingsJson();
-  let createdPath;
-  if (settings.hasTs) {
-    createdPath = path.join(getDestPath(), folder, `${name}.tsx`);
-    files.copyFile(path.resolve(getSourcePath(), "ts", "Example.tsx"), createdPath);
-  } else {
-    if (settings.usePropTypes) {
-      // if proptypes is used... add prop types
-      createdPath = path.join(getDestPath(), folder, `${name}.js`);
-      files.copyFile(path.resolve(getSourcePath(), "js", "proptypes", "Example.js"), createdPath);
-    } else {
-      createdPath = path.join(getDestPath(), folder, `${name}.js`);
-      files.copyFile(path.resolve(getSourcePath(), "js", "Example.js"), createdPath);
-    }
-  }
-  files.replaceInFiles(createdPath, "Example", name);
+  const examplePath = settings.hasTs
+    ? path.resolve(getSourcePath(), "tests", "Example.test.tsx")
+    : path.resolve(getSourcePath(), "tests", "Example.test.js");
+
+  files.copyFile(examplePath, filePath);
+
+  files.replaceInFiles(filePath, "Example", name);
 }
 
 function getComponentTypeOptions(): string[] {
@@ -113,6 +70,42 @@ function getSourcePath() {
   return path.resolve(DIRNAME, "react", "examples", "component");
 }
 
-function getDestPath() {
-  return path.resolve(process.cwd());
+function applyReplacers(pathConfig: string, name: string, extension: string): string {
+  const caseOptions = {
+    "@camelCase": camelcase(name, {pascalCase: false}),
+    "@pascalCase": camelcase(name, {pascalCase: true}),
+  };
+
+  const pathReplaced = Object.entries(caseOptions)
+    .reduce((folderPath, [replacer, value]) => folderPath.replace(replacer, value), pathConfig)
+    .replace("@ext", extension);
+  return path.join(process.cwd(), pathReplaced);
+}
+
+function createFileForComponent(fileType: FileType, pathConfig: string, name: string) {
+  if (fileType === "component") return createComponent(getFilePath(fileType, pathConfig, name), name);
+  if (fileType === "style") return createLayout(getFilePath(fileType, pathConfig, name));
+  if (fileType === "test") return createTests(getFilePath(fileType, pathConfig, name), name);
+
+  return assertNever(fileType);
+}
+
+function getFilePath(fileType: FileType, pathConfig: string, name: string): string {
+  function getLayoutExtension(layoutType: LayoutType) {
+    if (layoutType === "css") return "css";
+    if (layoutType === "sass") return "scss";
+    if (layoutType === "css-modules") return "module.css";
+    if (layoutType === "sass-modules") return "module.scss";
+
+    return assertNever(layoutType);
+  }
+
+  const codeExtension = files.readSettingsJson().hasTs ? "tsx" : "js";
+
+  if (fileType === "component") return applyReplacers(pathConfig, name, codeExtension);
+  if (fileType === "style")
+    return applyReplacers(pathConfig, name, getLayoutExtension(files.readSettingsJson().layout));
+  if (fileType === "test") return applyReplacers(pathConfig, name, codeExtension);
+
+  return assertNever(fileType);
 }

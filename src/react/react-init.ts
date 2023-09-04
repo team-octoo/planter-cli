@@ -10,7 +10,7 @@ import {DIRNAME} from "../globals";
 import {docs} from "../helpers/docs";
 import {execSync} from "child_process";
 import {getComponentStructureConfig} from "../helpers/structure-type";
-import {layouts} from "../helpers/migrator";
+import {layoutTypes} from "../helpers/migrator";
 
 export const reactInit = {
   initialise: () => {
@@ -69,7 +69,7 @@ export const reactInit = {
             type: "list",
             name: "layout",
             message: "Choose which layout method you'd like to use in components:",
-            choices: layouts,
+            choices: layoutTypes,
           },
         ]);
       })

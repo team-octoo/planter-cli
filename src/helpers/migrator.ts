@@ -3,8 +3,8 @@ import {files} from "./files";
 import path from "path";
 import {StructureType} from "./structure-type";
 
-export const layouts = ["css", "css modules", "sass", "sass modules", "custom"] as const;
-export type Layouts = typeof layouts[number];
+export const layoutTypes = ["css", "css-modules", "sass", "sass-modules"] as const;
+export type LayoutType = typeof layoutTypes[number];
 
 type ComponentOptionsV0 = {
   [key: string]: "folder" | ComponentOptionsV0;
@@ -16,7 +16,7 @@ export type PlanterConfigV0 = {
   library: "react" | "react-native";
   installer: "npm" | "yarn";
   hasTs: boolean;
-  layout: Layouts;
+  layout: LayoutType;
   packages: string[];
   components: ComponentOptionsV0;
   structure: StructureType;
@@ -43,6 +43,10 @@ export type PlanterConfigV2 = Omit<PlanterConfigV1, "version" | "components"> & 
 
 export type PlanterConfigV3 = Omit<PlanterConfigV2, "version"> & {
   version: 3;
+};
+
+export type PlanterConfigV4 = Omit<PlanterConfigV3, "version"> & {
+  version: 4;
 };
 
 /**
@@ -90,6 +94,21 @@ const migrate = from => {
             Object.fromEntries(Object.entries(value).map(([key, value]) => [key, path.join(value, "@pascalCase")])),
           ])
         );
+      }
+
+      if (i === 3) {
+        config.version = 4;
+
+        config.components = Object.fromEntries(
+          Object.entries(config.components as PlanterConfigV2["components"]).map(([key, value]) => [
+            key,
+            Object.fromEntries(
+              Object.entries(value).map(([key, value]) => [key, path.join(value, "@camelCase.test.@ext")])
+            ),
+          ])
+        );
+
+        config.layout = config.layout.toLowerCase().replace(" ", "-");
       }
 
       /** RESOLVING VERSION */

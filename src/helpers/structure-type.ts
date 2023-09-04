@@ -8,47 +8,47 @@ export function getComponentStructureConfig(structure: StructureType): PlanterCo
   if (structure === "BEP (recommended)")
     return {
       blocks: {
-        component: "src/components/blocks/@camelCase",
-        style: "src/components/blocks/@camelCase",
-        test: "src/components/blocks/@camelCase/tests",
+        component: "src/components/blocks/@camelCase/@camelCase.@ext",
+        style: "src/components/blocks/@camelCase/@camelCase.@ext",
+        test: "src/components/blocks/@camelCase/tests/@camelCase.test.@ext",
       },
       elements: {
-        component: "src/components/elements/@camelCase",
-        style: "src/components/elements/@camelCase",
-        test: "src/components/elements/@camelCase/tests",
+        component: "src/components/elements/@camelCase/@camelCase.@ext",
+        style: "src/components/elements/@camelCase/@camelCase.@ext",
+        test: "src/components/elements/@camelCase/tests/@camelCase.test.@ext",
       },
       pages: {
-        component: "src/components/pages/@camelCase",
-        style: "src/components/pages/@camelCase",
-        test: "src/components/pages/@camelCase/tests",
+        component: "src/components/pages/@camelCase/@camelCase.@ext",
+        style: "src/components/pages/@camelCase/@camelCase.@ext",
+        test: "src/components/pages/@camelCase/tests/@camelCase.test.@ext",
       },
     };
   if (structure === "Atomic")
     return {
       atoms: {
-        component: "src/components/atoms/@camelCase",
-        style: "src/components/atoms/@camelCase",
-        test: "src/components/atoms/@camelCase/tests",
+        component: "src/components/atoms/@camelCase/@camelCase.@ext",
+        style: "src/components/atoms/@camelCase/@camelCase.@ext",
+        test: "src/components/atoms/@camelCase/tests/@camelCase.test.@ext",
       },
       molecules: {
-        component: "src/components/molecules/@camelCase",
-        style: "src/components/molecules/@camelCase",
-        test: "src/components/molecules/@camelCase/tests",
+        component: "src/components/molecules/@camelCase/@camelCase.@ext",
+        style: "src/components/molecules/@camelCase/@camelCase.@ext",
+        test: "src/components/molecules/@camelCase/tests/@camelCase.test.@ext",
       },
       organisms: {
-        component: "src/components/organisms/@camelCase",
-        style: "src/components/organisms/@camelCase",
-        test: "src/components/organisms/@camelCase/tests",
+        component: "src/components/organisms/@camelCase/@camelCase.@ext",
+        style: "src/components/organisms/@camelCase/@camelCase.@ext",
+        test: "src/components/organisms/@camelCase/tests/@camelCase.test.@ext",
       },
       templates: {
-        component: "src/components/templates/@camelCase",
-        style: "src/components/templates/@camelCase",
-        test: "src/components/templates/@camelCase/tests",
+        component: "src/components/templates/@camelCase/@camelCase.@ext",
+        style: "src/components/templates/@camelCase/@camelCase.@ext",
+        test: "src/components/templates/@camelCase/tests/@camelCase.test.@ext",
       },
       pages: {
-        component: "src/components/pages/@camelCase",
-        style: "src/components/pages/@camelCase",
-        test: "src/components/pages/@camelCase/tests",
+        component: "src/components/pages/@camelCase/@camelCase.@ext",
+        style: "src/components/pages/@camelCase/@camelCase.@ext",
+        test: "src/components/pages/@camelCase/tests/@camelCase.test.@ext",
       },
     };
   if (structure === "Custom") {
