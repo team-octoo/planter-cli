@@ -42,6 +42,24 @@ export type PlanterConfigV3 = Omit<PlanterConfigV2, "version"> & {
   version: 3;
 };
 
+export type PlanterConfigV4 = Omit<PlanterConfigV3, "version"> & {
+  version: 4;
+  miragePath: string;
+  hookPath: string;
+  dataPath: string;
+  funcsPath: string;
+  assetImagesPath: string;
+  assetFontsPath: string;
+  assetMiscPath: string;
+  contextPath: string;
+  reduxActionPath: string;
+  reduxStorePath: string;
+  reduxReducerPath: string;
+  zustandStoresPath: string;
+  localesPath: string;
+  typesPath: string;
+};
+
 /**
  *
  * SUPER IMPORTANT WHEN CREATING A NEW VERSION
@@ -87,6 +105,72 @@ const migrate = from => {
             Object.fromEntries(Object.entries(value).map(([key, value]) => [key, path.join(value, "@pascalCase")])),
           ])
         );
+      }
+
+      if (i === 3) {
+        config.version = 4;
+
+        if (settings.packages.indexOf("Mock-service-worker") !== -1) {
+          if (!config.mswPath) {
+            config.mswPath = "src/mocks/endpoints";
+          }
+        }
+        if (settings.packages.indexOf("MirageJS") !== -1) {
+          if (!config.mswPath) {
+            config.miragePath = "src/mocks";
+          }
+        }
+
+        if (!config.hookPath) {
+          config.hookPath = "src/utils/hooks";
+        }
+        if (!config.dataPath) {
+          config.dataPath = "src/utils/data";
+        }
+        if (!config.funcsPath) {
+          config.funcsPath = "src/utils/funcs";
+        }
+
+        if (!config.assetImagesPath) {
+          config.assetImagesPath = "src/assets/images";
+        }
+        if (!config.assetFontsPath) {
+          config.assetImagesPath = "src/assets/fonts";
+        }
+        if (!config.assetMiscPath) {
+          config.assetImagesPath = "src/assets/misc";
+        }
+
+        if (!config.contextPath) {
+          config.contextPath = "src/state/contexts";
+        }
+        if (settings.packages.indexOf("Redux") !== -1) {
+          if (!config.reduxActionPath) {
+            config.reduxActionPath = "src/state/actions";
+          }
+          if (!config.reduxStorePath) {
+            config.reduxStorePath = "src/state/store";
+          }
+          if (!config.reduxReducerPath) {
+            config.reduxReducerPath = "src/state/reducers";
+          }
+        }
+
+        if (settings.packages.indexOf("Zustand") !== -1) {
+          if (!config.zustandStoresPath) {
+            config.zustandStoresPath = "src/state/stores";
+          }
+        }
+
+        if (settings.packages.indexOf("i18next") !== -1) {
+          if (!config.localesPath) {
+            config.localesPath = "src/locales";
+          }
+        }
+
+        if (config.hasTs && !config.typesPath) {
+          config.typesPath = "src/types";
+        }
       }
 
       /** RESOLVING VERSION */

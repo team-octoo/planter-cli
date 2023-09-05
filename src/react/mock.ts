@@ -13,6 +13,7 @@ const mock = {
       .then(() => {
         const file = copyDataFolder(name);
         replace(file, name);
+        replaceMockFile(file);
         console.log(chalk.green("Mock file created... Don't forget to import it in the handlers file."));
       })
       .catch(err => {
@@ -44,6 +45,20 @@ function replace(path, name) {
   const camelCaseName = camelcase(name);
   let data = fs.readFileSync(path, "utf8");
   let result = data.replace(/example/g, camelCaseName).replace(/Example/g, pascalCase);
+  fs.writeFileSync(path, result, "utf8");
+}
+
+function replaceMockFile(path) {
+  const settings = files.readSettingsJson();
+  const mswPath = settings.mswPath.split("/");
+  let dbLink = "";
+  // i == 2 because src and mocks should not be calculated in the path
+  for (let i = 2; i < mswPath.length; i++) {
+    dbLink = dbLink + "../";
+  }
+  dbLink = dbLink + "mockDatabase";
+  let data = fs.readFileSync(path, "utf8");
+  let result = data.replaceAll("../mockDatabase", '"' + dbLink + '"');
   fs.writeFileSync(path, result, "utf8");
 }
 

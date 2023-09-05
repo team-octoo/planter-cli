@@ -7,10 +7,10 @@ export type StructureType = "BEP (recommended)" | "Atomic" | "Custom";
 export function getComponentStructureConfig(structure: StructureType): PlanterConfigV2["components"] {
   if (structure === "BEP (recommended)")
     return {
-      blocks: {
-        component: "src/components/blocks/@camelCase",
-        style: "src/components/blocks/@camelCase",
-        test: "src/components/blocks/@camelCase/test",
+      basics: {
+        component: "src/components/basics/@camelCase",
+        style: "src/components/basics/@camelCase",
+        test: "src/components/basics/@camelCase/test",
       },
       elements: {
         component: "src/components/elements/@camelCase",
