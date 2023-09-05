@@ -3,6 +3,9 @@ import {files} from "./files";
 import path from "path";
 import {StructureType} from "./structure-type";
 
+export const layoutTypes = ["css", "css-modules", "sass", "sass-modules"] as const;
+export type LayoutType = typeof layoutTypes[number];
+
 type ComponentOptionsV0 = {
   [key: string]: "folder" | ComponentOptionsV0;
 };
@@ -13,7 +16,7 @@ export type PlanterConfigV0 = {
   library: "react" | "react-native";
   installer: "npm" | "yarn";
   hasTs: boolean;
-  layout: "css" | "css modules" | "sass" | "sass modules" | "Styled-components";
+  layout: LayoutType;
   packages: string[];
   components: ComponentOptionsV0;
   structure: StructureType;
@@ -171,6 +174,16 @@ const migrate = from => {
         if (config.hasTs && !config.typesPath) {
           config.typesPath = "src/types";
         }
+        config.components = Object.fromEntries(
+          Object.entries(config.components as PlanterConfigV2["components"]).map(([key, value]) => [
+            key,
+            Object.fromEntries(
+              Object.entries(value).map(([key, value]) => [key, path.join(value, "@camelCase.test.@ext")])
+            ),
+          ])
+        );
+
+        config.layout = config.layout.toLowerCase().replace(" ", "-");
       }
 
       /** RESOLVING VERSION */

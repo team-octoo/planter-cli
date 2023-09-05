@@ -181,11 +181,6 @@ export const install = {
 
         console.log(chalk.yellow("Now installing packages", packages, devpackages));
 
-        // if styled components ... add to packages
-        if (settings.layout === "Styled-components") {
-          packages.push("styled-components");
-        }
-
         // if react-native ... install testing library
         if (settings.library === "react-native") {
           devpackages.push("@testing-library/react-native");

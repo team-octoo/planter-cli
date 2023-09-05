@@ -18,7 +18,12 @@ export const files = {
 
   readSettingsJson: () => files.readJson("planter.config.json") as PlanterConfigV2,
 
-  copyFile: (src, dest) => fs.copyFileSync(src, dest),
+  copyFile: (src, dest) => {
+    const folderPath = path.dirname(dest);
+    files.directoryExistsOrCreate(folderPath);
+
+    fs.copyFileSync(src, dest);
+  },
 
   replaceInFiles: (filePath, searchValue, replaceValue) => {
     const fileContent = fs.readFileSync(filePath).toString().replaceAll(searchValue, replaceValue);
