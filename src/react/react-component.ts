@@ -77,8 +77,8 @@ function applyReplacers(pathConfig: string, name: string, extension: string): st
   };
 
   const pathReplaced = Object.entries(caseOptions)
-    .reduce((folderPath, [replacer, value]) => folderPath.replace(replacer, value), pathConfig)
-    .replace("@ext", extension);
+    .reduce((folderPath, [replacer, value]) => folderPath.replaceAll(replacer, value), pathConfig)
+    .replaceAll("@ext", extension);
   return path.join(process.cwd(), pathReplaced);
 }
 

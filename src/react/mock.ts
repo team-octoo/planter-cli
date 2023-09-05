@@ -52,13 +52,14 @@ function replaceMockFile(path) {
   const settings = files.readSettingsJson();
   const mswPath = settings.mswPath.split("/");
   let dbLink = "";
-  // i == 2 because src and mocks should not be calculated in the path
-  for (let i = 2; i < mswPath.length; i++) {
+  // i == 1 because mocks should not be calculated in the path
+  for (let i = 1; i < mswPath.length; i++) {
     dbLink = dbLink + "../";
   }
   dbLink = dbLink + "mockDatabase";
   let data = fs.readFileSync(path, "utf8");
-  let result = data.replaceAll("../mockDatabase", '"' + dbLink + '"');
+  let result = data.replaceAll("../mockDatabase", dbLink);
+
   fs.writeFileSync(path, result, "utf8");
 }
 
