@@ -38,7 +38,7 @@ function copyDataFolder(name, persisted) {
   const pascalCase = camelcase(name, {pascalCase: true});
   const storeFile = `use${persisted ? "Persistent" : ""}${pascalCase}Store.${settings.hasTs ? "ts" : "js"}`;
 
-  const storePathName = path.join(process.cwd(), "src", "state", "stores");
+  const storePathName = path.join(process.cwd(), ...settings.zustandStoresPath.split("/"));
   let storeExamplePathName = path.join(
     settings.hasTs ? "ts" : "js",
     persisted ? "persist" : "nopersist",

@@ -7,16 +7,17 @@ import {DIRNAME} from "../globals";
 
 const context = {
   createContext: async elementName => {
+    const settings = files.readSettingsJson();
     const path = copyDataFolder(elementName);
     replace(path, elementName);
-    console.log(chalk.green("Context file created at src/state/contexts..."));
+    console.log(chalk.green("Context file created at " + settings.contextPath + "..."));
   },
 };
 
 function copyDataFolder(name) {
   const settings = files.readSettingsJson();
   const filename = `${camelcase(name, {pascalCase: true})}Context.${settings.hasTs ? "ts" : "js"}`;
-  const pathName = path.join(process.cwd(), "src", "state", "contexts");
+  const pathName = path.join(process.cwd(), ...settings.contextPath.split("/"));
   const fullPath = `${pathName}/${filename}`;
   files.directoryExistsOrCreate(pathName);
   fs.copyFileSync(path.resolve(DIRNAME, "react", "examples", "state", "contexts", "ExampleContext.ts"), fullPath);

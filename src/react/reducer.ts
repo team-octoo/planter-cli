@@ -28,7 +28,7 @@ function addToRootReducer(name) {
   const settings = files.readSettingsJson();
 
   const buffer = fs.readFileSync(
-    path.join(process.cwd(), "src", "state", "reducers", `RootReducer.${settings.hasTs ? "ts" : "js"}`)
+    path.join(process.cwd(), ...settings.reduxReducerPath.split("/"), `RootReducer.${settings.hasTs ? "ts" : "js"}`)
   );
   let fileString = buffer.toString();
   fileString = fileString.replace(
@@ -61,7 +61,7 @@ function addToRootReducer(name) {
     );
   }
   fs.writeFileSync(
-    path.join(process.cwd(), "src", "state", "reducers", `RootReducer.${settings.hasTs ? "ts" : "js"}`),
+    path.join(process.cwd(), ...settings.reduxReducerPath.split("/"), `RootReducer.${settings.hasTs ? "ts" : "js"}`),
     fileString
   );
   return fileString;
@@ -76,8 +76,8 @@ function copyDataFolder(name) {
   const rootFile = `RootReducer.${settings.hasTs ? "ts" : "js"}`;
   const storeFile = `Store.${settings.hasTs ? "ts" : "js"}`;
 
-  const actionPathName = path.join(process.cwd(), "src", "state", "actions");
-  const reducerPathName = path.join(process.cwd(), "src", "state", "reducers");
+  const actionPathName = path.join(process.cwd(), ...settings.reduxActionPath.split("/"));
+  const reducerPathName = path.join(process.cwd(), ...settings.reduxReducerPath.split("/"));
   // files.directoryExistsOrCreate(pathName);
   const actionPath = copyFile(actionPathName, actionsFile, path.join("actions", "ExampleActions.ts"));
   const reducerPath = copyFile(reducerPathName, reducerFile, path.join("reducers", "ExampleReducer.ts"));

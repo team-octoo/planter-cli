@@ -7,16 +7,17 @@ import {DIRNAME} from "../globals";
 
 const hook = {
   createHook: async elementName => {
+    const settings = files.readSettingsJson();
     const path = copyDataFolder(elementName);
     replace(path, elementName);
-    console.log(chalk.green("Hook file created at src/utils/hooks..."));
+    console.log(chalk.green("Hook file created at " + settings.hookPath + "..."));
   },
 };
 
 function copyDataFolder(name) {
   const settings = files.readSettingsJson();
   const filename = `use${camelcase(name, {pascalCase: true})}.${settings.hasTs ? "ts" : "js"}`;
-  const pathName = path.join(process.cwd(), "src", "utils", "hooks");
+  const pathName = path.join(process.cwd(), ...settings.hookPath.split("/"));
   const fullPath = `${pathName}/${filename}`;
   files.directoryExistsOrCreate(pathName);
   fs.copyFileSync(path.resolve(DIRNAME, "react", "examples", "utils", "hooks", "useExample.ts"), fullPath);

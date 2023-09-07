@@ -5,14 +5,15 @@ import chalk from "chalk";
 
 export const reactFuncs = {
   create: name => {
+    const settings = files.readSettingsJson();
     createFuncsFolder(name);
-    console.log(chalk.green("Function file created at src/utils/funcs."));
+    console.log(chalk.green("Function file created at " + settings.funcsPath + "."));
   },
 };
 
 function createFuncsFolder(name) {
   const settings = files.readSettingsJson();
-  let createdPath = path.join(getDestPath(), "funcs", `${name}.${settings.hasTs ? "ts" : "js"}`);
+  let createdPath = path.join(getDestPath(), `${name}.${settings.hasTs ? "ts" : "js"}`);
   files.copyFile(path.resolve(getSourcePath(), "funcs", "example.ts"), createdPath);
   files.replaceInFiles(createdPath, "example", name);
 }
@@ -22,5 +23,6 @@ function getSourcePath() {
 }
 
 function getDestPath() {
-  return path.resolve(process.cwd(), "src", "utils");
+  const settings = files.readSettingsJson();
+  return path.resolve(process.cwd(), ...settings.funcsPath.split("/"));
 }

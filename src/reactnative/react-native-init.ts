@@ -100,13 +100,13 @@ export const reactNativeInit = {
         settings.components.navigation = {
           component: "src/components/navigation/@camelCase",
           style: "src/components/navigation/@camelCase",
-          test: "src/components/navigation/test/@camelCase",
+          test: "src/components/navigation/tests/@camelCase",
         };
         if (settings.hasTs) {
           settings.components["main-navigation"] = {
             component: "src/components/navigation/MainNavigation/@camelCase",
             style: "src/components/navigation/MainNavigation/@camelCase",
-            test: "src/components/navigation/MainNavigation/test/@camelCase",
+            test: "src/components/navigation/MainNavigation/tests/@camelCase",
           };
         }
 

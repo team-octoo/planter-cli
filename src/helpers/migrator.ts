@@ -92,7 +92,7 @@ const migrate = from => {
           newOptions[oldOption] = {
             component: path.join("src", "components", oldOption),
             style: path.join("src", "components", oldOption),
-            test: path.join("src", "components", oldOption, "test"),
+            test: path.join("src", "components", oldOption, "tests"),
           };
         }
 

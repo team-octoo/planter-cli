@@ -9,22 +9,14 @@ import {redux} from "./files/redux";
 import {postinstall} from "./files/postinstall";
 import {mirage} from "./files/mirage";
 import {files} from "./files";
-import inquirer from "inquirer";
 import {appcenter} from "./files/appcenter";
 import {dotenv} from "./files/dotenv";
 import {reactNavigation} from "./files/reactNavigation";
 
-const getAllFolders = (parentObject, parentFolder) => {
+const getTopLevelFolders = (parentObject, parentFolder) => {
   let folders = [];
   Object.keys(parentObject).forEach(element => {
-    if (element === ".") {
-      return;
-    }
-    if (typeof parentObject[element] === "string") {
-      folders.push(path.join(parentFolder, element));
-    } else {
-      folders.push(...getAllFolders(parentObject[element], path.join(parentFolder, element)));
-    }
+    folders.push(path.join(parentFolder, element));
   });
   return folders;
 };
@@ -96,36 +88,36 @@ export const install = {
         console.log(chalk.bgYellow("Creating folders..."));
         let folders = [];
         if (settings.hasTs) {
-          folders.push(path.join(process.cwd(), "src", "types"));
+          folders.push(path.join(process.cwd(), ...settings.typesPath.split("/")));
         }
         if (settings.packages.indexOf("Redux") !== -1) {
-          folders.push(path.join(process.cwd(), "src", "state", "actions"));
-          folders.push(path.join(process.cwd(), "src", "state", "store"));
-          folders.push(path.join(process.cwd(), "src", "state", "reducers"));
+          folders.push(path.join(process.cwd(), ...settings.reduxActionPath.split("/")));
+          folders.push(path.join(process.cwd(), ...settings.reduxStorePath.split("/")));
+          folders.push(path.join(process.cwd(), ...settings.reduxReducerPath.split("/")));
         }
         if (settings.packages.indexOf("Zustand") !== -1) {
-          folders.push(path.join(process.cwd(), "src", "state", "stores"));
+          folders.push(path.join(process.cwd(), ...settings.zustandStoresPath.split("/")));
         }
 
         if (settings.packages.indexOf("Mock-service-worker") !== -1) {
-          folders.push(path.join(process.cwd(), "src", "mocks"));
+          folders.push(path.join(process.cwd(), ...settings.mswPath.split("/")));
         }
         if (settings.packages.indexOf("i18next") !== -1) {
-          folders.push(path.join(process.cwd(), "src", "locales"));
+          folders.push(path.join(process.cwd(), ...settings.localesPath.split("/")));
         }
         if (settings.packages.indexOf("MirageJS") !== -1) {
-          folders.push(path.join(process.cwd(), "src", "mocks"));
+          folders.push(path.join(process.cwd(), ...settings.miragePath.split("/")));
         }
 
-        folders.push(path.join(process.cwd(), "src", "assets", "images"));
-        folders.push(path.join(process.cwd(), "src", "assets", "fonts"));
-        folders.push(path.join(process.cwd(), "src", "assets", "misc"));
-        folders.push(path.join(process.cwd(), "src", "utils", "data"));
-        folders.push(path.join(process.cwd(), "src", "utils", "funcs"));
-        folders.push(path.join(process.cwd(), "src", "utils", "hooks"));
-        folders.push(path.join(process.cwd(), "src", "state", "contexts"));
+        folders.push(path.join(process.cwd(), ...settings.assetImagesPath.split("/")));
+        folders.push(path.join(process.cwd(), ...settings.assetFontsPath.split("/")));
+        folders.push(path.join(process.cwd(), ...settings.assetMiscPath.split("/")));
+        folders.push(path.join(process.cwd(), ...settings.dataPath.split("/")));
+        folders.push(path.join(process.cwd(), ...settings.funcsPath.split("/")));
+        folders.push(path.join(process.cwd(), ...settings.hookPath.split("/")));
+        folders.push(path.join(process.cwd(), ...settings.contextPath.split("/")));
 
-        folders.push(...getAllFolders(settings.components, path.join(process.cwd(), "src", "components")));
+        folders.push(...getTopLevelFolders(settings.components, path.join(process.cwd(), "src", "components")));
 
         folders.forEach(folderpath => {
           fs.mkdirSync(folderpath, {recursive: true});
