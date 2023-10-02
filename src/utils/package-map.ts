@@ -77,6 +77,33 @@ export const packageMap = {
     docs: "https://mswjs.io/docs/",
     description: "Mock fetch requests in development & testing.",
   },
+  Vitest: {
+    dev: {
+      ts: {
+        packages: [
+          "vitest",
+          "jsdom",
+          "@testing-library/jest-dom",
+          "@testing-library/react",
+          "@testing-library/user-event",
+          "@vitest/coverage-istanbul",
+          "@types/jest",
+        ],
+      },
+      "no-ts": {
+        packages: [
+          "vitest",
+          "jsdom",
+          "@testing-library/jest-dom",
+          "@testing-library/react",
+          "@testing-library/user-event",
+          "@vitest/coverage-istanbul",
+        ],
+      },
+    },
+    docs: "https://vitest.dev/",
+    description: "Install vitest with jsdom, istanbul coverage & react testing library.",
+  },
   Appcenter: {
     "no-dev": {
       ts: {

@@ -93,6 +93,7 @@ export const reactInit = {
             message: "Choose which tech/packages you'd like to use in this project:",
             choices: [
               "Error-boundary",
+              "Vitest",
               "Mock-service-worker",
               "React-router",
               "Wouter",

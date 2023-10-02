@@ -1,4 +1,5 @@
 import fs from "fs";
+import os from "os";
 import {execSync} from "child_process";
 import {packageMap} from "../utils/package-map";
 import chalk from "chalk";
@@ -123,6 +124,62 @@ export const install = {
           fs.mkdirSync(folderpath, {recursive: true});
           fs.writeFileSync(path.join(folderpath, "README.md"), "Autocreated by planter. You may delete this file.");
         });
+
+        if (settings.packages.indexOf("Vitest") !== -1) {
+          const buffer = fs.readFileSync(
+            path.join(process.cwd(), settings.hasTs ? "vite.config.ts" : "vite.config.js")
+          );
+          let fileContent = buffer.toString();
+          if (fileContent.indexOf("test: {") === -1) {
+            fileContent = fileContent.replace(
+              "import { defineConfig } from 'vite'",
+              'import {defineConfig} from "vitest/config";'
+            );
+
+            fileContent = fileContent.replace(
+              "plugins: [react()],",
+              "plugins: [react()]," +
+                os.EOL +
+                "  test: {" +
+                os.EOL +
+                "    globals: true, " +
+                os.EOL +
+                '    environment: "jsdom",' +
+                os.EOL +
+                "    coverage: {" +
+                os.EOL +
+                '      provider: "istanbul",' +
+                os.EOL +
+                '      reporter: ["cobertura", "html"],' +
+                os.EOL +
+                "    }," +
+                os.EOL +
+                "  },"
+            );
+            fs.writeFileSync(
+              path.join(process.cwd(), settings.hasTs ? "vite.config.ts" : "vite.config.js"),
+              fileContent
+            );
+          }
+
+          const packageBuffer = fs.readFileSync(path.join(process.cwd(), "package.json"));
+          let packageContent = packageBuffer.toString();
+          if (fileContent.indexOf('"test": "vitest run"') === -1) {
+            packageContent = packageContent.replace(
+              '"dev": "vite",',
+              '"dev": "vite",' +
+                os.EOL +
+                '    "test": "vitest run",' +
+                os.EOL +
+                '    "test:watch": "vitest",' +
+                os.EOL +
+                '    "test:coverage": "vitest run --coverage",'
+            );
+            fs.writeFileSync(path.join(process.cwd(), "package.json"), packageContent);
+          }
+
+          console.log(chalk.green("Vite config file written & added test scripts."));
+        }
 
         resolve("Folders created.");
       } catch (err) {
