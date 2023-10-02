@@ -26,7 +26,7 @@ export const reactComponents = {
         const componentLocations = settings.components[option.option];
 
         for (const [fileType, pathConfig] of Object.entries(componentLocations)) {
-          createFileForComponent(fileType as FileType, pathConfig, camelcase(name));
+          createFileForComponent(fileType as FileType, pathConfig, camelcase(name, {pascalCase: true}));
         }
       })
       .then(() => console.log(chalk.green("Component created...")));

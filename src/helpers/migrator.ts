@@ -103,10 +103,20 @@ const migrate = from => {
         config.version = 3;
 
         config.components = Object.fromEntries(
-          Object.entries(config.components as PlanterConfigV2["components"]).map(([key, value]) => [
-            key,
-            Object.fromEntries(Object.entries(value).map(([key, value]) => [key, path.join(value, "@pascalCase")])),
-          ])
+          Object.entries(config.components as PlanterConfigV2["components"]).map(([key, value]) => {
+            let currentPath = value;
+            currentPath.test = currentPath.test.slice(0, -5);
+            console.log(currentPath.test);
+            return [
+              key,
+              Object.fromEntries(
+                Object.entries(currentPath).map(([key, value]) => [
+                  key,
+                  path.join(value, key === "test" ? "@pascalCase/tests" : "@pascalCase"),
+                ])
+              ),
+            ];
+          })
         );
       }
 
@@ -178,7 +188,13 @@ const migrate = from => {
           Object.entries(config.components as PlanterConfigV2["components"]).map(([key, value]) => [
             key,
             Object.fromEntries(
-              Object.entries(value).map(([key, value]) => [key, path.join(value, "@camelCase.test.@ext")])
+              Object.entries(value).map(([key, value]) => {
+                let currentEnd = "@pascalCase.@ext";
+                if (key === "test") {
+                  currentEnd = "@pascalCase.test.@ext";
+                }
+                return [key, path.join(value, currentEnd)];
+              })
             ),
           ])
         );
