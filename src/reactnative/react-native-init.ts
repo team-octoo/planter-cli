@@ -134,6 +134,7 @@ export const reactNativeInit = {
       })
       .then(pretty => {
         if (pretty.prettier === true) {
+          settings.prettier = true;
           fs.copyFileSync(
             path.join(DIRNAME, "reactnative", "examples", "config", ".prettierrc.cjs"),
             path.join(process.cwd(), ".prettierrc.js")

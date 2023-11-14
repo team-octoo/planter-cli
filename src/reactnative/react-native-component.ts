@@ -4,12 +4,14 @@ import chalk from "chalk";
 import {files} from "../helpers/files";
 import inquirer from "inquirer";
 import {DIRNAME} from "../globals";
+import {PlanterConfigV3} from "../helpers/migrator";
+import {assertNever} from "../helpers/assert-never";
+
+export type FileType = keyof PlanterConfigV3["components"][string];
 
 export const reactNativeComponents = {
   create: async name => {
-    const pascalCase = camelcase(name, {pascalCase: true});
     const settings = files.readSettingsJson();
-    let casedName = camelcase(name, {pascalCase: true});
 
     return inquirer
       .prompt([
@@ -17,16 +19,15 @@ export const reactNativeComponents = {
           type: "list",
           name: "option",
           message: "Choose where the component should be located:",
-          choices: getRNFolders(),
+          choices: getComponentTypeOptions(),
         },
       ])
       .then(async option => {
-        let folder = path.join(option.option, casedName);
-        await files.directoryExistsOrCreate(path.join(getRNDestPath(), folder)),
-          await files.directoryExistsOrCreate(path.join(getRNDestPath(), folder, "tests")),
-          createRNComponent(folder, pascalCase);
-        createRNTests(folder, pascalCase);
-        await createRNLayout(folder, pascalCase);
+        const componentLocations = settings.components[option.option];
+
+        for (const [fileType, pathConfig] of Object.entries(componentLocations)) {
+          createFileForComponent(fileType as FileType, pathConfig, camelcase(name, {pascalCase: true}));
+        }
       })
       .then(() => {
         console.log(chalk.green("Component created..."));
@@ -34,87 +35,69 @@ export const reactNativeComponents = {
   },
 };
 
-export async function createRNLayout(folder, name) {
-  let createdPath = path.join(getRNDestPath(), folder, `${name}.style.js`);
-  files.copyFile(path.resolve(getRNSourcePath(), "css", "Example.style.js"), createdPath);
+export function createFileForComponent(fileType: FileType, pathConfig: string, name: string, form: boolean = false) {
+  if (fileType === "component") return createComponent(getFilePath(fileType, pathConfig, name), name, form);
+  if (fileType === "style") return createLayout(getFilePath(fileType, pathConfig, name));
+  if (fileType === "test") return createTests(getFilePath(fileType, pathConfig, name), name, form);
+
+  return assertNever(fileType);
 }
 
-export function createRNTests(folder, name) {
-  let createdPath = path.join(getRNDestPath(), folder, "tests", `${name}.test.js`);
-  files.copyFile(path.resolve(getRNSourcePath(), "tests", "Example.test.js"), createdPath);
-  files.replaceInFiles(createdPath, "Example", name);
+export function getFilePath(fileType: FileType, pathConfig: string, name: string): string {
+  const codeExtension = files.readSettingsJson().hasTs ? "tsx" : "js";
+
+  if (fileType === "component") return applyReplacers(pathConfig, name, codeExtension);
+  if (fileType === "style") return applyReplacers(pathConfig, name, "style.js");
+  if (fileType === "test") return applyReplacers(pathConfig, name, codeExtension);
+
+  return assertNever(fileType);
 }
 
-export function createRNComponent(folder, name) {
+export function applyReplacers(pathConfig: string, name: string, extension: string): string {
+  const caseOptions = {
+    "@camelCase": camelcase(name, {pascalCase: false}),
+    "@pascalCase": camelcase(name, {pascalCase: true}),
+  };
+
+  const pathReplaced = Object.entries(caseOptions)
+    .reduce((folderPath, [replacer, value]) => folderPath.replaceAll(replacer, value), pathConfig)
+    .replaceAll("@ext", extension);
+  return path.join(process.cwd(), pathReplaced);
+}
+
+export function getSourcePath(form: boolean = false) {
+  return path.resolve(DIRNAME, "reactnative", "examples", form ? "form" : "component");
+}
+
+export function getComponentTypeOptions(): string[] {
+  return Object.keys(files.readSettingsJson().components);
+}
+
+export function createComponent(filePath: string, name: string, form: boolean) {
   const settings = files.readSettingsJson();
-  let createdPath;
-  if (settings.hasTs) {
-    createdPath = path.join(getRNDestPath(), folder, `${name}.tsx`);
-    files.copyFile(path.resolve(getRNSourcePath(), "ts", "Example.tsx"), createdPath);
-  } else {
-    if (settings.usePropTypes) {
-      // if proptypes is used... add prop types
-      createdPath = path.join(getRNDestPath(), folder, `${name}.js`);
-      files.copyFile(path.resolve(getRNSourcePath(), "js", "proptypes", "Example.js"), createdPath);
-    } else {
-      createdPath = path.join(getRNDestPath(), folder, `${name}.js`);
-      files.copyFile(path.resolve(getRNSourcePath(), "js", "Example.js"), createdPath);
-    }
-  }
-  files.replaceInFiles(createdPath, "Example", name);
+
+  const examplePath: string = settings.hasTs
+    ? path.resolve(getSourcePath(form), "ts", "Example.tsx")
+    : settings.usePropTypes
+    ? path.resolve(getSourcePath(form), "js", "proptypes", "Example.js")
+    : path.resolve(getSourcePath(form), "js", "Example.js");
+
+  files.copyFile(examplePath, filePath);
+
+  files.replaceInFiles(filePath, "Example", name);
 }
 
-export function getRNFolders() {
-  try {
-    const settings = files.readSettingsJson();
-    let folders = [];
-
-    folders = getRNChildFolders(settings.components);
-    return folders;
-  } catch (e) {
-    return e;
-  }
+export function createLayout(filePath: string) {
+  files.fileExistsOrCreate(filePath);
 }
 
-export function getRNChildFolders(parent, basePath = undefined) {
-  let keys = Object.keys(parent);
-  let paths = [];
-  for (let index = 0; index < keys.length; index++) {
-    const element = keys[index];
-    if (typeof parent[element] === "string") {
-      if (basePath) {
-        paths.push(`${basePath}/${element}`);
-      } else {
-        paths.push(`${element}`);
-      }
-    } else {
-      if (basePath) {
-        paths.push(...getRNChildFolders(parent[element], `${basePath}/${element}`));
-      } else {
-        paths.push(...getRNChildFolders(parent[element], `${element}`));
-      }
-    }
-  }
-  return paths;
-}
+export function createTests(filePath: string, name: string, form: boolean) {
+  const settings = files.readSettingsJson();
+  const examplePath = settings.hasTs
+    ? path.resolve(getSourcePath(form), "tests", "Example.test.tsx")
+    : path.resolve(getSourcePath(form), "tests", "Example.test.js");
 
-// Reduce version of getChildFolders
-// function mapRNStructure (object, level = 1, basename = '') {
-//   const entries = Object.entries(object);
-//   return entries.reduce((acc, [dirName, content]) => {
-//     const path = `${basename}${ basename && '/' }${dirName}`;
-//     if (typeof content === 'string') {
-//       return [...acc, path]
-//     } else {
-//       return [...acc, ...mapStructure(content, level++, path)]
-//     }
-//   }, [])
-// }
+  files.copyFile(examplePath, filePath);
 
-export function getRNSourcePath() {
-  return path.resolve(DIRNAME, "reactnative", "examples", "component");
-}
-
-export function getRNDestPath() {
-  return path.resolve(process.cwd(), "src", "components");
+  files.replaceInFiles(filePath, "Example", name);
 }

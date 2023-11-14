@@ -62,6 +62,10 @@ export type PlanterConfigV4 = Omit<PlanterConfigV3, "version"> & {
   localesPath: string;
   typesPath: string;
 };
+export type PlanterConfigV5 = Omit<PlanterConfigV4, "version"> & {
+  version: 5;
+  prettier: boolean;
+};
 
 /**
  *
@@ -200,6 +204,11 @@ const migrate = from => {
         );
 
         config.layout = config.layout.toLowerCase().replace(" ", "-");
+      }
+
+      if (i === 4) {
+        config.version = 5;
+        config.prettier = false;
       }
 
       /** RESOLVING VERSION */
