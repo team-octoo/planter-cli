@@ -18,6 +18,7 @@ test.group("React Native component", group => {
     let copyStub = sandbox.stub(files, "copyFile").returns(true);
     let replaceStub = sandbox.stub(files, "replaceInFiles").returns(true);
     let dirCreateStub = sandbox.stub(files, "directoryExistsOrCreate").resolves(true);
+    let fileExistsOrCreateStub = sandbox.stub(files, "fileExistsOrCreate").resolves(true);
     sandbox.stub(fs, "readFileSync").returns(
       JSON.stringify({
         hasTs: false,
