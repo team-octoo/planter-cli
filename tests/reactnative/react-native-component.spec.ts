@@ -15,6 +15,7 @@ test.group("React Native component", group => {
   });
 
   test("create", async ({expect}) => {
+    //these stubs are required so nothing is actually written to the system when tests run
     let copyStub = sandbox.stub(files, "copyFile").returns(true);
     let replaceStub = sandbox.stub(files, "replaceInFiles").returns(true);
     let dirCreateStub = sandbox.stub(files, "directoryExistsOrCreate").resolves(true);
@@ -47,6 +48,7 @@ test.group("React Native component", group => {
     await reactNativeComponents.create("test");
 
     expect(inquirerPrompt.calledOnce).toBeTruthy();
+    expect(fileExistsOrCreateStub.calledOnce).toBeTruthy();
     // expect(copyStub.calledThrice).toBeTruthy();
     // expect(replaceStub.calledTwice).toBeTruthy();
     // expect(dirCreateStub.calledTwice).toBeTruthy();
