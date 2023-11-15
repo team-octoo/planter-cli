@@ -1,9 +1,9 @@
-import {yupResolver} from "@hookform/resolvers/yup";
-import React from "react";
-import {Controller, useForm} from "react-hook-form";
-import {Button, TextInput, View} from "react-native";
-import {styles} from "./Example.style";
-import * as yup from "yup";
+import {yupResolver} from '@hookform/resolvers/yup';
+import React from 'react';
+import {Controller, useForm} from 'react-hook-form';
+import {Button, TextInput, View} from 'react-native';
+import {styles} from './Example.style';
+import * as yup from 'yup';
 
 const Example = ({onSubmit = data => console.log(JSON.stringify(data)), ...props}) => {
   const schema = yup.object({field1: yup.string().required()}).required();
@@ -19,8 +19,8 @@ const Example = ({onSubmit = data => console.log(JSON.stringify(data)), ...props
           return (
             <TextInput
               style={{
-                backgroundColor: "#FFF",
-                borderColor: "#3D3D3D",
+                backgroundColor: '#FFF',
+                borderColor: '#3D3D3D',
                 borderWidth: 1,
                 margin: 8,
                 borderRadius: 4,
@@ -32,9 +32,9 @@ const Example = ({onSubmit = data => console.log(JSON.stringify(data)), ...props
             />
           );
         }}
-        name={"field1"}
+        name={'field1'}
       />
-      <Button title="Submit" onPress={handleSubmit(onSubmit)} />
+      <Button title='Submit' onPress={handleSubmit(onSubmit)} />
     </View>
   );
 };

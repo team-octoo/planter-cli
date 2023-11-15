@@ -1,9 +1,9 @@
-import {yupResolver} from "@hookform/resolvers/yup";
-import React, {FC} from "react";
-import {Controller, SubmitHandler, useForm} from "react-hook-form";
-import {Button, TextInput, View, ViewProps} from "react-native";
-import {styles} from "./Example.style";
-import * as yup from "yup";
+import {yupResolver} from '@hookform/resolvers/yup';
+import React, {FC} from 'react';
+import {Controller, SubmitHandler, useForm} from 'react-hook-form';
+import {Button, TextInput, View, ViewProps} from 'react-native';
+import {styles} from './Example.style';
+import * as yup from 'yup';
 
 interface ExampleProps {
   onSubmit?: SubmitHandler<{}>;
@@ -26,8 +26,8 @@ const Example: FC<ViewProps & ExampleProps> = ({
           return (
             <TextInput
               style={{
-                backgroundColor: "#FFF",
-                borderColor: "#3D3D3D",
+                backgroundColor: '#FFF',
+                borderColor: '#3D3D3D',
                 borderWidth: 1,
                 margin: 8,
                 borderRadius: 4,
@@ -39,9 +39,9 @@ const Example: FC<ViewProps & ExampleProps> = ({
             />
           );
         }}
-        name={"field1"}
+        name={'field1'}
       />
-      <Button title="Submit" onPress={handleSubmit(onSubmit)} />
+      <Button title='Submit' onPress={handleSubmit(onSubmit)} />
     </View>
   );
 };

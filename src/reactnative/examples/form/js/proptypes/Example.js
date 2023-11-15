@@ -1,10 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {Controller, useForm} from "react-hook-form";
-import {Button, TextInput, View} from "react-native";
-import {styles} from "./Example.style";
-import * as yup from "yup";
+import React from 'react';
+import PropTypes from 'prop-types';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {Controller, useForm} from 'react-hook-form';
+import {Button, TextInput, View} from 'react-native';
+import {styles} from './Example.style';
+import * as yup from 'yup';
 
 Example.propTypes = {onSubmit: PropTypes.func};
 Example.defaultProps = {onSubmit: data => console.log(JSON.stringify(data))};
@@ -24,8 +24,8 @@ function Example(props) {
           return (
             <TextInput
               style={{
-                backgroundColor: "#FFF",
-                borderColor: "#3D3D3D",
+                backgroundColor: '#FFF',
+                borderColor: '#3D3D3D',
                 borderWidth: 1,
                 margin: 8,
                 borderRadius: 4,
@@ -37,9 +37,9 @@ function Example(props) {
             />
           );
         }}
-        name={"field1"}
+        name={'field1'}
       />
-      <Button title="Submit" onPress={handleSubmit(onSubmit)} />
+      <Button title='Submit' onPress={handleSubmit(onSubmit)} />
     </View>
   );
 }
