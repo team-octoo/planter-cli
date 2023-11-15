@@ -5,7 +5,7 @@ import {Button, TextInput, View, ViewProps} from 'react-native';
 import {styles} from './Example.style';
 import * as yup from 'yup';
 
-interface ExampleProps {
+type ExampleProps = {
   onSubmit?: SubmitHandler<{}>;
 }
 

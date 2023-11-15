@@ -1,9 +1,11 @@
-import React, {FC, PropsWithChildren} from 'react';
-import {Text, View} from 'react-native';
+import React, {FC} from 'react';
+import {View, ViewProps} from 'react-native';
 import {styles} from './Example.style';
 
-const Example: FC<PropsWithChildren> = props => {
-  return <View>{props.children}</View>;
+type Props = {} & Pick<ViewProps, 'children'>;
+
+const Example: FC<Props> = ({children}) => {
+  return <View>{children}</View>;
 };
 
 export default Example;
