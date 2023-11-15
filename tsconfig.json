@@ -1,0 +1,22 @@
+{
+	"compilerOptions": {
+		"target": "ESNext",
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"strict": false,
+		"skipLibCheck": true,
+		"outDir": "bin",
+		"moduleResolution": "NodeNext",
+		"module": "none",
+		"rootDir": "src",
+		"types": ["node"]
+	},
+	"include": [
+		"src/**/*"
+	],
+	"exclude": [
+		"src/reactnative/examples/**/*",
+		"src/react/examples/**/*",
+		"tests/**/*"
+	]
+}
