@@ -9,7 +9,6 @@
   "preferGlobal": true,
   "scripts": {
     "build": "tsc",
-    "publish": "test && build && publish",
     "test": "ts-node --project tsconfig-test.json japa-test.config.ts",
     "prepare": "husky install",
     "start": "ts-node src/index.ts",
