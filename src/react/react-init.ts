@@ -13,6 +13,11 @@ import {getComponentStructureConfig} from "../helpers/structure-type";
 import {layoutTypes} from "../helpers/migrator";
 
 export const reactInit = {
+  installLib: projectName => {
+    execSync("npm create vite@latest " + projectName + " -- --template react-ts", {
+      stdio: [0, 1, 2],
+    });
+  },
   initialise: () => {
     detect
       .installer()

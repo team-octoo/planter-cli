@@ -2,8 +2,6 @@
 
 import {Argument, Command} from "commander";
 import chalk from "chalk";
-import fs from "fs";
-import path from "path";
 import {detect} from "./helpers/detect";
 import {intro} from "./helpers/intro";
 import {reactInit} from "./react/react-init";
@@ -17,14 +15,20 @@ import {reactComponents} from "./react/react-component";
 import reducer from "./react/reducer";
 import mock from "./react/mock";
 import {reactNativeComponents} from "./reactnative/react-native-component";
-import {DIRNAME} from "./globals";
 import {files} from "./helpers/files";
 import store from "./react/store";
 import {setup as cicdSetup} from "./reactnative/setupCICD";
 import {form} from "./reactnative/react-native-form";
 import {migrator} from "./helpers/migrator";
+import {install} from "./helpers/install";
+import {docs} from "./helpers/docs";
 
-const packageJson = files.readPlanterPackageJson();
+let packageJson;
+try {
+  packageJson = files.readPlanterPackageJson();
+} catch (err) {
+  //if no packagejson is detected, the user will be presented with the choice of react or react-native
+}
 const program = new Command();
 
 program.description("React & React-native CLI tool for structured applications.");
@@ -34,23 +38,80 @@ program.version(packageJson.version);
 
 program
   .command("init")
-  .description("Initializes the CLI tool to create a base structure.")
+  .description("Initialise the CLI to create a new project with opinionated structure.")
   .option("--force", "Forces to create a new planter config file")
   .action((str, options) => {
     intro
       .play()
       .then(() => detect.config(str.force))
-      .then(() => detect.library())
+      .then(result => {
+        if (result === false) {
+          // a planter config has been detected
+          throw new Error("Planter config file detected... Try 'planter install' command or use the --force option.");
+        }
+        return detect.library();
+      })
       .then(library => {
         settings.library = library as any;
-        if (library === "react") {
+        if (settings.library === "install") {
+          //no library detected... asking what to install.
+          install.library();
+        } else if (settings.library === "react") {
           reactInit.initialise();
-        } else if (library === "react-native") {
+        } else if (settings.library === "react-native") {
           reactNativeInit.initialise();
+        } else {
+          console.log("Something went terribly wrong finding the library you are using...");
         }
       })
       .catch(err => {
         console.log(chalk.red(err));
+      });
+  });
+
+program
+  .command("install")
+  .description("Install everything according to the planter config file.")
+  .action(() => {
+    intro
+      .play()
+      .then(() => detect.config())
+      .then(result => {
+        if (result === false) {
+          //a config file has been detected
+          migrator
+            .check()
+            .then(() => {
+              return detect.library();
+            })
+            .then(library => {
+              if (library === "install") {
+                install.libraryFromConfig();
+                return "ok";
+              } else {
+                return "ok";
+              }
+            })
+            .then(() => {
+              packageJson = files.readPlanterPackageJson();
+              return install.full();
+            })
+            .then(result => {
+              if (result) console.log(chalk.green(result));
+              return docs.writeDocs(true);
+            })
+            .then(() => {
+              detect.library().then(library => {
+                if (library === "react") {
+                  console.log(chalk.greenBright("Initialisation has been completed. Have fun creating!"));
+                } else if (library === "react-native") {
+                  reactNativeInit.postinstall();
+                } else {
+                  throw new Error("Error: React or React-Native not detected...");
+                }
+              });
+            });
+        }
       });
   });
 

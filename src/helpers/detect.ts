@@ -12,21 +12,24 @@ export const detect = {
       } else if (!fileExists) {
         resolve(true);
       }
-
-      reject("Planter config file detected... use --force option.");
+      resolve(false);
     });
   },
-  library: async (): Promise<"react" | "react-native"> => {
-    const {dependencies} = files.readProjectPackageJson();
+  library: async (): Promise<"react" | "react-native" | "install"> => {
+    try {
+      const {dependencies} = files.readProjectPackageJson();
 
-    if (dependencies["react-native"]) {
-      return "react-native";
-    }
-    if (dependencies["react"]) {
-      return "react";
+      if (dependencies["react-native"]) {
+        return "react-native";
+      }
+      if (dependencies["react"]) {
+        return "react";
+      }
+    } catch (err) {
+      return "install";
     }
 
-    throw new Error("No React or React-native library detected...");
+    // throw new Error("No React or React-native library detected...");
   },
   typescript: async () => {
     return new Promise(resolve => {

@@ -13,7 +13,7 @@ type ComponentOptionsV0 = {
 export type PlanterConfigV0 = {
   version: 0;
   name: string;
-  library: "react" | "react-native";
+  library: "react" | "react-native" | "install";
   installer: "npm" | "yarn";
   hasTs: boolean;
   layout: LayoutType;
@@ -127,13 +127,13 @@ const migrate = from => {
       if (i === 3) {
         config.version = 4;
 
-        if (settings.packages.indexOf("Mock-service-worker") !== -1) {
+        if (config.packages.indexOf("Mock-service-worker") !== -1) {
           if (!config.mswPath) {
             config.mswPath = "src/mocks/endpoints";
           }
         }
-        if (settings.packages.indexOf("MirageJS") !== -1) {
-          if (!config.mswPath) {
+        if (config.packages.indexOf("MirageJS") !== -1) {
+          if (!config.miragePath) {
             config.miragePath = "src/mocks";
           }
         }
@@ -152,16 +152,16 @@ const migrate = from => {
           config.assetImagesPath = "src/assets/images";
         }
         if (!config.assetFontsPath) {
-          config.assetImagesPath = "src/assets/fonts";
+          config.assetFontsPath = "src/assets/fonts";
         }
         if (!config.assetMiscPath) {
-          config.assetImagesPath = "src/assets/misc";
+          config.assetMiscPath = "src/assets/misc";
         }
 
         if (!config.contextPath) {
           config.contextPath = "src/state/contexts";
         }
-        if (settings.packages.indexOf("Redux") !== -1) {
+        if (config.packages.indexOf("Redux") !== -1) {
           if (!config.reduxActionPath) {
             config.reduxActionPath = "src/state/actions";
           }
@@ -173,13 +173,13 @@ const migrate = from => {
           }
         }
 
-        if (settings.packages.indexOf("Zustand") !== -1) {
+        if (config.packages.indexOf("Zustand") !== -1) {
           if (!config.zustandStoresPath) {
             config.zustandStoresPath = "src/state/stores";
           }
         }
 
-        if (settings.packages.indexOf("i18next") !== -1) {
+        if (config.packages.indexOf("i18next") !== -1) {
           if (!config.localesPath) {
             config.localesPath = "src/locales";
           }

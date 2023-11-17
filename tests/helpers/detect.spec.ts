@@ -30,7 +30,8 @@ test.group("Config detect", group => {
   test("Non-forced with config file", async ({expect}) => {
     sandbox.stub(files, "directoryExists").resolves(true);
 
-    await expect(detect.config()).rejects.toEqual("Planter config file detected... use --force option.");
+    // await expect(detect.config()).rejects.toEqual("Planter config file detected... use --force option.");
+    await expect(detect.config()).resolves.toEqual(false);
   });
 
   // USE THIS AS A BLUEPRINT TO FAKE FS CALLS IN TESTS

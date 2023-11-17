@@ -13,6 +13,10 @@ import {files} from "./files";
 import {appcenter} from "./files/appcenter";
 import {dotenv} from "./files/dotenv";
 import {reactNavigation} from "./files/reactNavigation";
+import inquirer from "inquirer";
+import settings from "../utils/settings";
+import {reactInit} from "../react/react-init";
+import {reactNativeInit} from "../reactnative/react-native-init";
 
 const getTopLevelFolders = (parentObject, parentFolder) => {
   let folders = [];
@@ -23,6 +27,69 @@ const getTopLevelFolders = (parentObject, parentFolder) => {
 };
 
 export const install = {
+  libraryFromConfig: () => {
+    console.log(chalk.green("Installing from config file..."));
+    const planterSettings = files.readSettingsJson();
+    let projectName = process.cwd().split("/").pop();
+    process.chdir("../");
+    fs.rmSync(path.join(process.cwd(), projectName), {recursive: true, force: true});
+    if (planterSettings.library === "react") {
+      reactInit.installLib(projectName);
+    } else if (planterSettings.library === "react-native") {
+      reactNativeInit.installLib(projectName);
+    } else {
+      throw new Error(chalk.red("Library not found in the planter configuration file."));
+    }
+    try {
+      process.chdir(projectName);
+      console.log(JSON.stringify(planterSettings));
+      files.overwriteFile(path.join(process.cwd(), "planter.config.json"), JSON.stringify(planterSettings, null, 2));
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+  library: () => {
+    inquirer
+      .prompt([
+        {
+          type: "list",
+          name: "projectType",
+          message: "Would you like to install React (vite) or React-Native:",
+          choices: ["React", "React-Native"],
+          default: "React",
+        },
+        {
+          type: "input",
+          name: "projectName",
+          message: "What is the name of your project:",
+          default: "newproject",
+        },
+      ])
+      .then(answers => {
+        let projectName = answers.projectName;
+        if (projectName === ".") {
+          projectName = process.cwd().split("/").pop();
+          process.chdir("../");
+        }
+        if (answers.projectType === "React") {
+          settings.library = "react";
+          reactInit.installLib(projectName);
+        } else if (answers.projectType === "React-Native") {
+          settings.library = "react-native";
+          reactNativeInit.installLib(projectName);
+        }
+        try {
+          process.chdir(projectName);
+          if (settings.library === "react") {
+            reactInit.initialise();
+          } else if (settings.library === "react-native") {
+            reactNativeInit.initialise();
+          }
+        } catch (err) {
+          throw new Error(err);
+        }
+      });
+  },
   full: () => {
     return new Promise((resolve, reject) => {
       return install

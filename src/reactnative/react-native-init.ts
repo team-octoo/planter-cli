@@ -5,7 +5,7 @@ import {install} from "../helpers/install";
 import {cocoapods} from "./cocoapods";
 import fs from "fs";
 import path from "path";
-
+import {execSync} from "child_process";
 import inquirer from "inquirer";
 import chalk from "chalk";
 import {docs} from "../helpers/docs";
@@ -15,6 +15,36 @@ import {DIRNAME} from "../globals";
 import {getComponentStructureConfig} from "../helpers/structure-type";
 
 export const reactNativeInit = {
+  installLib: projectName => {
+    execSync("npx react-native@latest init " + projectName, {stdio: [0, 1, 2]});
+  },
+  postinstall: () => {
+    cocoapods
+      .install()
+      .then(result => {
+        if (result) console.log(chalk.green(result));
+        return fonts.install();
+      })
+      .then(result => {
+        if (result) console.log(chalk.green(result));
+        console.log("");
+        console.log("");
+        return intro.play(false);
+      })
+      .then(() => {
+        console.log("✨  Planter successfuly finished!  ✨");
+        console.log("");
+        console.log("");
+        if (settings.packages.includes("React-Navigation")) {
+          console.log(
+            chalk.magentaBright("Don't forget to wrap your app with the Navigation Container:"),
+            "https://reactnavigation.org/docs/getting-started/#wrapping-your-app-in-navigationcontainer"
+          );
+          console.log("");
+          console.log("");
+        }
+      });
+  },
   initialise: () => {
     return detect
       .typescript()
