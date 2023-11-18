@@ -4,6 +4,7 @@ A CLI tool for building React & React-native applications.
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/team-octoo/planter-cli/graphs/commit-activity) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)  
 
 This CLI   
+- installs a new react or react-native project
 - sets up a basic folder structure (of your choice)  
 - add commonly used packages  
 - give command to easely create state, components & other functions  
@@ -13,12 +14,21 @@ This CLI
 npm install -g @team-octoo/planter
 
 ## Usage  
-After installing this package globally, run command "planter -h" in your command-line terminal.    
-Commands should be run in the root-folder of a react or react-native installation.   
+After installing this package globally, there are 2 important commands.   
+(but there are much more, run ***planter -h*** to see all)
 
-"planter" is the script-command which initialises the CLI.   
+***planter init***   
+This command creates a React or React-Native project.  
+React uses the latest Vite react-ts template.  
+React-Native is the latest RN template without expo.  
 
-## Information    
+***planter install***   
+This command will read the planter config json file in the directory and install everything accordingly.  
+
+## Help  
+Run command "planter -h" in your command-line terminal.    
+
+## Contributors    
 This package has been created by the lovely people at [Octoo](https://octoo.be)  
 
 Found a bug or want to extend this package?  
@@ -56,7 +66,8 @@ When initialising planter on a new or existing project, these are the choices to
 
 ## Config
 
-Planter cli has a config file named `./planter.config.json`.
+Planter cli has a config file named `./planter.config.json`.   
+We recommend starting from an existing planter config file to customise it.  
 
 | Key            | Description                                                             | Type                                                 |
 |----------------|-------------------------------------------------------------------------|------------------------------------------------------|
