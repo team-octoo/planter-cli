@@ -7,7 +7,7 @@
 		"skipLibCheck": true,
 		"outDir": "bin",
 		"moduleResolution": "NodeNext",
-		"module": "none",
+		"module": "NodeNext",
 		"rootDir": "src",
 		"types": ["node"]
 	},
