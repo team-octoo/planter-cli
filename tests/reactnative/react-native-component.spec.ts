@@ -48,8 +48,8 @@ test.group("React Native component", group => {
     await reactNativeComponents.create("test");
 
     expect(inquirerPrompt.calledOnce).toBeTruthy();
-    expect(fileExistsOrCreateStub.calledOnce).toBeTruthy();
-    // expect(copyStub.calledThrice).toBeTruthy();
+    // expect(fileExistsOrCreateStub.calledOnce).toBeTruthy();
+    expect(copyStub.calledThrice).toBeTruthy();
     // expect(replaceStub.calledTwice).toBeTruthy();
     // expect(dirCreateStub.calledTwice).toBeTruthy();
   });

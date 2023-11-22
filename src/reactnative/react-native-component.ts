@@ -37,7 +37,7 @@ export const reactNativeComponents = {
 
 export function createFileForComponent(fileType: FileType, pathConfig: string, name: string, form: boolean = false) {
   if (fileType === "component") return createComponent(getFilePath(fileType, pathConfig, name), name, form);
-  if (fileType === "style") return createLayout(getFilePath(fileType, pathConfig, name));
+  if (fileType === "style") return createLayout(getFilePath(fileType, pathConfig, name), name);
   if (fileType === "test") return createTests(getFilePath(fileType, pathConfig, name), name, form);
 
   return assertNever(fileType);
@@ -87,8 +87,10 @@ export function createComponent(filePath: string, name: string, form: boolean) {
   files.replaceInFiles(filePath, "Example", name);
 }
 
-export function createLayout(filePath: string) {
-  files.fileExistsOrCreate(filePath);
+export function createLayout(filePath: string, name: string) {
+  const examplePath = path.resolve(getSourcePath(), "css", "Example.style.js");
+  files.copyFile(examplePath, filePath);
+  files.replaceInFiles(filePath, "Example", name);
 }
 
 export function createTests(filePath: string, name: string, form: boolean) {
