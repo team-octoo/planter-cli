@@ -196,7 +196,9 @@ program
   .description("Create a new component folder to use in the plant:component command (use / to have subfolders)")
   .argument("<name>", "Name of the folder you wish to plant (use / to have subfolders)")
   .action(name => {
-    folders.add(name);
+    migrator.check().then(() => {
+      folders.add(name);
+    });
   });
 
 program
