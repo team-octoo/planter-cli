@@ -22,6 +22,7 @@ import {form} from "./reactnative/react-native-form";
 import {migrator} from "./helpers/migrator";
 import {install} from "./helpers/install";
 import {docs} from "./helpers/docs";
+import {folders} from "./folders";
 
 let packageJson;
 try {
@@ -188,6 +189,14 @@ program
         reactNativeComponents.create(name);
       }
     });
+  });
+
+program
+  .command("plant:folder")
+  .description("Create a new component folder to use in the plant:component command (use / to have subfolders)")
+  .argument("<name>", "Name of the folder you wish to plant (use / to have subfolders)")
+  .action(name => {
+    folders.add(name);
   });
 
 program
