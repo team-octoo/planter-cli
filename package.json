@@ -1,6 +1,6 @@
 {
   "name": "@team-octoo/planter",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "CLI tool to easily structure & build React & React Native applications.",
   "main": "index.js",
   "bin": {
