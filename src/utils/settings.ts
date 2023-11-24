@@ -1,8 +1,8 @@
-import {PlanterConfigV5} from "../helpers/migrator";
+import {PlanterConfigV6} from "../helpers/migrator";
 import {getComponentStructureConfig} from "../helpers/structure-type";
 
-let settings: PlanterConfigV5 = {
-  version: 5,
+let settings: PlanterConfigV6 = {
+  version: 6,
   name: "name",
   library: "react",
   installer: "npm",

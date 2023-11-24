@@ -105,7 +105,7 @@ function getFilePath(fileType: FileType, pathConfig: string, name: string): stri
   if (fileType === "component") return applyReplacers(pathConfig, name, codeExtension);
   if (fileType === "style")
     return applyReplacers(pathConfig, name, getLayoutExtension(files.readSettingsJson().layout));
-  if (fileType === "test") return applyReplacers(pathConfig, name, codeExtension);
+  if (fileType === "test") return applyReplacers(pathConfig, name, "test." + codeExtension);
 
   return assertNever(fileType);
 }

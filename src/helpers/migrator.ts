@@ -67,6 +67,10 @@ export type PlanterConfigV5 = Omit<PlanterConfigV4, "version"> & {
   prettier: boolean;
 };
 
+export type PlanterConfigV6 = Omit<PlanterConfigV5, "version"> & {
+  version: 6;
+};
+
 /**
  *
  * SUPER IMPORTANT WHEN CREATING A NEW VERSION
@@ -209,6 +213,16 @@ const migrate = from => {
       if (i === 4) {
         config.version = 5;
         config.prettier = false;
+      }
+
+      if (i === 5) {
+        // removing test extension from config
+        Object.keys(config.components).forEach(objKey => {
+          if (config.components[objKey]["test"]) {
+            config.components[objKey]["test"] = config.components[objKey]?.["test"].replace(".test.@ext", ".@ext");
+          }
+        });
+        config.version = 6;
       }
 
       /** RESOLVING VERSION */
