@@ -49,9 +49,12 @@ export const reactInit = {
               }
             });
         }
+        return;
+      })
+      .then(() => {
         return detect.typescript();
       })
-      .then(hasTs => {
+      .then((hasTs: boolean) => {
         settings.hasTs = hasTs;
         return detect.installer();
       })
