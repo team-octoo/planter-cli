@@ -10,28 +10,40 @@ import {LayoutType, PlanterConfigV3} from "../helpers/migrator";
 type FileType = keyof PlanterConfigV3["components"][string];
 
 export const reactComponents = {
-  create: async name => {
+  create: async (name, foldername) => {
     const settings = files.readSettingsJson();
-
-    return inquirer
-      .prompt([
-        {
-          type: "list",
-          name: "option",
-          message: "Choose where the component should be located:",
-          choices: getComponentTypeOptions(),
-        },
-      ])
-      .then(async option => {
-        const componentLocations = settings.components[option.option];
-
-        for (const [fileType, pathConfig] of Object.entries(componentLocations)) {
-          createFileForComponent(fileType as FileType, pathConfig, camelcase(name, {pascalCase: true}));
-        }
-      })
-      .then(() => console.log(chalk.green("Component created...")));
+    const folderFound = foldername && settings?.components?.[foldername] ? true : false;
+    if (!folderFound) {
+      if (foldername !== undefined) {
+        console.log(chalk.red("Folder not found in the planter configuration."));
+      }
+      return inquirer
+        .prompt([
+          {
+            type: "list",
+            name: "option",
+            message: "Choose where the component should be located:",
+            choices: getComponentTypeOptions(),
+          },
+        ])
+        .then(async option => {
+          createComponentFromOption(option.option, name);
+        });
+    } else {
+      createComponentFromOption(foldername, name);
+    }
   },
 };
+
+function createComponentFromOption(option: string, name: string) {
+  const settings = files.readSettingsJson();
+  const componentLocations = settings.components[option];
+
+  for (const [fileType, pathConfig] of Object.entries(componentLocations)) {
+    createFileForComponent(fileType as FileType, pathConfig, camelcase(name, {pascalCase: true}));
+  }
+  console.log(chalk.green("Component created..."));
+}
 
 function createComponent(filePath: string, name: string) {
   const settings = files.readSettingsJson();

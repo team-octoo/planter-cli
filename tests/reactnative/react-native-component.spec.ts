@@ -45,7 +45,7 @@ test.group("React Native component", group => {
 
     let inquirerPrompt = sandbox.stub(inquirer, "prompt").resolves({option: "basics"});
 
-    await reactNativeComponents.create("test");
+    await reactNativeComponents.create("test", undefined);
 
     expect(inquirerPrompt.calledOnce).toBeTruthy();
     // expect(fileExistsOrCreateStub.calledOnce).toBeTruthy();

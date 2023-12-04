@@ -180,13 +180,15 @@ program
   .command("plant:component")
   .description("Makes a component according to the chosen structure")
   .argument("<name>", "Name of the component you wish to plant")
-  .action(name => {
+  .option("--folder", "Add the component immediately to this folder")
+  .argument("[foldername]", "Name of the folder in which the component should be created")
+  .action((name, foldername) => {
     migrator.check().then(() => {
       const localsettings = files.readSettingsJson();
       if (localsettings.library === "react") {
-        reactComponents.create(name);
+        reactComponents.create(name, foldername);
       } else if (localsettings.library === "react-native") {
-        reactNativeComponents.create(name);
+        reactNativeComponents.create(name, foldername);
       }
     });
   });
