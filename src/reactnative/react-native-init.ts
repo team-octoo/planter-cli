@@ -127,19 +127,6 @@ export const reactNativeInit = {
       })
       .then(navigation => {
         if (navigation.navigation === "none") return detect.packageName();
-        settings.components.navigation = {
-          component: "src/components/navigation/@camelCase",
-          style: "src/components/navigation/@camelCase",
-          test: "src/components/navigation/tests/@camelCase",
-        };
-        if (settings.hasTs) {
-          settings.components["main-navigation"] = {
-            component: "src/components/navigation/MainNavigation/@camelCase",
-            style: "src/components/navigation/MainNavigation/@camelCase",
-            test: "src/components/navigation/MainNavigation/tests/@camelCase",
-          };
-        }
-
         settings.packages.push("React-Navigation");
         switch (navigation.navigation) {
           case "stack":
