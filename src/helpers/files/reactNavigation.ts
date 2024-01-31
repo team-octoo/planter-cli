@@ -24,28 +24,44 @@ function findFileInPath(filePath, fileName) {
   return pathToReturn;
 }
 
-function replacePackageContent(filePath) {
+function replacePackageContent(filePath: string) {
   const buffer = fs.readFileSync(filePath);
   let fileContent = buffer.toString();
 
-  fileContent = fileContent.replace(
-    "package com.plantertestnavigation;",
-    "package com.plantertestnavigation;" + os.EOL + os.EOL + "import android.os.Bundle;"
-  );
+  if (filePath.endsWith(".kt")) {
+    fileContent = fileContent.replace(
+      "class MainActivity : ReactActivity() {",
+      "import android.os.Bundle" +
+        os.EOL +
+        os.EOL +
+        "class MainActivity : ReactActivity() {" +
+        os.EOL +
+        os.EOL +
+        "  override fun onCreate(savedInstanceState: Bundle?) {" +
+        os.EOL +
+        "    super.onCreate(null)" +
+        os.EOL +
+        "  }"
+    );
+  } else {
+    fileContent = fileContent.replace(
+      "public class MainActivity extends ReactActivity {",
+      "import android.os.Bundle;" +
+        os.EOL +
+        os.EOL +
+        "public class MainActivity extends ReactActivity {" +
+        os.EOL +
+        os.EOL +
+        "  @Override" +
+        os.EOL +
+        "  protected void onCreate(Bundle savedInstanceState) {" +
+        os.EOL +
+        "    super.onCreate(null);" +
+        os.EOL +
+        "  }"
+    );
+  }
 
-  fileContent = fileContent.replace(
-    "public class MainActivity extends ReactActivity {",
-    "public class MainActivity extends ReactActivity {" +
-      os.EOL +
-      os.EOL +
-      "  @Override" +
-      os.EOL +
-      "  protected void onCreate(Bundle savedInstanceState) {" +
-      os.EOL +
-      "    super.onCreate(null);" +
-      os.EOL +
-      "  }"
-  );
   fs.writeFileSync(filePath, fileContent);
   return true;
 }
@@ -55,10 +71,16 @@ export const reactNavigation = {
   setupPackage: () => {
     //if .env.development or .env.production exists
     return new Promise((resolve, reject) => {
-      const mainActivityFile = findFileInPath(
+      let mainActivityFile = findFileInPath(
         path.join(process.cwd(), "android", "app", "src", "main", "java"),
         "MainActivity.java"
       );
+      if (!mainActivityFile) {
+        mainActivityFile = findFileInPath(
+          path.join(process.cwd(), "android", "app", "src", "main", "java"),
+          "MainActivity.kt"
+        );
+      }
       console.log(`Path to MainActivity: ${mainActivityFile}`);
       if (mainActivityFile) {
         replacePackageContent(mainActivityFile);
@@ -78,6 +100,12 @@ export const reactNavigation = {
         path.join(process.cwd(), "src", "components", "navigation", "MainNavigation", "MainNavigation.tsx")
       )
     ) {
+      if (
+        settings.hasTs &&
+        !files.directoryExists(path.join(process.cwd(), "src", "components", "navigation", "MainNavigation"))
+      ) {
+        fs.mkdirSync(path.join(process.cwd(), "src", "components", "navigation", "MainNavigation"));
+      }
       fs.copyFileSync(
         path.resolve(
           DIRNAME,
