@@ -100,6 +100,9 @@ export const reactNavigation = {
         path.join(process.cwd(), "src", "components", "navigation", "MainNavigation", "MainNavigation.tsx")
       )
     ) {
+      if (!files.directoryExists(path.join(process.cwd(), "src", "components", "navigation"))) {
+        fs.mkdirSync(path.join(process.cwd(), "src", "components", "navigation"));
+      }
       if (
         settings.hasTs &&
         !files.directoryExists(path.join(process.cwd(), "src", "components", "navigation", "MainNavigation"))
