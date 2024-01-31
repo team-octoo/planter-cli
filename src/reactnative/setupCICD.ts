@@ -115,11 +115,11 @@ function askLocalCommitChecks() {
         } else if (settings.installer === "yarn") {
           install.installYarn([], devpackages);
         }
-        execSync('npm pkg set scripts.prepare="husky install"', {stdio: [0, 1, 2]});
+        execSync("npx husky init");
         execSync('npm pkg set scripts.prettier="prettier src --write"', {stdio: [0, 1, 2]});
         execSync('npm pkg set scripts.lint="eslint src --fix"', {stdio: [0, 1, 2]});
-        execSync("npx husky install");
-        execSync('npx husky add .husky/pre-commit "npm run prettier\n' + "npm run lint\n" + "\n" + 'git add ."');
+
+        execSync('echo "npm run prettier\n' + "npm run lint\n" + "\n" + 'git add ." > .husky/pre-commit');
         console.log(chalk.green("Husky setup done..."));
       } else {
         console.log(chalk.magenta("Skipping Husky setup"));
