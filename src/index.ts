@@ -24,6 +24,8 @@ import {install} from "./helpers/install";
 import {docs} from "./helpers/docs";
 import {folders} from "./folders";
 
+import {dataModel} from "./reactnative/react-native-datamodel";
+
 let packageJson;
 try {
   packageJson = files.readPlanterPackageJson();
@@ -291,6 +293,34 @@ program
       }
       form.create(name).finally(() => console.log("done"));
     });
+  });
+
+program
+  .command("plant:dataModel")
+  .description(
+    "Creates a data model with hooks for fetching data, types when using typescript and zustand or redux stores when those packages are selected"
+  )
+  .option("-a, --getAllHook", "add GetAll hook for this data model")
+  .option("-S, --no-state", "don't create state files for this model (Zustand/Redux)")
+  .option("-T, --no-types", "don't create Type files for this model")
+  .option("-H, --no-hooks", "don't create CRUD hooks for this model")
+  .option("-P, --no-parsers", "don't create  parsers for this model")
+  .argument("[name]", "Name of your data model")
+  .action((name, options) => {
+    const localsettings = files.readSettingsJson();
+    migrator
+      .check()
+      .then(() => {
+        if (localsettings.library !== "react-native") {
+          console.log(chalk.red(`data models cannot be used in ${localsettings.library} at this time.`));
+          return;
+        }
+        return dataModel.create(name, {...options});
+      })
+      .then(() => console.log("done"))
+      .catch(error => {
+        console.log(chalk.red(error));
+      });
   });
 
 program.parse(process.argv);
