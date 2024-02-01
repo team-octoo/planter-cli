@@ -300,9 +300,12 @@ program
   .description(
     "Creates a data model with hooks for fetching data, types when using typescript and zustand or redux stores when those packages are selected"
   )
-  .option("-a, --getAllHook", "add GetAll hook for this data model")
-  .option("-S, --no-state", "don't create state files for this model (Zustand/Redux)")
-  .option("-T, --no-types", "don't create Type files for this model")
+
+  .option(
+    "-S, --no-state",
+    "don't create state files for this model (Zustand/Redux). [Only taken into account when Redux or Zustand is found in the project]"
+  )
+  .option("-T, --no-types", "don't create Type files for this model. [Only taken into account when typescript Project]")
   .option("-H, --no-hooks", "don't create CRUD hooks for this model")
   .option("-P, --no-parsers", "don't create  parsers for this model")
   .argument("[name]", "Name of your data model")
@@ -315,7 +318,11 @@ program
           console.log(chalk.red(`data models cannot be used in ${localsettings.library} at this time.`));
           return;
         }
-        return dataModel.create(name, {...options});
+        return dataModel.create(name, {
+          ...options,
+          state:
+            (localsettings.packages.includes("Redux") || localsettings.packages.includes("Zustand")) && options.state,
+        });
       })
       .then(() => console.log("done"))
       .catch(error => {

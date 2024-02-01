@@ -6,10 +6,9 @@ import path from "path";
 import {DIRNAME} from "../globals";
 
 export const dataModel = {
-  create: async (
-    name: string,
-    options: {getAllHook: boolean; types: boolean; hooks: boolean; state: boolean; parsers: boolean}
-  ) => {
+  create: async (name: string, options: {types: boolean; hooks: boolean; state: boolean; parsers: boolean}) => {
+    console.log("Creating Data model", name);
+    console.log(options);
     return inquirer
       .prompt(
         [
@@ -18,18 +17,19 @@ export const dataModel = {
             name: "name",
             message: "Give your data model a name:",
           },
-          {type: "confirm", name: "getAllHook", message: "add GetAll hook for this data model:", default: true},
         ],
-        {name: name, getAllHook: (options.getAllHook && options.hooks) || (!options.hooks ? false : undefined)}
+        {name: name}
       )
-      .then(async ({name, getAllHook}) => {
-        console.log(getAllHook);
+      .then(async ({name}) => {
         const localsettings = files.readSettingsJson();
         if (localsettings.hasTs && options.types) {
           createTypeFile(name, localsettings.typesPath);
         }
         if (options.parsers) {
           createParserFile(name, localsettings.funcsPath, localsettings.hasTs, options.types);
+        }
+        if (options.hooks) {
+          createCRUDHooks(name, localsettings.hookPath, localsettings.hasTs, options.types);
         }
         return Promise.resolve();
       });
@@ -38,29 +38,38 @@ export const dataModel = {
 
 const createTypeFile = (name: string, typesFolder) => {
   const newTypesPath = `${typesFolder}/${camelcase(name)}.d.ts`;
-  console.log(chalk.green(`Creating types in ${newTypesPath}`));
-  files.fileExistsOrCreate(newTypesPath);
-  files.copyFile(path.resolve(getTypesSourcePath(), "example.d.ts"), newTypesPath);
-
-  files.replaceInFiles(newTypesPath, "Example", camelcase(name, {pascalCase: true}));
-  files.replaceInFiles(newTypesPath, "example", camelcase(name));
+  const examplePath = path.resolve(getTypesSourcePath(), "example.d.ts");
+  createNewFile(newTypesPath, name, examplePath);
 };
 
 const createParserFile = (name: string, funcsFolder: string, typed: boolean, withCreatedTypes: boolean) => {
   const newParserPath = `${funcsFolder}/dataParsers/${camelcase(name)}/${camelcase(name)}Parser.${typed ? "ts" : "js"}`;
-  console.log(chalk.green(`Creating parser in ${newParserPath}`));
-  files.fileExistsOrCreate(newParserPath);
-  const exampleFile = files.copyFile(
-    path.resolve(
-      getParsersSourcePath(),
-      typed ? "ts" : "js",
-      `exampleParser${!typed || withCreatedTypes ? "" : "Any"}.${typed ? "ts" : "js"}`
-    ),
-    newParserPath
+  const examplePath = path.resolve(
+    getParsersSourcePath(),
+    typed ? "ts" : "js",
+    `exampleParser${!typed || withCreatedTypes ? "" : "Any"}.${typed ? "ts" : "js"}`
   );
+  createNewFile(newParserPath, name, examplePath);
+};
 
-  files.replaceInFiles(newParserPath, "Example", camelcase(name, {pascalCase: true}));
-  files.replaceInFiles(newParserPath, "example", camelcase(name));
+const createCRUDHooks = (name: string, hooksFolder: string, typed: boolean, withCreatedTypes: boolean) => {
+  //Creation, Update, Delete Hook
+  const newCUDHookPath = `${hooksFolder}/${camelcase(name)}/use${camelcase(name, {pascalCase: true})}.${
+    typed ? "ts" : "js"
+  }`;
+  const exampleCUDPath = path.resolve(getHooksSourcePath(), typed ? "ts" : "js", `useExample.${typed ? "ts" : "js"}`);
+  createNewFile(newCUDHookPath, name, exampleCUDPath);
+
+  //Read All hook
+  const newReadAllHookPath = `${hooksFolder}/${camelcase(name)}/useGetAll${camelcase(name, {pascalCase: true})}.${
+    typed ? "ts" : "js"
+  }`;
+  const exampleReadAllPath = path.resolve(
+    getHooksSourcePath(),
+    typed ? "ts" : "js",
+    `useGetAll${!typed || withCreatedTypes ? "" : "Any"}Example.${typed ? "ts" : "js"}`
+  );
+  createNewFile(newReadAllHookPath, name, exampleReadAllPath);
 };
 
 function getTypesSourcePath() {
@@ -69,4 +78,16 @@ function getTypesSourcePath() {
 
 function getParsersSourcePath() {
   return path.resolve(DIRNAME, "reactnative", "examples", "utils", "funcs", "parsers");
+}
+
+function getHooksSourcePath() {
+  return path.resolve(DIRNAME, "reactnative", "examples", "utils", "hooks");
+}
+
+function createNewFile(newpath: string, name: string, examplePath: string) {
+  console.log(chalk.green(`Creating file in ${newpath}`));
+  files.fileExistsOrCreate(newpath);
+  files.copyFile(examplePath, newpath);
+  files.replaceInFiles(newpath, "Example", camelcase(name, {pascalCase: true}));
+  files.replaceInFiles(newpath, "example", camelcase(name));
 }
