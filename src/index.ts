@@ -320,8 +320,10 @@ program
         }
         return dataModel.create(name, {
           ...options,
-          state:
-            (localsettings.packages.includes("Redux") || localsettings.packages.includes("Zustand")) && options.state,
+          state: !options.state
+            ? false
+            : (localsettings.packages.includes("Redux") && "Redux") ||
+              (localsettings.packages.includes("Zustand") && "Zustand"),
         });
       })
       .then(() => console.log("done"))

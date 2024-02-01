@@ -4,9 +4,14 @@ import chalk from "chalk";
 import {files} from "../helpers/files";
 import path from "path";
 import {DIRNAME} from "../globals";
+import reducer from "../react/reducer";
+import store from "../react/store";
 
 export const dataModel = {
-  create: async (name: string, options: {types: boolean; hooks: boolean; state: boolean; parsers: boolean}) => {
+  create: async (
+    name: string,
+    options: {types: boolean; hooks: boolean; state: "Redux" | "Zustand" | false; parsers: boolean}
+  ) => {
     console.log("Creating Data model", name);
     console.log(options);
     return inquirer
@@ -31,6 +36,18 @@ export const dataModel = {
         if (options.hooks) {
           createCRUDHooks(name, localsettings.hookPath, localsettings.hasTs, options.types);
         }
+        if (options.state) {
+          switch (options.state) {
+            case "Redux":
+              console.log(chalk.green(`Creating ${camelcase(name, {pascalCase: true})}Reducer...`));
+              await reducer.create(name);
+              break;
+            case "Zustand":
+              console.log(chalk.green(`Creating ${camelcase(name, {pascalCase: true})} Store...`));
+              await store.create(name);
+              break;
+          }
+        }
         return Promise.resolve();
       });
   },
@@ -39,7 +56,7 @@ export const dataModel = {
 const createTypeFile = (name: string, typesFolder) => {
   const newTypesPath = `${typesFolder}/${camelcase(name)}.d.ts`;
   const examplePath = path.resolve(getTypesSourcePath(), "example.d.ts");
-  createNewFile(newTypesPath, name, examplePath);
+  createNewFile("types", newTypesPath, name, examplePath);
 };
 
 const createParserFile = (name: string, funcsFolder: string, typed: boolean, withCreatedTypes: boolean) => {
@@ -49,7 +66,7 @@ const createParserFile = (name: string, funcsFolder: string, typed: boolean, wit
     typed ? "ts" : "js",
     `exampleParser${!typed || withCreatedTypes ? "" : "Any"}.${typed ? "ts" : "js"}`
   );
-  createNewFile(newParserPath, name, examplePath);
+  createNewFile("parser", newParserPath, name, examplePath);
 };
 
 const createCRUDHooks = (name: string, hooksFolder: string, typed: boolean, withCreatedTypes: boolean) => {
@@ -58,7 +75,7 @@ const createCRUDHooks = (name: string, hooksFolder: string, typed: boolean, with
     typed ? "ts" : "js"
   }`;
   const exampleCUDPath = path.resolve(getHooksSourcePath(), typed ? "ts" : "js", `useExample.${typed ? "ts" : "js"}`);
-  createNewFile(newCUDHookPath, name, exampleCUDPath);
+  createNewFile("hooks", newCUDHookPath, name, exampleCUDPath);
 
   //Read All hook
   const newReadAllHookPath = `${hooksFolder}/${camelcase(name)}/useGetAll${camelcase(name, {pascalCase: true})}.${
@@ -69,7 +86,7 @@ const createCRUDHooks = (name: string, hooksFolder: string, typed: boolean, with
     typed ? "ts" : "js",
     `useGetAll${!typed || withCreatedTypes ? "" : "Any"}Example.${typed ? "ts" : "js"}`
   );
-  createNewFile(newReadAllHookPath, name, exampleReadAllPath);
+  createNewFile("hooks", newReadAllHookPath, name, exampleReadAllPath);
 };
 
 function getTypesSourcePath() {
@@ -84,8 +101,8 @@ function getHooksSourcePath() {
   return path.resolve(DIRNAME, "reactnative", "examples", "utils", "hooks");
 }
 
-function createNewFile(newpath: string, name: string, examplePath: string) {
-  console.log(chalk.green(`Creating file in ${newpath}`));
+function createNewFile(type: string, newpath: string, name: string, examplePath: string) {
+  console.log(chalk.green(`Creating ${type} file in ${newpath}`));
   files.fileExistsOrCreate(newpath);
   files.copyFile(examplePath, newpath);
   files.replaceInFiles(newpath, "Example", camelcase(name, {pascalCase: true}));
