@@ -14,7 +14,13 @@ function replaceIndexContent(filePath) {
   if (settings.library === "react-native") {
     fileContent = fileContent.replace("'react-native';", "'react-native';" + os.EOL + "import './src/i18n';");
   } else {
-    fileContent = fileContent.replace("'./reportWebVitals';", "'./reportWebVitals';" + os.EOL + "import './i18n';");
+    if (fileContent.includes("'./reportWebVitals';"))
+      fileContent = fileContent.replace("'./reportWebVitals';", "'./reportWebVitals';" + os.EOL + "import './i18n';");
+    else if (fileContent.includes('import "./index.css"')) {
+      fileContent = fileContent.replace('import "./index.css";', 'import "./index.css";' + os.EOL + "import './i18n';");
+    } else if (fileContent.includes("import './index.css'")) {
+      fileContent = fileContent.replace("import './index.css'", 'import "./index.css";' + os.EOL + "import './i18n';");
+    }
   }
   fs.writeFileSync(filePath, fileContent);
   return true;
@@ -71,6 +77,10 @@ export const i18n = {
       if (settings.library === "react-native") {
         indexFilename = "index.js";
         indexFilePath = path.join(process.cwd(), indexFilename);
+      }
+      if (settings.library === "react" && !files.fileExists(indexFilePath)) {
+        indexFilename = `main.${settings.hasTs ? "tsx" : "js"}`;
+        indexFilePath = path.join(process.cwd(), "src", indexFilename);
       }
       if (files.fileExists(indexFilePath)) {
         replaceIndexContent(indexFilePath);

@@ -314,7 +314,7 @@ program
     migrator
       .check()
       .then(() => {
-        if (localsettings.library !== "react-native") {
+        if (localsettings.library !== "react-native" && localsettings.library !== "react") {
           console.log(chalk.red(`data models cannot be used in ${localsettings.library} at this time.`));
           return;
         }

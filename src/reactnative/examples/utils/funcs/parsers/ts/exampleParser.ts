@@ -1,4 +1,4 @@
-import {Example, APIExample} from '../../../../types/Example.d';
+import {Example, APIExample} from '../../../../types/example.d';
 
 export const parseExample = (apiExample: APIExample): Example => {
   return {
