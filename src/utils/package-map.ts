@@ -300,4 +300,16 @@ export const packageMap = {
     docs: "https://reactnavigation.org/docs/getting-started/",
     description: "Routing and navigation for Expo and React Native apps.",
   },
+  "React-Query": {
+    "no-dev": {
+      ts: {
+        packages: ["@tanstack/react-query"],
+      },
+      "no-ts": {
+        packages: ["@tanstack/react-query"],
+      },
+    },
+    docs: "https://tanstack.com/query/latest",
+    description: "Powerful asynchronous state management for TS/JS and React(-Native)",
+  },
 };

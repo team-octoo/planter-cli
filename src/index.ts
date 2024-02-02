@@ -64,7 +64,7 @@ program
         } else if (settings.library === "react-native") {
           reactNativeInit.initialise();
         } else {
-          console.log("Something went terribly wrong finding the library you are using...");
+          throw new Error("Something went terribly wrong finding the library you are using...");
         }
       })
       .catch(err => {

@@ -113,6 +113,7 @@ export const reactInit = {
               // "GraphQL",
               "Cypress",
               "Prop-types",
+              "React-Query",
             ],
           },
         ]);
@@ -150,7 +151,17 @@ export const reactInit = {
         return docs.writeDocs();
       })
       .then(() => {
-        console.log(chalk.greenBright("Initialisation has been completed. Have fun creating!"));
+        console.log("");
+        console.log("");
+        if (settings.packages.includes("React-Query")) {
+          console.log(chalk.magentaBright("Don't forget to wrap your app a QueryProvider to start using React Query:"));
+          console.log("https://tanstack.com/query/latest/docs/framework/react/reference/QueryClientProvider");
+          console.log("");
+          console.log("");
+        }
+        console.log(chalk.greenBright("✨  Planter successfuly finished!  ✨"));
+        console.log("");
+        console.log("");
       })
       .catch(err => {
         console.log(chalk.red(err));
