@@ -1,11 +1,11 @@
 import inquirer from "inquirer";
 import camelcase from "camelcase";
 import chalk from "chalk";
-import {files} from "../helpers/files";
+import {files} from "../files";
 import path from "path";
-import {DIRNAME} from "../globals";
-import reducer from "../react/reducer";
-import store from "../react/store";
+import {DIRNAME} from "../../globals";
+import reducer from "../../react/reducer";
+import store from "../../react/store";
 
 export const dataModel = {
   create: async (
@@ -40,16 +40,19 @@ export const dataModel = {
           switch (options.state) {
             case "Redux":
               console.log(chalk.green(`Creating ${camelcase(name, {pascalCase: true})}Reducer...`));
-              await reducer.create(name);
-              break;
+              return reducer.create(name);
+
             case "Zustand":
               console.log(chalk.green(`Creating ${camelcase(name, {pascalCase: true})} Store...`));
-              await store.create(name);
-              break;
+              return store.create(name);
           }
         }
         return Promise.resolve();
-      });
+      })
+      .then(() => {
+        return Promise.resolve();
+      })
+      .catch(Promise.reject);
   },
 };
 

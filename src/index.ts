@@ -24,7 +24,7 @@ import {install} from "./helpers/install";
 import {docs} from "./helpers/docs";
 import {folders} from "./folders";
 
-import {dataModel} from "./reactnative/react-native-datamodel";
+import {dataModel} from "./helpers/files/datamodel";
 
 let packageJson;
 try {
@@ -326,7 +326,6 @@ program
               (localsettings.packages.includes("Zustand") && "Zustand"),
         });
       })
-      .then(() => console.log("done"))
       .catch(error => {
         console.log(chalk.red(error));
       });

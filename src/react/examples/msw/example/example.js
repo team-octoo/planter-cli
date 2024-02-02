@@ -1,5 +1,5 @@
 /* istanbul ignore file */
-import {rest} from "msw";
+import {http} from "msw";
 import {mockDatabase} from "../mockDatabase";
 
 export const example = [];
