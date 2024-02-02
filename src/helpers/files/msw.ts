@@ -5,7 +5,7 @@ import path from "path";
 import {files} from "../files";
 import {DIRNAME} from "../../globals";
 
-function replaceIndexContent(filePath) {
+function replaceIndexContent(filePath: string) {
   const settings = files.readSettingsJson();
 
   const buffer = fs.readFileSync(filePath);
@@ -29,22 +29,48 @@ function replaceIndexContent(filePath) {
         "}"
     );
   } else {
-    fileContent = fileContent.replace(
-      "'./reportWebVitals';",
-      "'./reportWebVitals';" +
-        os.EOL +
-        'if (process.env.REACT_APP_MOCK_API === "1") {' +
-        os.EOL +
-        '  const { worker } = require("./mocks/browser.ts");' +
-        os.EOL +
-        "  worker.start({" +
-        os.EOL +
-        '    onUnhandledRequest: "bypass",' +
-        os.EOL +
-        "  });" +
-        os.EOL +
-        "}"
-    );
+    if (filePath.includes("index.ts")) {
+      fileContent = fileContent.replace(
+        "'./reportWebVitals';",
+        "'./reportWebVitals';" +
+          os.EOL +
+          'if (process.env.REACT_APP_MOCK_API === "1") {' +
+          os.EOL +
+          '  const { worker } = require("./mocks/browser.ts");' +
+          os.EOL +
+          "  worker.start({" +
+          os.EOL +
+          '    onUnhandledRequest: "bypass",' +
+          os.EOL +
+          "  });" +
+          os.EOL +
+          "}"
+      );
+    } else if (filePath.includes("main.ts")) {
+      const index = fileContent.indexOf("ReactDOM.createRoot");
+      fileContent = fileContent.substring(0, index);
+      const newContent = `const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+
+        if (import.meta.env.VITE_MOCK_API === "1") {
+          import("./mocks/browser")
+            .then(({worker}) => {
+              worker.start({
+                onUnhandledRequest: "bypass",
+              });
+            })
+            .then(() => {
+              root.render( <React.StrictMode>
+                <App />
+              </React.StrictMode>);
+            });
+        } else {
+          root.render( <React.StrictMode>
+            <App />
+          </React.StrictMode>);
+        }`;
+      fileContent += newContent;
+      console.log(fileContent);
+    }
   }
 
   fs.writeFileSync(filePath, fileContent);
@@ -55,16 +81,13 @@ export const msw = {
   setupPackage: () => {
     //if .env.development or .env.production exists
     return new Promise((resolve, reject) => {
-      files.fileExistsOrCreate(path.join(process.cwd(), ".env.development"));
-      fs.appendFileSync(path.join(process.cwd(), ".env.development"), "REACT_APP_MOCK_API=1");
-      files.fileExistsOrCreate(path.join(process.cwd(), ".env.test"));
-      fs.appendFileSync(path.join(process.cwd(), ".env.test"), "REACT_APP_MOCK_API=1");
-      files.fileExistsOrCreate(path.join(process.cwd(), ".env.production"));
-      fs.appendFileSync(path.join(process.cwd(), ".env.production"), "REACT_APP_MOCK_API=0");
-
+      let filePath = "";
       const settings = files.readSettingsJson();
       if (settings.hasTs) {
-        const filePath = path.join(process.cwd(), "src", "index.tsx");
+        filePath = path.join(process.cwd(), "src", "index.tsx");
+        if (!files.fileExists(filePath)) {
+          filePath = path.join(process.cwd(), "src", "main.tsx");
+        }
         if (files.fileExists(filePath)) {
           replaceIndexContent(filePath);
         } else {
@@ -74,7 +97,7 @@ export const msw = {
           resolve("msw installed but not setup");
         }
       } else {
-        const filePath = path.join(process.cwd(), "src", "index.js");
+        filePath = path.join(process.cwd(), "src", "index.js");
         if (files.fileExists(filePath)) {
           replaceIndexContent(filePath);
         } else {
@@ -84,6 +107,23 @@ export const msw = {
           resolve("msw installed but not setup");
         }
       }
+
+      files.fileExistsOrCreate(path.join(process.cwd(), ".env.development"));
+      fs.appendFileSync(
+        path.join(process.cwd(), ".env.development"),
+        filePath.includes("main") ? "VITE_MOCK_API=1" : "REACT_APP_MOCK_API=1"
+      );
+      files.fileExistsOrCreate(path.join(process.cwd(), ".env.test"));
+      fs.appendFileSync(
+        path.join(process.cwd(), ".env.test"),
+        filePath.includes("main") ? "VITE_MOCK_API=1" : "REACT_APP_MOCK_API=1"
+      );
+      files.fileExistsOrCreate(path.join(process.cwd(), ".env.production"));
+      fs.appendFileSync(
+        path.join(process.cwd(), ".env.production"),
+        filePath.includes("main") ? "VITE_MOCK_API=0" : "REACT_APP_MOCK_API=0"
+      );
+
       resolve("msw setup completed");
     });
   },
