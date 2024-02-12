@@ -88,6 +88,7 @@ export const reactNativeInit = {
               "i18next",
               "Patch-Package",
               "Appcenter",
+              "React-Query",
               "MirageJS",
               "React Hook Forms",
               "React-Native-Dotenv",
@@ -181,7 +182,6 @@ export const reactNativeInit = {
         return intro.play(false);
       })
       .then(() => {
-        console.log("✨  Planter successfuly finished!  ✨");
         console.log("");
         console.log("");
         if (settings.packages.includes("React-Navigation")) {
@@ -192,6 +192,15 @@ export const reactNativeInit = {
           console.log("");
           console.log("");
         }
+        if (settings.packages.includes("React-Query")) {
+          console.log(chalk.magentaBright("Don't forget to wrap your app a QueryProvider to start using React Query:"));
+          console.log("https://tanstack.com/query/latest/docs/framework/react/reference/QueryClientProvider");
+          console.log("");
+          console.log("");
+        }
+        console.log("✨  Planter successfuly finished!  ✨");
+        console.log("");
+        console.log("");
       })
       .catch(err => {
         if (err) console.log(chalk.red(err));

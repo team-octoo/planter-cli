@@ -69,7 +69,6 @@ function replaceIndexContent(filePath: string) {
           </React.StrictMode>);
         }`;
       fileContent += newContent;
-      console.log(fileContent);
     }
   }
 

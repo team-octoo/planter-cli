@@ -387,6 +387,7 @@ export const install = {
   },
   setupI18N: () => {
     return new Promise((resolve, reject) => {
+      console.log(chalk.bgYellow("Setting up i18n..."));
       i18n
         .setup()
         .then(result => {
@@ -401,6 +402,7 @@ export const install = {
 
   setupMiragePackage: () => {
     return new Promise((resolve, reject) => {
+      console.log(chalk.bgYellow("Setting up Mirage..."));
       mirage
         .setupPackage()
         .then(result => {
