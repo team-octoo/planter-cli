@@ -16,6 +16,11 @@ import {getComponentStructureConfig} from "../helpers/structure-type";
 
 export const reactNativeInit = {
   installLib: projectName => {
+    if (process.platform === "win32") {
+      console.log(
+        chalk.bgRedBright("Windows detected. If the installation of React-native stalls, please press enter again.")
+      );
+    }
     execSync("npx react-native@latest init " + projectName, {stdio: [0, 1, 2]});
   },
   postinstall: () => {

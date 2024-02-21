@@ -14,6 +14,11 @@ import {layoutTypes} from "../helpers/migrator";
 
 export const reactInit = {
   installLib: projectName => {
+    if (process.platform === "win32") {
+      console.log(
+        chalk.bgRedBright("Windows detected. If the installation of React stalls, please press enter again.")
+      );
+    }
     execSync("npm create vite@latest " + projectName + " -- --template react-ts", {
       stdio: [0, 1, 2],
     });
