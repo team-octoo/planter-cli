@@ -54,7 +54,7 @@ function replaceIndexContent(filePath: string) {
         if (import.meta.env.VITE_MOCK_API === "1") {
           import("./mocks/browser")
             .then(({worker}) => {
-              worker.start({
+              return worker.start({
                 onUnhandledRequest: "bypass",
               });
             })

@@ -27,17 +27,17 @@ test.group("React Native component", group => {
           basics: {
             component: "src/components/basics/@pascalCase/@pascalCase.@ext",
             style: "src/components/basics/@pascalCase/@pascalCase.@ext",
-            test: "src/components/basics/@pascalCase/tests/@pascalCase.test.@ext",
+            test: "src/components/basics/@pascalCase/tests/@pascalCase.@ext",
           },
           elements: {
             component: "src/components/elements/@pascalCase/@pascalCase.@ext",
             style: "src/components/elements/@pascalCase/@pascalCase.@ext",
-            test: "src/components/elements/@pascalCase/tests/@pascalCase.test.@ext",
+            test: "src/components/elements/@pascalCase/tests/@pascalCase.@ext",
           },
           pages: {
             component: "src/components/pages/@pascalCase/@pascalCase.@ext",
             style: "src/components/pages/@pascalCase/@pascalCase.@ext",
-            test: "src/components/pages/@pascalCase/tests/@pascalCase.test.@ext",
+            test: "src/components/pages/@pascalCase/tests/@pascalCase.@ext",
           },
         },
       })
