@@ -1,6 +1,5 @@
 import {test} from "@japa/runner";
 import sinon from "sinon";
-import path from "path";
 import {reactNativeComponents} from "../../src/reactnative/react-native-component";
 import fs from "fs";
 import {files} from "../../src/helpers/files";

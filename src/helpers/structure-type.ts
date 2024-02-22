@@ -1,10 +1,10 @@
 import chalk from "chalk";
-import {PlanterConfigV2} from "./migrator";
+import {PlanterConfigV6} from "./migrator";
 import {assertNever} from "./assert-never";
 
 export type StructureType = "BEP (recommended)" | "Atomic" | "Custom";
 
-export function getComponentStructureConfig(structure: StructureType): PlanterConfigV2["components"] {
+export function getComponentStructureConfig(structure: StructureType): PlanterConfigV6["components"] {
   if (structure === "BEP (recommended)")
     return {
       basics: {
