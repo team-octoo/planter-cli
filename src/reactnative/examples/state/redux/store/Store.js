@@ -1,4 +1,5 @@
 /* istanbul ignore file */
+/* v8 ignore start */
 import {createStore, applyMiddleware} from "redux";
 import thunk from "redux-thunk";
 

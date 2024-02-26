@@ -1,4 +1,4 @@
-/* istanbul ignore file */
+/* v8 ignore start */
 
 /**
  * The mock database is an in-memory model of the database.

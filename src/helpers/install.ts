@@ -215,7 +215,7 @@ export const install = {
                 os.EOL +
                 "    coverage: {" +
                 os.EOL +
-                '      provider: "istanbul",' +
+                '      provider: "v8",' +
                 os.EOL +
                 '      reporter: ["cobertura", "html"],' +
                 os.EOL +
