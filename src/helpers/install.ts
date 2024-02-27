@@ -263,7 +263,9 @@ export const install = {
         console.log(chalk.bgYellow("Installing packages..."));
         let packages = [];
         let devpackages = [];
-
+        if (settings.layout.indexOf("sass") !== -1) {
+          devpackages.push("sass");
+        }
         // iterate over packages to install
         settings.packages.forEach(element => {
           if (packageMap[element]) {
