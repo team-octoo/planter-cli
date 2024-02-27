@@ -17,6 +17,7 @@ import inquirer from "inquirer";
 import settings from "../utils/settings";
 import {reactInit} from "../react/react-init";
 import {reactNativeInit} from "../reactnative/react-native-init";
+import {tailwind} from "./files/tailwind";
 
 const getTopLevelFolders = (parentObject, parentFolder) => {
   let folders = [];
@@ -354,6 +355,9 @@ export const install = {
         if (settings.packages.indexOf("i18next") !== -1) {
           console.log(await install.setupI18N());
         }
+        if (settings.packages.indexOf("Tailwind") !== -1) {
+          console.log(await install.setupTailwind());
+        }
         if (settings.packages.indexOf("MirageJS") !== -1) {
           console.log(await install.setupMiragePackage());
         }
@@ -389,6 +393,21 @@ export const install = {
     return new Promise((resolve, reject) => {
       console.log(chalk.bgYellow("Setting up i18n..."));
       i18n
+        .setup()
+        .then(result => {
+          resolve(result);
+        })
+        .catch(err => {
+          console.log(chalk.red(err));
+          reject(err);
+        });
+    });
+  },
+
+  setupTailwind: () => {
+    return new Promise((resolve, reject) => {
+      console.log(chalk.bgYellow("Setting up tailwind..."));
+      tailwind
         .setup()
         .then(result => {
           resolve(result);

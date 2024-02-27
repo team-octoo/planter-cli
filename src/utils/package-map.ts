@@ -178,17 +178,29 @@ export const packageMap = {
     docs: "https://www.npmjs.com/package/axios",
     description: "A more comprehensive fetch library which supports request cancelling, automatic json transforms, ...",
   },
-  Cypress: {
+  Tailwind: {
     dev: {
       ts: {
-        packages: ["cypress", "@cypress/react", "@cypress/webpack-dev-server"],
+        packages: ["tailwindcss", "postcss", "autoprefixer"],
       },
       "no-ts": {
-        packages: ["cypress", "@cypress/react", "@cypress/webpack-dev-server"],
+        packages: ["tailwindcss", "postcss", "autoprefixer"],
       },
     },
-    docs: "https://www.cypress.io/blog/2021/04/06/cypress-component-testing-react/",
-    description: "A testing library that tests end2end or integrations within the browser.",
+    docs: "https://tanstack.com/query/latest",
+    description: "Powerful asynchronous state management for TS/JS and React(-Native)",
+  },
+  "React-Query": {
+    "no-dev": {
+      ts: {
+        packages: ["@tanstack/react-query"],
+      },
+      "no-ts": {
+        packages: ["@tanstack/react-query"],
+      },
+    },
+    docs: "https://tanstack.com/query/latest",
+    description: "Powerful asynchronous state management for TS/JS and React(-Native)",
   },
   GraphQL: {
     "no-dev": {
@@ -203,6 +215,19 @@ export const packageMap = {
     description:
       "A comprehensive state management library for JavaScript that enables you to manage both local and remote data with GraphQL.",
   },
+  Cypress: {
+    dev: {
+      ts: {
+        packages: ["cypress", "@cypress/react", "@cypress/webpack-dev-server"],
+      },
+      "no-ts": {
+        packages: ["cypress", "@cypress/react", "@cypress/webpack-dev-server"],
+      },
+    },
+    docs: "https://www.cypress.io/blog/2021/04/06/cypress-component-testing-react/",
+    description: "A testing library that tests end2end or integrations within the browser.",
+  },
+
   "React-router": {
     "no-dev": {
       ts: {
@@ -299,17 +324,5 @@ export const packageMap = {
     },
     docs: "https://reactnavigation.org/docs/getting-started/",
     description: "Routing and navigation for Expo and React Native apps.",
-  },
-  "React-Query": {
-    "no-dev": {
-      ts: {
-        packages: ["@tanstack/react-query"],
-      },
-      "no-ts": {
-        packages: ["@tanstack/react-query"],
-      },
-    },
-    docs: "https://tanstack.com/query/latest",
-    description: "Powerful asynchronous state management for TS/JS and React(-Native)",
   },
 };
