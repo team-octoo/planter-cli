@@ -187,7 +187,7 @@ export const packageMap = {
         packages: ["tailwindcss", "postcss", "autoprefixer"],
       },
     },
-    docs: "https://tanstack.com/query/latest",
+    docs: "https://tailwindcss.com/docs/installation",
     description: "Powerful asynchronous state management for TS/JS and React(-Native)",
   },
   "React-Query": {
