@@ -2,6 +2,7 @@ import settings from "../utils/settings";
 import {files} from "./files";
 import path from "path";
 import {StructureType} from "./structure-type";
+import chalk from "chalk";
 
 export const layoutTypes = ["css", "css-modules", "sass", "sass-modules"] as const;
 export type LayoutType = typeof layoutTypes[number];
@@ -239,6 +240,13 @@ const migrate = from => {
 export const migrator = {
   check: () => {
     const {version} = files.readSettingsJson();
+    const planterVersion = settings.version;
+    if (planterVersion < version) {
+      console.log(
+        chalk.red(`Planter version is lower than the config file version. Please update Planter to the latest version.`)
+      );
+      process.exit(1);
+    }
     let configVersion = 0;
     if (version !== undefined) {
       configVersion = version;
