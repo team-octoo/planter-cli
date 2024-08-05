@@ -87,7 +87,9 @@ export const packageMap = {
           "@testing-library/react",
           "@testing-library/user-event",
           "@vitest/coverage-istanbul",
+          "@vitest/coverage-v8",
           "@types/jest",
+          "@testing-library/dom",
         ],
       },
       "no-ts": {
@@ -98,6 +100,8 @@ export const packageMap = {
           "@testing-library/react",
           "@testing-library/user-event",
           "@vitest/coverage-istanbul",
+          "@vitest/coverage-v8",
+          "@testing-library/dom",
         ],
       },
     },
